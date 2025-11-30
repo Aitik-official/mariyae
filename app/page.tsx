@@ -191,7 +191,7 @@ export default function Home() {
       </section>
 
       {/* Hero Section */}
-      <section className="relative w-full min-h-[620px] overflow-hidden" style={{ background: 'linear-gradient(180deg, #240334 0%, #510c74 50%, #670099 100%)' }}>
+      <section className="relative w-full min-h-[500px] sm:min-h-[550px] md:min-h-[620px] overflow-hidden" style={{ background: 'linear-gradient(180deg, #240334 0%, #510c74 50%, #670099 100%)' }}>
         <Carousel
           setApi={setApi}
           opts={{
@@ -207,52 +207,53 @@ export default function Home() {
           <CarouselContent>
             {/* Slide 1 */}
             <CarouselItem>
-              <div className="relative min-h-[620px] w-full">
+              <div className="relative min-h-[500px] sm:min-h-[550px] md:min-h-[620px] w-full">
                 {/* Background Layer */}
                 <div className="absolute inset-0">
-                  <Image
-                    src="/2.jpg"
+          <Image
+            src="/2.jpg"
                     alt="Exquisite Jewelry Collection"
-                    fill
+            fill
                     className="h-full w-full object-cover"
-                    priority
-                  />
+            priority
+                    sizes="100vw"
+          />
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(103, 0, 153, 0.95), rgba(81, 12, 116, 0.85), rgba(36, 3, 52, 0.60))' }} />
-                </div>
+        </div>
 
                 {/* Content Layer */}
                 <div className="relative z-10 flex h-full w-full items-stretch">
                   <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+                    <div className="grid gap-6 sm:gap-8 lg:gap-12 lg:grid-cols-[1.05fr_0.95fr]">
                       {/* Left Column: Text Content */}
-                      <div className="flex flex-col justify-center py-16">
+                      <div className="flex flex-col justify-center items-center text-center py-6 sm:py-8 md:py-12 lg:py-16">
                         {/* Decorative Red Lines */}
-                        <div className="mb-6 flex items-center gap-2">
-                          <span className="h-1 w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                          <span className="h-1 w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                        <div className="mb-4 sm:mb-6 flex items-center justify-center gap-2">
+                          <span className="h-1 w-8 sm:w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                          <span className="h-1 w-3 sm:w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
                           <span className="h-1 w-2" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
                         </div>
                         
                         {/* Eyebrow Text */}
-                        <span className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
+                        <span className="mb-2 sm:mb-4 text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
                           Exquisite Jewelry Collection
                         </span>
                         
                         {/* Main Headline */}
-                        <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+                        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-tight">
                           Premium Imitation Jewellery for Every Occasion
                         </h1>
                         
                         {/* Description */}
-                        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85">
+                        <p className="mt-3 sm:mt-4 md:mt-6 max-w-2xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed text-white/85">
                           Discover our stunning collection of high-quality imitation jewelry. From elegant necklaces to exquisite rings, we offer timeless pieces that celebrate life's most precious moments. Crafted with precision and designed to make you shine.
                         </p>
                         
                         {/* CTA Buttons */}
-                        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                        <div className="mt-4 sm:mt-6 md:mt-8 lg:mt-10 flex flex-row items-center justify-center gap-3 sm:gap-4">
                           <Link 
                             href="/contact" 
-                            className="inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-semibold uppercase tracking-wide shadow-md transition"
+                            className="inline-flex items-center justify-center rounded-md px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition whitespace-nowrap"
                             style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
                             onMouseEnter={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #510c74, #240334)'; }}
                             onMouseLeave={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #670099, #510c74, #240334)'; }}
@@ -261,7 +262,7 @@ export default function Home() {
                           </Link>
                           <Link 
                             href="/products" 
-                            className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-8 py-4 text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f]"
+                            className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f] whitespace-nowrap"
                             style={{ color: '#C9A34E' }}
                           >
                             View Our Products
@@ -269,27 +270,28 @@ export default function Home() {
                         </div>
                       </div>
 
-                      {/* Right Column: Decorative Graphics */}
-                      <div className="relative hidden min-h-[400px] items-center justify-end lg:flex">
-                        {/* Decorative Element 1: Vertical Bar (Top) */}
-                        <div className="absolute inset-y-16 right-16 w-4 rounded" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                      {/* Right Column: Decorative Graphics - Now visible on mobile */}
+                      <div className="relative min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[400px] items-center justify-center lg:justify-end flex mt-4 lg:mt-0">
+                        {/* Decorative Element 1: Vertical Bar (Top) - Hidden on mobile */}
+                        <div className="absolute inset-y-16 right-8 lg:right-16 w-3 lg:w-4 rounded hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
                         
-                        {/* Decorative Element 2: Vertical Bar (Bottom) */}
-                        <div className="absolute bottom-20 right-16 h-12 w-4 rounded" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                        {/* Decorative Element 2: Vertical Bar (Bottom) - Hidden on mobile */}
+                        <div className="absolute bottom-12 lg:bottom-20 right-8 lg:right-16 h-8 lg:h-12 w-3 lg:w-4 rounded hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
                         
-                        {/* Decorative Element 3: Large Square */}
-                        <div className="absolute top-16 right-16 h-24 w-24" style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
+                        {/* Decorative Element 3: Large Square - Hidden on mobile */}
+                        <div className="absolute top-8 lg:top-16 right-8 lg:right-16 h-16 w-16 lg:h-24 lg:w-24 hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
                         
                         {/* Decorative Element 4: Gradient Overlay */}
-                        <div className="absolute left-[-80px] top-0 h-full w-[calc(100%+80px)]" style={{ background: 'linear-gradient(to right, transparent, rgba(201, 163, 78, 0.15), transparent)' }} />
+                        <div className="absolute left-0 lg:left-[-80px] top-0 h-full w-full lg:w-[calc(100%+80px)]" style={{ background: 'linear-gradient(to right, transparent, rgba(201, 163, 78, 0.15), transparent)' }} />
                         
-                        {/* Image Container */}
-                        <div className="relative h-full w-full overflow-hidden">
+                        {/* Image Container - Visible on all screens */}
+                        <div className="relative h-full w-full overflow-hidden rounded-lg lg:rounded-none">
                           <Image
                             src="/2.jpg"
                             alt="Jewelry Collection"
                             fill
                             className="h-full w-full object-cover"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
                           />
                         </div>
                       </div>
@@ -301,7 +303,7 @@ export default function Home() {
             
             {/* Slide 2 - Reversed Layout */}
             <CarouselItem>
-              <div className="relative min-h-[620px] w-full">
+              <div className="relative min-h-[500px] sm:min-h-[550px] md:min-h-[620px] w-full">
                 {/* Background Layer */}
                 <div className="absolute inset-0">
                   <Image
@@ -316,61 +318,62 @@ export default function Home() {
                 {/* Content Layer */}
                 <div className="relative z-10 flex h-full w-full items-stretch">
                   <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr]">
-                      {/* Left Column: Decorative Graphics (Reversed) */}
-                      <div className="relative hidden min-h-[400px] items-center justify-start lg:flex order-2 lg:order-1">
-                        {/* Decorative Element 1: Vertical Bar (Top) */}
-                        <div className="absolute inset-y-16 left-16 w-4 rounded" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                    <div className="grid gap-8 sm:gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+                      {/* Left Column: Decorative Graphics (Reversed) - Now visible on mobile */}
+                      <div className="relative min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[400px] items-center justify-center lg:justify-start flex order-2 lg:order-1 mt-4 lg:mt-0">
+                        {/* Decorative Element 1: Vertical Bar (Top) - Hidden on mobile */}
+                        <div className="absolute inset-y-16 left-8 lg:left-16 w-3 lg:w-4 rounded hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
                         
-                        {/* Decorative Element 2: Vertical Bar (Bottom) */}
-                        <div className="absolute bottom-20 left-16 h-12 w-4 rounded" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                        {/* Decorative Element 2: Vertical Bar (Bottom) - Hidden on mobile */}
+                        <div className="absolute bottom-12 lg:bottom-20 left-8 lg:left-16 h-8 lg:h-12 w-3 lg:w-4 rounded hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
                         
-                        {/* Decorative Element 3: Large Square */}
-                        <div className="absolute top-16 left-16 h-24 w-24" style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
+                        {/* Decorative Element 3: Large Square - Hidden on mobile */}
+                        <div className="absolute top-8 lg:top-16 left-8 lg:left-16 h-16 w-16 lg:h-24 lg:w-24 hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
                         
                         {/* Decorative Element 4: Gradient Overlay */}
-                        <div className="absolute right-[-80px] top-0 h-full w-[calc(100%+80px)]" style={{ background: 'linear-gradient(to left, transparent, rgba(201, 163, 78, 0.15), transparent)' }} />
+                        <div className="absolute right-0 lg:right-[-80px] top-0 h-full w-full lg:w-[calc(100%+80px)]" style={{ background: 'linear-gradient(to left, transparent, rgba(201, 163, 78, 0.15), transparent)' }} />
                         
-                        {/* Image Container */}
-                        <div className="relative h-full w-full overflow-hidden">
+                        {/* Image Container - Visible on all screens */}
+                        <div className="relative h-full w-full overflow-hidden rounded-lg lg:rounded-none">
                           <Image
                             src="/2.jpg"
                             alt="Gold Collection"
                             fill
                             className="h-full w-full object-cover"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
                           />
                         </div>
                       </div>
 
                       {/* Right Column: Text Content (Reversed) */}
-                      <div className="flex flex-col justify-center py-16 order-1 lg:order-2">
+                      <div className="flex flex-col justify-center items-center text-center py-6 sm:py-8 md:py-12 lg:py-16 order-1 lg:order-2">
                         {/* Decorative Red Lines */}
-                        <div className="mb-6 flex items-center gap-2">
-                          <span className="h-1 w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                          <span className="h-1 w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                        <div className="mb-4 sm:mb-6 flex items-center justify-center gap-2">
+                          <span className="h-1 w-8 sm:w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                          <span className="h-1 w-3 sm:w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
                           <span className="h-1 w-2" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
                         </div>
                         
                         {/* Eyebrow Text */}
-                        <span className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
+                        <span className="mb-2 sm:mb-4 text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
                           Premium Gold Collection
                         </span>
                         
                         {/* Main Headline */}
-                        <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+                        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-tight">
                           Timeless Elegance in Every Piece
                         </h1>
                         
                         {/* Description */}
-                        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85">
+                        <p className="mt-3 sm:mt-4 md:mt-6 max-w-2xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed text-white/85">
                           Experience the luxury of our premium gold collection. Each piece is meticulously crafted to perfection, combining traditional artistry with modern design. Elevate your style with jewelry that speaks to your unique personality.
                         </p>
                         
                         {/* CTA Buttons */}
-                        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                        <div className="mt-4 sm:mt-6 md:mt-8 lg:mt-10 flex flex-row items-center justify-center gap-3 sm:gap-4">
                           <Link 
                             href="/contact" 
-                            className="inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-semibold uppercase tracking-wide shadow-md transition"
+                            className="inline-flex items-center justify-center rounded-md px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition whitespace-nowrap"
                             style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
                             onMouseEnter={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #510c74, #240334)'; }}
                             onMouseLeave={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #670099, #510c74, #240334)'; }}
@@ -379,7 +382,7 @@ export default function Home() {
                           </Link>
                           <Link 
                             href="/products" 
-                            className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-8 py-4 text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f]"
+                            className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f] whitespace-nowrap"
                             style={{ color: '#C9A34E' }}
                           >
                             View Our Products
@@ -394,7 +397,7 @@ export default function Home() {
             
             {/* Slide 3 */}
             <CarouselItem>
-              <div className="relative min-h-[620px] w-full">
+              <div className="relative min-h-[500px] sm:min-h-[550px] md:min-h-[620px] w-full">
                 {/* Background Layer */}
                 <div className="absolute inset-0">
                   <Image
@@ -409,36 +412,36 @@ export default function Home() {
                 {/* Content Layer */}
                 <div className="relative z-10 flex h-full w-full items-stretch">
                   <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+                    <div className="grid gap-6 sm:gap-8 lg:gap-12 lg:grid-cols-[1.05fr_0.95fr]">
                       {/* Left Column: Text Content */}
-                      <div className="flex flex-col justify-center py-16">
+                      <div className="flex flex-col justify-center items-center text-center py-6 sm:py-8 md:py-12 lg:py-16">
                         {/* Decorative Red Lines */}
-                        <div className="mb-6 flex items-center gap-2">
-                          <span className="h-1 w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                          <span className="h-1 w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                        <div className="mb-4 sm:mb-6 flex items-center justify-center gap-2">
+                          <span className="h-1 w-8 sm:w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                          <span className="h-1 w-3 sm:w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
                           <span className="h-1 w-2" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
                         </div>
                         
                         {/* Eyebrow Text */}
-                        <span className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
+                        <span className="mb-2 sm:mb-4 text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
                           Diamond & Gemstone Collection
                         </span>
                         
                         {/* Main Headline */}
-                        <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+                        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-tight">
                           Sparkle with Our Exquisite Gemstones
                         </h1>
                         
                         {/* Description */}
-                        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85">
+                        <p className="mt-3 sm:mt-4 md:mt-6 max-w-2xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed text-white/85">
                           Indulge in the brilliance of our diamond and gemstone collection. From classic diamonds to vibrant colored stones, each piece is designed to capture and reflect your inner radiance. Make every moment unforgettable.
                         </p>
                         
                         {/* CTA Buttons */}
-                        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                        <div className="mt-4 sm:mt-6 md:mt-8 lg:mt-10 flex flex-row items-center justify-center gap-3 sm:gap-4">
                           <Link 
                             href="/contact" 
-                            className="inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-semibold uppercase tracking-wide shadow-md transition"
+                            className="inline-flex items-center justify-center rounded-md px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition whitespace-nowrap"
                             style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
                             onMouseEnter={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #510c74, #240334)'; }}
                             onMouseLeave={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #670099, #510c74, #240334)'; }}
@@ -447,7 +450,7 @@ export default function Home() {
                           </Link>
                           <Link 
                             href="/products" 
-                            className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-8 py-4 text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f]"
+                            className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f] whitespace-nowrap"
                             style={{ color: '#C9A34E' }}
                           >
                             View Our Products
@@ -455,27 +458,28 @@ export default function Home() {
                         </div>
                       </div>
 
-                      {/* Right Column: Decorative Graphics */}
-                      <div className="relative hidden min-h-[400px] items-center justify-end lg:flex">
-                        {/* Decorative Element 1: Vertical Bar (Top) */}
-                        <div className="absolute inset-y-16 right-16 w-4 rounded" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                      {/* Right Column: Decorative Graphics - Now visible on mobile */}
+                      <div className="relative min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[400px] items-center justify-center lg:justify-end flex mt-4 lg:mt-0">
+                        {/* Decorative Element 1: Vertical Bar (Top) - Hidden on mobile */}
+                        <div className="absolute inset-y-16 right-8 lg:right-16 w-3 lg:w-4 rounded hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
                         
-                        {/* Decorative Element 2: Vertical Bar (Bottom) */}
-                        <div className="absolute bottom-20 right-16 h-12 w-4 rounded" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                        {/* Decorative Element 2: Vertical Bar (Bottom) - Hidden on mobile */}
+                        <div className="absolute bottom-12 lg:bottom-20 right-8 lg:right-16 h-8 lg:h-12 w-3 lg:w-4 rounded hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
                         
-                        {/* Decorative Element 3: Large Square */}
-                        <div className="absolute top-16 right-16 h-24 w-24" style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
+                        {/* Decorative Element 3: Large Square - Hidden on mobile */}
+                        <div className="absolute top-8 lg:top-16 right-8 lg:right-16 h-16 w-16 lg:h-24 lg:w-24 hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
                         
                         {/* Decorative Element 4: Gradient Overlay */}
-                        <div className="absolute left-[-80px] top-0 h-full w-[calc(100%+80px)]" style={{ background: 'linear-gradient(to right, transparent, rgba(201, 163, 78, 0.15), transparent)' }} />
+                        <div className="absolute left-0 lg:left-[-80px] top-0 h-full w-full lg:w-[calc(100%+80px)]" style={{ background: 'linear-gradient(to right, transparent, rgba(201, 163, 78, 0.15), transparent)' }} />
                         
-                        {/* Image Container */}
-                        <div className="relative h-full w-full overflow-hidden">
+                        {/* Image Container - Visible on all screens */}
+                        <div className="relative h-full w-full overflow-hidden rounded-lg lg:rounded-none">
                           <Image
                             src="/2.jpg"
                             alt="Gemstone Collection"
                             fill
                             className="h-full w-full object-cover"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
                           />
                         </div>
                       </div>
@@ -487,7 +491,7 @@ export default function Home() {
             
             {/* Slide 4 - Reversed Layout */}
             <CarouselItem>
-              <div className="relative min-h-[620px] w-full">
+              <div className="relative min-h-[500px] sm:min-h-[550px] md:min-h-[620px] w-full">
                 {/* Background Layer */}
                 <div className="absolute inset-0">
                   <Image
@@ -502,61 +506,62 @@ export default function Home() {
                 {/* Content Layer */}
                 <div className="relative z-10 flex h-full w-full items-stretch">
                   <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr]">
-                      {/* Left Column: Decorative Graphics (Reversed) */}
-                      <div className="relative hidden min-h-[400px] items-center justify-start lg:flex order-2 lg:order-1">
-                        {/* Decorative Element 1: Vertical Bar (Top) */}
-                        <div className="absolute inset-y-16 left-16 w-4 rounded" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                    <div className="grid gap-8 sm:gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+                      {/* Left Column: Decorative Graphics (Reversed) - Now visible on mobile */}
+                      <div className="relative min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[400px] items-center justify-center lg:justify-start flex order-2 lg:order-1 mt-4 lg:mt-0">
+                        {/* Decorative Element 1: Vertical Bar (Top) - Hidden on mobile */}
+                        <div className="absolute inset-y-16 left-8 lg:left-16 w-3 lg:w-4 rounded hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
                         
-                        {/* Decorative Element 2: Vertical Bar (Bottom) */}
-                        <div className="absolute bottom-20 left-16 h-12 w-4 rounded" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                        {/* Decorative Element 2: Vertical Bar (Bottom) - Hidden on mobile */}
+                        <div className="absolute bottom-12 lg:bottom-20 left-8 lg:left-16 h-8 lg:h-12 w-3 lg:w-4 rounded hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
                         
-                        {/* Decorative Element 3: Large Square */}
-                        <div className="absolute top-16 left-16 h-24 w-24" style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
+                        {/* Decorative Element 3: Large Square - Hidden on mobile */}
+                        <div className="absolute top-8 lg:top-16 left-8 lg:left-16 h-16 w-16 lg:h-24 lg:w-24 hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
                         
                         {/* Decorative Element 4: Gradient Overlay */}
-                        <div className="absolute right-[-80px] top-0 h-full w-[calc(100%+80px)]" style={{ background: 'linear-gradient(to left, transparent, rgba(201, 163, 78, 0.15), transparent)' }} />
+                        <div className="absolute right-0 lg:right-[-80px] top-0 h-full w-full lg:w-[calc(100%+80px)]" style={{ background: 'linear-gradient(to left, transparent, rgba(201, 163, 78, 0.15), transparent)' }} />
                         
-                        {/* Image Container */}
-                        <div className="relative h-full w-full overflow-hidden">
+                        {/* Image Container - Visible on all screens */}
+                        <div className="relative h-full w-full overflow-hidden rounded-lg lg:rounded-none">
                           <Image
                             src="/2.jpg"
                             alt="Silver Collection"
                             fill
                             className="h-full w-full object-cover"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
                           />
                         </div>
                       </div>
 
                       {/* Right Column: Text Content (Reversed) */}
-                      <div className="flex flex-col justify-center py-16 order-1 lg:order-2">
+                      <div className="flex flex-col justify-center items-center text-center py-6 sm:py-8 md:py-12 lg:py-16 order-1 lg:order-2">
                         {/* Decorative Red Lines */}
-                        <div className="mb-6 flex items-center gap-2">
-                          <span className="h-1 w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                          <span className="h-1 w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                        <div className="mb-4 sm:mb-6 flex items-center justify-center gap-2">
+                          <span className="h-1 w-8 sm:w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                          <span className="h-1 w-3 sm:w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
                           <span className="h-1 w-2" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
                         </div>
                         
                         {/* Eyebrow Text */}
-                        <span className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
+                        <span className="mb-2 sm:mb-4 text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
                           Elegant Silver Collection
                         </span>
                         
                         {/* Main Headline */}
-                        <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+                        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-tight">
                           Sophisticated Designs for Modern Times
                         </h1>
                         
                         {/* Description */}
-                        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85">
+                        <p className="mt-3 sm:mt-4 md:mt-6 max-w-2xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed text-white/85">
                           Discover the refined beauty of our silver collection. Combining contemporary elegance with timeless appeal, our silver jewelry pieces are perfect for both everyday wear and special occasions. Quality craftsmanship meets modern design.
                         </p>
                         
                         {/* CTA Buttons */}
-                        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                        <div className="mt-4 sm:mt-6 md:mt-8 lg:mt-10 flex flex-row items-center justify-center gap-3 sm:gap-4">
                           <Link 
                             href="/contact" 
-                            className="inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-semibold uppercase tracking-wide shadow-md transition"
+                            className="inline-flex items-center justify-center rounded-md px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition whitespace-nowrap"
                             style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
                             onMouseEnter={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #510c74, #240334)'; }}
                             onMouseLeave={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #670099, #510c74, #240334)'; }}
@@ -565,7 +570,7 @@ export default function Home() {
                           </Link>
                           <Link 
                             href="/products" 
-                            className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-8 py-4 text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f]"
+                            className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f] whitespace-nowrap"
                             style={{ color: '#C9A34E' }}
                           >
                             View Our Products
@@ -610,7 +615,7 @@ export default function Home() {
           ))}
         </div>
       </section>
-      
+
         {/* About Section */}
         <section className="py-12 md:py-20" style={{ backgroundColor: '#eae0cc' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
@@ -677,7 +682,7 @@ export default function Home() {
           </div>
 
           {/* Products Grid */}
-          {loading ? (
+              {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {Array.from({ length: 8 }).map((_, index) => (
                 <div key={`loading-${index}`} className="bg-white rounded-lg overflow-hidden shadow-md animate-pulse">
@@ -686,15 +691,15 @@ export default function Home() {
                     <div className="h-4 bg-gray-200 rounded"></div>
                     <div className="h-6 bg-gray-200 rounded"></div>
                     <div className="h-5 bg-gray-200 rounded"></div>
-                  </div>
-                </div>
+                    </div>
+                      </div>
               ))}
-            </div>
-          ) : newArrivals.length === 0 ? (
-            <div className="text-center py-16">
+                    </div>
+              ) : newArrivals.length === 0 ? (
+                <div className="text-center py-16">
               <p style={{ color: '#240334', opacity: 0.7 }}>No products available</p>
-            </div>
-          ) : (
+                </div>
+              ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {newArrivals.map((product) => {
                 const isFavorite = favorites.has(product._id)
@@ -711,9 +716,9 @@ export default function Home() {
                     {/* Product Image */}
                     <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
                       {/* First Image - Always visible */}
-                      <Image
+                         <Image
                         src={firstImage}
-                        alt={product.name}
+                           alt={product.name}
                         fill
                         className="object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
                         loading="lazy"
@@ -746,19 +751,19 @@ export default function Home() {
                         <div className="absolute top-3 left-3">
                           <div className="px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ backgroundColor: '#CD7F32' }}>
                             {product.offerPercentage}% OFF
-                          </div>
-                        </div>
-                      )}
+                             </div>
+                           </div>
+                         )}
 
                       {/* New Badge */}
                       {product.isNew && (
                         <div className="absolute top-3 left-3" style={{ top: product.isOnSale ? '3.5rem' : '0.75rem' }}>
                           <div className="bg-white px-3 py-1 rounded-full text-xs font-semibold text-gray-900">
                             New
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                             </div>
+                           </div>
+                         )}
+                       </div>
 
                     {/* Product Info */}
                     <div className="p-4 space-y-2">
@@ -786,10 +791,10 @@ export default function Home() {
                         )}
                       </div>
                     </div>
-                  </Link>
+                        </Link>
                 )
               })}
-            </div>
+                      </div>
           )}
           
           {/* View All Button */}
@@ -816,7 +821,7 @@ export default function Home() {
           </div>
 
           {/* Products Grid */}
-          {loading ? (
+              {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {Array.from({ length: 8 }).map((_, index) => (
                 <div key={`loading-${index}`} className="bg-white rounded-2xl overflow-hidden shadow-md animate-pulse">
@@ -825,15 +830,15 @@ export default function Home() {
                     <div className="h-4 bg-gray-200 rounded"></div>
                     <div className="h-6 bg-gray-200 rounded"></div>
                     <div className="h-5 bg-gray-200 rounded"></div>
-                  </div>
-                </div>
+                    </div>
+                      </div>
               ))}
-            </div>
-          ) : latestGems.length === 0 ? (
-            <div className="text-center py-16">
+                    </div>
+              ) : latestGems.length === 0 ? (
+                <div className="text-center py-16">
               <p style={{ color: '#240334', opacity: 0.7 }}>No products available</p>
-            </div>
-          ) : (
+                </div>
+              ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {latestGems.map((product) => {
                 const isFavorite = favorites.has(product._id)
@@ -850,9 +855,9 @@ export default function Home() {
                     {/* Product Image */}
                     <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
                       {/* First Image - Always visible */}
-                      <Image
+                        <Image
                         src={firstImage}
-                        alt={product.name}
+                          alt={product.name}
                         fill
                         className="object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
                         loading="lazy"
@@ -881,20 +886,20 @@ export default function Home() {
                       </button>
 
                       {/* Sale Badge */}
-                      {product.isOnSale && (
+                        {product.isOnSale && (
                         <div className="absolute top-3 left-3">
                           <div className="px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ backgroundColor: '#CD7F32' }}>
-                            {product.offerPercentage}% OFF
+                              {product.offerPercentage}% OFF
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
                       {/* New Badge */}
                       {product.isNew && (
                         <div className="absolute top-3 left-3" style={{ top: product.isOnSale ? '3.5rem' : '0.75rem' }}>
                           <div className="bg-white px-3 py-1 rounded-full text-xs font-semibold text-gray-900">
                             New
-                          </div>
+                      </div>
                         </div>
                       )}
                     </div>
@@ -925,10 +930,10 @@ export default function Home() {
                         )}
                       </div>
                     </div>
-                  </Link>
+                        </Link>
                 )
               })}
-            </div>
+                      </div>
           )}
           
           {/* View All Button */}
@@ -944,7 +949,7 @@ export default function Home() {
 
        {/* Categories Section */}
        <section className="py-20 mt-16" style={{ backgroundColor: '#eae0cc' }}>
-        <div className="max-w-7xl mx-auto px-4 lg:px-8">
+        <div className="w-full mx-auto px-4 lg:px-8">
           <div className="text-center mb-16 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <h2 className="font-light-300 text-5xl mb-4 animate-fade-in-up gradient-text" style={{ animationDelay: '0.4s' }}>Shop by Category</h2>
             <p className="max-w-2xl mx-auto text-lg animate-fade-in-up" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.6s' }}>
@@ -952,19 +957,20 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* 4-column grid - automatically continues with more rows if categories exceed 4 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 w-full px-4 lg:px-8">
             {categories.map((category, index) => (
               <article 
                 key={category.id}
-                className="group relative aspect-[4/3.5] overflow-hidden rounded-lg bg-gray-50 shadow-lg transition-transform duration-500 hover:-translate-y-1 cursor-pointer animate-fade-in-up min-h-[400px]"
+                className="group relative aspect-[4/3.5] overflow-hidden rounded-2xl bg-gray-50 shadow-lg transition-transform duration-500 hover:-translate-y-1 cursor-pointer animate-fade-in-up"
                 style={{ animationDelay: `${0.8 + index * 0.1}s` }}
               >
                 <Link href={`/products?category=${encodeURIComponent(category.name)}`} className="block h-full w-full">
                   {/* Image Container - Fills entire card */}
                   <div className="relative h-full w-full">
-                    <Image
-                      src={category.image || "/placeholder.svg"}
-                      alt={category.name}
+                  <Image
+                    src={category.image || "/placeholder.svg"}
+                    alt={category.name}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                       loading="lazy"
@@ -972,18 +978,18 @@ export default function Home() {
                   </div>
                   
                   {/* Hover Overlay with Text */}
-                  <div className="absolute inset-0 flex items-start p-8 sm:p-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-black/30">
+                  <div className="absolute inset-0 flex items-start p-4 sm:p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-black/30">
                     <div>
-                      <h3 className="text-3xl font-bold uppercase tracking-tight sm:text-4xl text-white">
+                      <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-white">
                         {category.name}
                       </h3>
-                      <span className="mt-4 block h-[4px] w-12 origin-left transition-[width] duration-500 ease-out group-hover:w-40" style={{ backgroundColor: '#C9A34E' }} />
-                      <p className="mt-2 text-lg font-medium text-white opacity-90">
+                      <span className="mt-2 block h-[3px] w-8 origin-left transition-[width] duration-500 ease-out group-hover:w-24" style={{ backgroundColor: '#C9A34E' }} />
+                      <p className="mt-2 text-sm sm:text-base font-medium text-white opacity-90">
                         {category.count} Products
                       </p>
-                    </div>
                   </div>
-                </Link>
+                </div>
+              </Link>
               </article>
             ))}
           </div>
@@ -1001,7 +1007,7 @@ export default function Home() {
           </div>
 
           {/* Products Grid */}
-          {loading ? (
+              {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {Array.from({ length: 8 }).map((_, index) => (
                 <div key={`loading-${index}`} className="bg-white rounded-2xl overflow-hidden shadow-md animate-pulse">
@@ -1010,15 +1016,15 @@ export default function Home() {
                     <div className="h-4 bg-gray-200 rounded"></div>
                     <div className="h-6 bg-gray-200 rounded"></div>
                     <div className="h-5 bg-gray-200 rounded"></div>
-                  </div>
-                </div>
+                    </div>
+                      </div>
               ))}
-            </div>
-          ) : featuredProducts.length === 0 ? (
-            <div className="text-center py-16">
+                    </div>
+              ) : featuredProducts.length === 0 ? (
+                <div className="text-center py-16">
               <p style={{ color: '#240334', opacity: 0.7 }}>No products available</p>
-            </div>
-          ) : (
+                </div>
+              ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {featuredProducts.map((product) => {
                 const isFavorite = favorites.has(product._id)
@@ -1035,9 +1041,9 @@ export default function Home() {
                     {/* Product Image */}
                     <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
                       {/* First Image - Always visible */}
-                      <Image
+                          <Image
                         src={firstImage}
-                        alt={product.name}
+                            alt={product.name}
                         fill
                         className="object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
                         loading="lazy"
@@ -1066,7 +1072,7 @@ export default function Home() {
                       </button>
 
                       {/* Sale Badge */}
-                      {product.isOnSale && (
+                            {product.isOnSale && (
                         <div className="absolute top-3 left-3">
                           <div className="px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ backgroundColor: '#CD7F32' }}>
                             {product.offerPercentage}% OFF
@@ -1087,9 +1093,9 @@ export default function Home() {
                       <div className="absolute top-3 left-3" style={{ top: (product.isOnSale && product.isNew) ? '5.5rem' : (product.isOnSale || product.isNew) ? '3.5rem' : '0.75rem' }}>
                         <div className="px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ background: 'linear-gradient(90deg, #670099, #510c74)' }}>
                           FEATURED
-                        </div>
+                          </div>
                       </div>
-                    </div>
+                        </div>
 
                     {/* Product Info */}
                     <div className="p-4 space-y-2">
@@ -1102,25 +1108,25 @@ export default function Home() {
 
                       {/* Product Name */}
                       <h3 className="font-semibold text-gray-900 group-hover:text-white line-clamp-2 transition-colors duration-300">
-                        {product.name}
-                      </h3>
+                          {product.name}
+                        </h3>
 
                       {/* Price */}
                       <div className="flex items-center gap-2">
                         <span className="text-lg font-bold text-[#510c74] group-hover:text-[#C9A34E] transition-colors duration-300">
                           ₹{product.price.toFixed(2)}
                         </span>
-                        {product.originalPrice && product.originalPrice > product.price && (
+                            {product.originalPrice && product.originalPrice > product.price && (
                           <span className="text-sm text-gray-500 group-hover:text-white/60 line-through transition-colors duration-300">
                             ₹{product.originalPrice.toFixed(2)}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </Link>
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                          </Link>
                 )
               })}
-            </div>
+                        </div>
           )}
 
           <div className="text-center mt-12 animate-fade-in-up" style={{ animationDelay: '1s' }}>

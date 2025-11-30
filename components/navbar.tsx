@@ -20,9 +20,9 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-none" style={{background: 'linear-gradient(90deg, #240334, #510c74, #670099)'}}>
               <div className="w-full px-2 md:px-4 lg:px-8 mx-auto">
         {/* Main navbar */}
-        <div className="flex items-center justify-center lg:justify-between py-4 md:py-6 ml-30">
-          {/* Mobile Logo */}
-          <div className="lg:hidden flex items-center">
+        <div className="flex items-center justify-center lg:justify-between py-4 md:py-6">
+          {/* Mobile Logo - Centered */}
+          <div className="lg:hidden flex items-center justify-center w-full">
             <Link href="/" className="flex items-center space-x-0.5">
               <span className="text-2xl md:text-3xl font-bold tracking-tight" style={{ color: '#FFFFFF' }}>Mariyae</span>
             </Link>

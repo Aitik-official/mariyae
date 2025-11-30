@@ -17,6 +17,35 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Demo credentials check
+    const DEMO_EMAIL = 'admin@iitaonjewellery.com'
+    const DEMO_PASSWORD = 'admin123'
+    
+    if (email === DEMO_EMAIL && password === DEMO_PASSWORD) {
+      console.log('Demo login successful')
+      const demoUserData = {
+        _id: 'demo-admin-id',
+        email: DEMO_EMAIL,
+        firstName: 'Admin',
+        lastName: 'User',
+        fullName: 'Admin User',
+        phone: '',
+        role: 'admin',
+        address: {},
+        preferences: {},
+        createdAt: new Date()
+      }
+      
+      return NextResponse.json(
+        { 
+          success: true,
+          message: 'Login successful',
+          data: demoUserData
+        },
+        { status: 200 }
+      )
+    }
+
     await connectDB()
 
     // Check if user exists
