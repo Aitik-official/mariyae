@@ -10,6 +10,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #eae0cc;
   }
 }
 
@@ -35,6 +36,16 @@
   .animate-gradient-x {
     animation: gradient-x 3s ease infinite;
     background-size: 200% 200%;
+  }
+
+  /* Gradient text utility */
+  .gradient-text {
+    background: linear-gradient(90deg, #670099, #510c74, #240334);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
   }
 }
 
@@ -104,15 +115,42 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c4a484;
+  background: linear-gradient(90deg, #670099, #510c74);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #b8956f;
+  background: linear-gradient(90deg, #510c74, #240334);
 }
 
 /* Smooth transitions */
 * {
   transition: all 0.3s ease;
+}
+
+/* Carousel smooth transitions - ease-in effect for smoothness */
+.embla__slide {
+  transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.embla__container {
+  transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Smooth carousel wrapper */
+[data-carousel] {
+  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Prevent janky animations */
+.embla__viewport {
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
 }

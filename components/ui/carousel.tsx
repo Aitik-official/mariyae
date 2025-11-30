@@ -157,14 +157,20 @@ const CarouselContent = React.forwardRef<
   const { carouselRef, orientation } = useCarousel()
 
   return (
-    <div ref={carouselRef} className="overflow-hidden">
+    <div ref={carouselRef} className="overflow-hidden" style={{ WebkitOverflowScrolling: 'touch' }}>
       <div
         ref={ref}
         className={cn(
-          "flex",
+          "flex transition-transform duration-[1000ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
           orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
           className
         )}
+        style={{ 
+          willChange: 'transform',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
+          transformStyle: 'preserve-3d'
+        }}
         {...props}
       />
     </div>

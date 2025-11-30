@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { Search, Menu, X, User, ShoppingCart } from "lucide-react"
 import { useState } from "react"
 import { useCart } from "@/contexts/cart-context"
@@ -18,20 +17,14 @@ export default function Navbar() {
   const { state } = useCart()
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-none" style={{background: 'linear-gradient(to right, #FFFFFF 0%, #F5EEDC 12%, #8B7355 80%, #D4AF37 93%)'}}>
+    <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-none" style={{background: 'linear-gradient(90deg, #240334, #510c74, #670099)'}}>
               <div className="w-full px-2 md:px-4 lg:px-8 mx-auto">
         {/* Main navbar */}
-        <div className="flex items-center justify-center lg:justify-between py-0 ml-30">
+        <div className="flex items-center justify-center lg:justify-between py-4 md:py-6 ml-30">
           {/* Mobile Logo */}
           <div className="lg:hidden flex items-center">
             <Link href="/" className="flex items-center space-x-0.5">
-              <Image
-                src="/logoalan-removebg-preview.png"
-                alt="Alankarika Logo"
-                width={60}
-                height={60}
-                className="w-12 h-12 md:w-16 md:h-16 object-contain scale-[2.8] translate-y-1"
-              />
+              <span className="text-2xl md:text-3xl font-bold tracking-tight" style={{ color: '#FFFFFF' }}>Mariyae</span>
             </Link>
           </div>
 
@@ -39,46 +32,39 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center space-x-20  ml-40">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-0.5 flex-shrink-0">
-  <Image
-    src="/logoalan-removebg-preview.png"
-    alt="Alankarika Logo"
-    width={80}
-    height={80}
-    className="w-20 h-20 object-contain scale-[2.8] translate-y-1"
-  />
-
-</Link>
+              <span className="text-3xl lg:text-4xl font-bold tracking-tight" style={{ color: '#FFFFFF' }}>Mariyae</span>
+            </Link>
             {/* Search Bar */}
             <form action="/search" method="GET" className="relative">
               <input
                 type="text"
                 name="q"
                 placeholder="Search for jewelry..."
-                className="w-80 xl:w-96 pl-6 pr-2 py-1 rounded-lg border border-[#D4AF37]/30 text-[#010101] placeholder-[#8B7355] bg-white/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/50 focus:border-[#D4AF37]/50 text-sm"
+                className="w-80 xl:w-96 pl-6 pr-2 py-1 rounded-lg border border-white/30 text-[#240334] placeholder-gray-500 bg-[#eae0cc]/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#d1b2e0]/50 focus:border-[#d1b2e0]/50 text-sm"
               />
               <button type="submit" className="absolute right-2 top-1.5">
-                <Search className="w-4 h-4 text-[#D4AF37]" />
+                <Search className="w-4 h-4 text-[#d1b2e0]" />
               </button>
             </form>
 
             {/* Desktop Navigation */}
             <div className="flex items-center space-x-6">
-            <Link href="/" className="text-white hover:text-[#D4AF37] transition-colors font-medium text-sm">
+            <Link href="/" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
               Home
             </Link>
-            <Link href="/about" className="text-white hover:text-[#D4AF37] transition-colors font-medium text-sm">
+            <Link href="/about" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
               About
             </Link>
-            <Link href="/products" className="text-white hover:text-[#D4AF37] transition-colors font-medium text-sm">
+            <Link href="/products" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
               Products
             </Link>
-            <Link href="/shop" className="text-white hover:text-[#D4AF37] transition-colors font-medium text-sm">
+            <Link href="/shop" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
               Shop
             </Link>
-            <Link href="/contact" className="text-white hover:text-[#D4AF37] transition-colors font-medium text-sm">
+            <Link href="/contact" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
               Contact
             </Link>
-            <Link href="/account" className="text-white hover:text-[#D4AF37] transition-colors font-medium text-sm">
+            <Link href="/account" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
               Account
             </Link>
             <LoginIcon />
@@ -90,7 +76,7 @@ export default function Navbar() {
           <div className="lg:hidden flex items-center space-x-2 md:space-x-3 absolute right-4">
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="text-white hover:text-white/80 transition-colors p-1"
+              className="text-white hover:text-[#d1b2e0] transition-colors p-1"
             >
               <Search className="w-4 h-4 md:w-5 md:h-5" />
             </button>
@@ -108,10 +94,10 @@ export default function Navbar() {
                 type="text"
                 name="q"
                 placeholder="Search for jewelry..."
-                className="w-full px-3 md:px-4 py-2 rounded-lg border border-[#D4AF37]/30 text-[#010101] placeholder-[#8B7355] bg-white/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/50 focus:border-[#D4AF37]/50 text-sm md:text-base"
+                className="w-full px-3 md:px-4 py-2 rounded-lg border border-white/30 text-[#240334] placeholder-gray-500 bg-[#eae0cc]/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#d1b2e0]/50 focus:border-[#d1b2e0]/50 text-sm md:text-base"
               />
               <button type="submit" className="absolute right-3 top-2.5">
-                <Search className="w-4 h-4 md:w-5 md:h-5 text-[#D4AF37]" />
+                <Search className="w-4 h-4 md:w-5 md:h-5 text-[#d1b2e0]" />
               </button>
             </form>
           </div>
@@ -120,24 +106,24 @@ export default function Navbar() {
         {/* Mobile menu */}
         {isMenuOpen && (
           <div className="lg:hidden pb-4 px-2 md:px-0">
-            <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 shadow-lg">
+            <div className="bg-[#eae0cc]/95 backdrop-blur-sm rounded-lg p-4 shadow-lg">
               <div className="flex flex-col space-y-4 md:space-y-6">
-                <Link href="/" className="text-gray-900 hover:text-[#D4AF37] font-medium text-base md:text-lg">
+                <Link href="/" className="text-[#240334] hover:text-[#510c74] font-medium text-base md:text-lg">
                   Home
                 </Link>
-                <Link href="/about" className="text-gray-900 hover:text-[#D4AF37] font-medium text-base md:text-lg">
+                <Link href="/about" className="text-[#240334] hover:text-[#510c74] font-medium text-base md:text-lg">
                   About
                 </Link>
-                <Link href="/products" className="text-gray-900 hover:text-[#D4AF37] font-medium text-base md:text-lg">
+                <Link href="/products" className="text-[#240334] hover:text-[#510c74] font-medium text-base md:text-lg">
                   Products
                 </Link>
-                <Link href="/shop" className="text-gray-900 hover:text-[#D4AF37] font-medium text-base md:text-lg">
+                <Link href="/shop" className="text-[#240334] hover:text-[#510c74] font-medium text-base md:text-lg">
                   Shop
                 </Link>
-                <Link href="/contact" className="text-gray-900 hover:text-[#D4AF37] font-medium text-base md:text-lg">
+                <Link href="/contact" className="text-[#240334] hover:text-[#510c74] font-medium text-base md:text-lg">
                   Contact
                 </Link>
-                <Link href="/account" className="text-gray-900 hover:text-[#D4AF37] font-medium text-base md:text-lg">
+                <Link href="/account" className="text-[#240334] hover:text-[#510c74] font-medium text-base md:text-lg">
                   Account
                 </Link>
                 <div className="flex items-center space-x-3 md:space-x-4 pt-3 md:pt-4 border-t border-gray-200">

@@ -14,9 +14,9 @@ const allura = Allura({
 })
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  title: 'Iitaon Jewellery - Exquisite Jewelry Collection',
+  description: 'Crafting timeless jewelry pieces that celebrate life\'s most precious moments',
+  generator: 'Next.js',
 }
 
 export default function RootLayout({

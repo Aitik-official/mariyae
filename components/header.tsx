@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { Search, ChevronDown, Menu, X } from "lucide-react"
 import { useState } from "react"
 
@@ -10,7 +9,7 @@ export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
 
   return (
-    <header className="bg-transparent sticky top-0 z-50 backdrop-blur-none" style={{ backgroundColor: 'transparent' }}>
+    <header className="sticky top-0 z-50 backdrop-blur-none" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }}>
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
 
 
@@ -18,14 +17,7 @@ export default function Header() {
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 -ml-32">
-            <Image
-              src="/logoalan-removebg-preview.png"
-              alt="Alankarika Logo"
-              width={120}
-              height={120}
-              className="w-28 h-28"
-            />
-            <span className="text-white text-2xl font-bold tracking-tight">Alankarika</span>
+            <span className="text-2xl font-bold tracking-tight" style={{ color: '#FFFFFF' }}>Imitation Jewellery</span>
           </Link>
 
           {/* Search Bar - Desktop */}
@@ -43,28 +35,28 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             <div className="relative group">
-              <Link href="/" className="flex items-center text-white hover:text-white/80 transition-colors">
+              <Link href="/" className="flex items-center transition-colors" style={{ color: '#FFFFFF' }} onMouseEnter={(e) => e.currentTarget.style.color = '#d1b2e0'} onMouseLeave={(e) => e.currentTarget.style.color = '#FFFFFF'}>
                 <span className="font-medium">Home</span>
                 <ChevronDown className="w-4 h-4 ml-1 group-hover:rotate-180 transition-transform" />
               </Link>
             </div>
             <div className="relative group">
-              <Link href="/products" className="flex items-center text-white hover:text-white/80 transition-colors">
+              <Link href="/products" className="flex items-center transition-colors" style={{ color: '#FFFFFF' }} onMouseEnter={(e) => e.currentTarget.style.color = '#d1b2e0'} onMouseLeave={(e) => e.currentTarget.style.color = '#FFFFFF'}>
                 <span className="font-medium">Products</span>
                 <ChevronDown className="w-4 h-4 ml-1 group-hover:rotate-180 transition-transform" />
               </Link>
             </div>
 
-            <Link href="/coupons" className="text-white hover:text-white/80 transition-colors font-medium">
+            <Link href="/coupons" className="transition-colors font-medium" style={{ color: '#FFFFFF' }} onMouseEnter={(e) => e.currentTarget.style.color = '#d1b2e0'} onMouseLeave={(e) => e.currentTarget.style.color = '#FFFFFF'}>
               Coupons
             </Link>
             <div className="relative group">
-              <Link href="/blog" className="flex items-center text-white hover:text-white/80 transition-colors">
+              <Link href="/blog" className="flex items-center transition-colors" style={{ color: '#FFFFFF' }} onMouseEnter={(e) => e.currentTarget.style.color = '#d1b2e0'} onMouseLeave={(e) => e.currentTarget.style.color = '#FFFFFF'}>
                 <span className="font-medium">Blog</span>
                 <ChevronDown className="w-4 h-4 ml-1 group-hover:rotate-180 transition-transform" />
               </Link>
             </div>
-            <Link href="/contact" className="text-white hover:text-white/80 transition-colors font-medium">
+            <Link href="/contact" className="transition-colors font-medium" style={{ color: '#FFFFFF' }} onMouseEnter={(e) => e.currentTarget.style.color = '#d1b2e0'} onMouseLeave={(e) => e.currentTarget.style.color = '#FFFFFF'}>
               Contact
             </Link>
           </nav>
@@ -73,11 +65,14 @@ export default function Header() {
           <div className="lg:hidden flex items-center space-x-4">
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="text-white hover:text-white/80 transition-colors"
+              className="transition-colors"
+              style={{ color: '#FFFFFF' }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#d1b2e0'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#FFFFFF'}
             >
               <Search className="w-5 h-5" />
             </button>
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white">
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} style={{ color: '#FFFFFF' }}>
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
@@ -101,20 +96,20 @@ export default function Header() {
         {isMenuOpen && (
           <div className="lg:hidden pb-4">
             <nav className="flex flex-col space-y-4">
-              <Link href="/" className="text-gray-700 hover:text-[#C4A484]">
+              <Link href="/" className="transition-colors" style={{ color: '#240334' }} onMouseEnter={(e) => e.currentTarget.style.color = '#510c74'} onMouseLeave={(e) => e.currentTarget.style.color = '#240334'}>
                 Home
               </Link>
-              <Link href="/products" className="text-gray-700 hover:text-[#C4A484]">
+              <Link href="/products" className="transition-colors" style={{ color: '#240334' }} onMouseEnter={(e) => e.currentTarget.style.color = '#510c74'} onMouseLeave={(e) => e.currentTarget.style.color = '#240334'}>
                 Products
               </Link>
 
-              <Link href="/coupons" className="text-gray-700 hover:text-[#C4A484]">
+              <Link href="/coupons" className="transition-colors" style={{ color: '#240334' }} onMouseEnter={(e) => e.currentTarget.style.color = '#510c74'} onMouseLeave={(e) => e.currentTarget.style.color = '#240334'}>
                 Coupons
               </Link>
-              <Link href="/blog" className="text-gray-700 hover:text-[#C4A484]">
+              <Link href="/blog" className="transition-colors" style={{ color: '#240334' }} onMouseEnter={(e) => e.currentTarget.style.color = '#510c74'} onMouseLeave={(e) => e.currentTarget.style.color = '#240334'}>
                 Blog
               </Link>
-              <Link href="/contact" className="text-gray-700 hover:text-[#C4A484]">
+              <Link href="/contact" className="transition-colors" style={{ color: '#240334' }} onMouseEnter={(e) => e.currentTarget.style.color = '#510c74'} onMouseLeave={(e) => e.currentTarget.style.color = '#240334'}>
                 Contact
               </Link>
             </nav>

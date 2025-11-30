@@ -155,7 +155,7 @@ export default function DashboardPage() {
             <div className="mt-6 text-center">
               <p className="text-xs text-gray-500">
                 Demo Credentials:<br />
-                Email: <span className="font-mono bg-gray-100 px-1 rounded">admin@alankarika.com</span><br />
+                Email: <span className="font-mono bg-gray-100 px-1 rounded">admin@iitaonjewellery.com</span><br />
                 Password: <span className="font-mono bg-gray-100 px-1 rounded">admin123</span>
               </p>
             </div>

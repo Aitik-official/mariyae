@@ -107,7 +107,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginMod
           onClose()
           toast({
             title: "Account Created!",
-            description: "Welcome to Alankarika!",
+            description: "Welcome to Iitaon Jewellery!",
           })
         } else {
           const error = await response.json()
@@ -170,7 +170,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginMod
             {isLogin ? "Welcome Back" : "Create Account"}
           </h2>
           <p className="text-gray-600 text-sm md:text-base">
-            {isLogin ? "Sign in to your account" : "Join Alankarika today"}
+            {isLogin ? "Sign in to your account" : "Join Iitaon Jewellery today"}
           </p>
         </div>
 

@@ -11,10 +11,18 @@ import JewelryLayout from "@/components/jewelry-layout"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Star, Heart, Eye, ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react"
+import { ArrowRight, Star, Heart, Eye, ShoppingCart, ChevronLeft, ChevronRight, ChevronLeft as ArrowLeft } from "lucide-react"
 import { useState, useEffect } from "react"
 import { useCart } from "@/contexts/cart-context"
 import { useProducts } from "@/hooks/useProducts"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from "@/components/ui/carousel"
 
 export default function Home() {
   const { addItem } = useCart()
@@ -23,22 +31,68 @@ export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [currentGemsSlide, setCurrentGemsSlide] = useState(0)
   const [currentFeaturedSlide, setCurrentFeaturedSlide] = useState(0)
+  const [favorites, setFavorites] = useState<Set<string>>(new Set())
+  
+  // Hero carousel state
+  const [api, setApi] = useState<CarouselApi>()
+  const [current, setCurrent] = useState(0)
   
   // Get real products from database
   const featuredProducts = products.slice(0, 4)
   const newArrivals = products.slice(0, 12)
   const latestGems = products.slice(0, 8)
+
+  // Toggle favorite function
+  const toggleFavorite = (productId: string, e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setFavorites(prev => {
+      const newFavorites = new Set(prev)
+      if (newFavorites.has(productId)) {
+        newFavorites.delete(productId)
+      } else {
+        newFavorites.add(productId)
+      }
+      return newFavorites
+    })
+  }
+  
+  // Hero carousel slide tracking
+  useEffect(() => {
+    if (!api) {
+      return
+    }
+
+    setCurrent(api.selectedScrollSnap())
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap())
+    })
+  }, [api])
+  
+  // Hero carousel auto-play
+  useEffect(() => {
+    if (!api) {
+      return
+    }
+
+    const interval = setInterval(() => {
+      api.scrollNext()
+    }, 5500)
+
+    return () => clearInterval(interval)
+  }, [api])
   
   // Show loading state if products are still loading
   if (loading && products.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen" style={{ backgroundColor: '#eae0cc' }}>
         <Header />
         <Navbar />
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#C4A484] mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading products...</p>
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 mx-auto" style={{ borderColor: '#510c74' }}></div>
+            <p className="mt-4" style={{ color: '#240334' }}>Loading products...</p>
           </div>
         </div>
         <Footer />
@@ -49,15 +103,16 @@ export default function Home() {
   // Show error state if there's an error
   if (error && products.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen" style={{ backgroundColor: '#eae0cc' }}>
         <Header />
         <Navbar />
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
-            <p className="text-red-600 text-lg">Error loading products: {error}</p>
+            <p className="text-lg" style={{ color: '#510c74' }}>Error loading products: {error}</p>
             <Button 
               onClick={() => window.location.reload()} 
-              className="mt-4 bg-[#C4A484] hover:bg-[#B39474]"
+              className="mt-4"
+              style={{ background: 'linear-gradient(90deg, #670099, #510c74)', color: '#ffffff' }}
             >
               Try Again
             </Button>
@@ -124,55 +179,458 @@ export default function Home() {
   ]
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" style={{ background: 'linear-gradient(180deg, #240334 0%, #510c74 50%, #670099 100%)' }}>
       {/* Navbar - Always visible */}
       <Navbar />
       
       {/* Top Section - Increased height */}
-      <section className="h-16 md:h-20 bg-gradient-to-r from-[#FFFFFF] via-[#F5EEDC] to-[#8B7355]">
+      <section className="h-16 md:h-20" style={{backgroundColor: '#0F4F3F'}}>
         <div className="h-full flex items-center justify-center px-4">
-          <p className="text-[#010101] text-xs md:text-sm font-medium text-center">Welcome to Alankarika - Exquisite Jewelry Collection</p>
+          <p className="text-[#F3EDE4] text-xs md:text-sm font-medium text-center">Welcome to Imitation Jewellery - Exquisite Jewelry Collection</p>
         </div>
       </section>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen overflow-hidden">
-        {/* Image Background */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/2.jpg"
-            alt="Alankarika Jewelry Collection"
-            fill
-            className="object-cover object-center"
-            priority
-          />
-        </div>
+      <section className="relative w-full min-h-[620px] overflow-hidden" style={{ background: 'linear-gradient(180deg, #240334 0%, #510c74 50%, #670099 100%)' }}>
+        <Carousel
+          setApi={setApi}
+          opts={{
+            align: "start",
+            loop: true,
+            duration: 25,
+            dragFree: false,
+            startIndex: 0,
+            watchDrag: true,
+          }}
+          className="w-full"
+        >
+          <CarouselContent>
+            {/* Slide 1 */}
+            <CarouselItem>
+              <div className="relative min-h-[620px] w-full">
+                {/* Background Layer */}
+                <div className="absolute inset-0">
+                  <Image
+                    src="/2.jpg"
+                    alt="Exquisite Jewelry Collection"
+                    fill
+                    className="h-full w-full object-cover"
+                    priority
+                  />
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(103, 0, 153, 0.95), rgba(81, 12, 116, 0.85), rgba(36, 3, 52, 0.60))' }} />
+                </div>
 
-        <div className="max-w-7xl px-4 lg:px-8 relative z-20 flex items-center justify-center min-h-screen">
-          {/* Hero content removed - only background image visible */}
+                {/* Content Layer */}
+                <div className="relative z-10 flex h-full w-full items-stretch">
+                  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+                      {/* Left Column: Text Content */}
+                      <div className="flex flex-col justify-center py-16">
+                        {/* Decorative Red Lines */}
+                        <div className="mb-6 flex items-center gap-2">
+                          <span className="h-1 w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                          <span className="h-1 w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                          <span className="h-1 w-2" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                        </div>
+                        
+                        {/* Eyebrow Text */}
+                        <span className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
+                          Exquisite Jewelry Collection
+                        </span>
+                        
+                        {/* Main Headline */}
+                        <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+                          Premium Imitation Jewellery for Every Occasion
+                        </h1>
+                        
+                        {/* Description */}
+                        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85">
+                          Discover our stunning collection of high-quality imitation jewelry. From elegant necklaces to exquisite rings, we offer timeless pieces that celebrate life's most precious moments. Crafted with precision and designed to make you shine.
+                        </p>
+                        
+                        {/* CTA Buttons */}
+                        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                          <Link 
+                            href="/contact" 
+                            className="inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-semibold uppercase tracking-wide shadow-md transition"
+                            style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
+                            onMouseEnter={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #510c74, #240334)'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #670099, #510c74, #240334)'; }}
+                          >
+                            Speak to an Expert
+                          </Link>
+                          <Link 
+                            href="/products" 
+                            className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-8 py-4 text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f]"
+                            style={{ color: '#C9A34E' }}
+                          >
+                            View Our Products
+                          </Link>
+                        </div>
+                      </div>
+
+                      {/* Right Column: Decorative Graphics */}
+                      <div className="relative hidden min-h-[400px] items-center justify-end lg:flex">
+                        {/* Decorative Element 1: Vertical Bar (Top) */}
+                        <div className="absolute inset-y-16 right-16 w-4 rounded" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                        
+                        {/* Decorative Element 2: Vertical Bar (Bottom) */}
+                        <div className="absolute bottom-20 right-16 h-12 w-4 rounded" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                        
+                        {/* Decorative Element 3: Large Square */}
+                        <div className="absolute top-16 right-16 h-24 w-24" style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
+                        
+                        {/* Decorative Element 4: Gradient Overlay */}
+                        <div className="absolute left-[-80px] top-0 h-full w-[calc(100%+80px)]" style={{ background: 'linear-gradient(to right, transparent, rgba(201, 163, 78, 0.15), transparent)' }} />
+                        
+                        {/* Image Container */}
+                        <div className="relative h-full w-full overflow-hidden">
+                          <Image
+                            src="/2.jpg"
+                            alt="Jewelry Collection"
+                            fill
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CarouselItem>
+            
+            {/* Slide 2 - Reversed Layout */}
+            <CarouselItem>
+              <div className="relative min-h-[620px] w-full">
+                {/* Background Layer */}
+                <div className="absolute inset-0">
+                  <Image
+                    src="/2.jpg"
+                    alt="Premium Gold Collection"
+                    fill
+                    className="h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(103, 0, 153, 0.95), rgba(81, 12, 116, 0.85), rgba(36, 3, 52, 0.60))' }} />
+                </div>
+
+                {/* Content Layer */}
+                <div className="relative z-10 flex h-full w-full items-stretch">
+                  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+                      {/* Left Column: Decorative Graphics (Reversed) */}
+                      <div className="relative hidden min-h-[400px] items-center justify-start lg:flex order-2 lg:order-1">
+                        {/* Decorative Element 1: Vertical Bar (Top) */}
+                        <div className="absolute inset-y-16 left-16 w-4 rounded" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                        
+                        {/* Decorative Element 2: Vertical Bar (Bottom) */}
+                        <div className="absolute bottom-20 left-16 h-12 w-4 rounded" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                        
+                        {/* Decorative Element 3: Large Square */}
+                        <div className="absolute top-16 left-16 h-24 w-24" style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
+                        
+                        {/* Decorative Element 4: Gradient Overlay */}
+                        <div className="absolute right-[-80px] top-0 h-full w-[calc(100%+80px)]" style={{ background: 'linear-gradient(to left, transparent, rgba(201, 163, 78, 0.15), transparent)' }} />
+                        
+                        {/* Image Container */}
+                        <div className="relative h-full w-full overflow-hidden">
+                          <Image
+                            src="/2.jpg"
+                            alt="Gold Collection"
+                            fill
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Right Column: Text Content (Reversed) */}
+                      <div className="flex flex-col justify-center py-16 order-1 lg:order-2">
+                        {/* Decorative Red Lines */}
+                        <div className="mb-6 flex items-center gap-2">
+                          <span className="h-1 w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                          <span className="h-1 w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                          <span className="h-1 w-2" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                        </div>
+                        
+                        {/* Eyebrow Text */}
+                        <span className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
+                          Premium Gold Collection
+                        </span>
+                        
+                        {/* Main Headline */}
+                        <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+                          Timeless Elegance in Every Piece
+                        </h1>
+                        
+                        {/* Description */}
+                        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85">
+                          Experience the luxury of our premium gold collection. Each piece is meticulously crafted to perfection, combining traditional artistry with modern design. Elevate your style with jewelry that speaks to your unique personality.
+                        </p>
+                        
+                        {/* CTA Buttons */}
+                        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                          <Link 
+                            href="/contact" 
+                            className="inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-semibold uppercase tracking-wide shadow-md transition"
+                            style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
+                            onMouseEnter={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #510c74, #240334)'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #670099, #510c74, #240334)'; }}
+                          >
+                            Speak to an Expert
+                          </Link>
+                          <Link 
+                            href="/products" 
+                            className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-8 py-4 text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f]"
+                            style={{ color: '#C9A34E' }}
+                          >
+                            View Our Products
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CarouselItem>
+            
+            {/* Slide 3 */}
+            <CarouselItem>
+              <div className="relative min-h-[620px] w-full">
+                {/* Background Layer */}
+                <div className="absolute inset-0">
+                  <Image
+                    src="/2.jpg"
+                    alt="Diamond & Gemstone Collection"
+                    fill
+                    className="h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(103, 0, 153, 0.95), rgba(81, 12, 116, 0.85), rgba(36, 3, 52, 0.60))' }} />
+                </div>
+
+                {/* Content Layer */}
+                <div className="relative z-10 flex h-full w-full items-stretch">
+                  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+                      {/* Left Column: Text Content */}
+                      <div className="flex flex-col justify-center py-16">
+                        {/* Decorative Red Lines */}
+                        <div className="mb-6 flex items-center gap-2">
+                          <span className="h-1 w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                          <span className="h-1 w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                          <span className="h-1 w-2" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                        </div>
+                        
+                        {/* Eyebrow Text */}
+                        <span className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
+                          Diamond & Gemstone Collection
+                        </span>
+                        
+                        {/* Main Headline */}
+                        <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+                          Sparkle with Our Exquisite Gemstones
+                        </h1>
+                        
+                        {/* Description */}
+                        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85">
+                          Indulge in the brilliance of our diamond and gemstone collection. From classic diamonds to vibrant colored stones, each piece is designed to capture and reflect your inner radiance. Make every moment unforgettable.
+                        </p>
+                        
+                        {/* CTA Buttons */}
+                        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                          <Link 
+                            href="/contact" 
+                            className="inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-semibold uppercase tracking-wide shadow-md transition"
+                            style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
+                            onMouseEnter={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #510c74, #240334)'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #670099, #510c74, #240334)'; }}
+                          >
+                            Speak to an Expert
+                          </Link>
+                          <Link 
+                            href="/products" 
+                            className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-8 py-4 text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f]"
+                            style={{ color: '#C9A34E' }}
+                          >
+                            View Our Products
+                          </Link>
+                        </div>
+                      </div>
+
+                      {/* Right Column: Decorative Graphics */}
+                      <div className="relative hidden min-h-[400px] items-center justify-end lg:flex">
+                        {/* Decorative Element 1: Vertical Bar (Top) */}
+                        <div className="absolute inset-y-16 right-16 w-4 rounded" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                        
+                        {/* Decorative Element 2: Vertical Bar (Bottom) */}
+                        <div className="absolute bottom-20 right-16 h-12 w-4 rounded" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                        
+                        {/* Decorative Element 3: Large Square */}
+                        <div className="absolute top-16 right-16 h-24 w-24" style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
+                        
+                        {/* Decorative Element 4: Gradient Overlay */}
+                        <div className="absolute left-[-80px] top-0 h-full w-[calc(100%+80px)]" style={{ background: 'linear-gradient(to right, transparent, rgba(201, 163, 78, 0.15), transparent)' }} />
+                        
+                        {/* Image Container */}
+                        <div className="relative h-full w-full overflow-hidden">
+                          <Image
+                            src="/2.jpg"
+                            alt="Gemstone Collection"
+                            fill
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CarouselItem>
+            
+            {/* Slide 4 - Reversed Layout */}
+            <CarouselItem>
+              <div className="relative min-h-[620px] w-full">
+                {/* Background Layer */}
+                <div className="absolute inset-0">
+                  <Image
+                    src="/2.jpg"
+                    alt="Elegant Silver Collection"
+                    fill
+                    className="h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(103, 0, 153, 0.95), rgba(81, 12, 116, 0.85), rgba(36, 3, 52, 0.60))' }} />
+                </div>
+
+                {/* Content Layer */}
+                <div className="relative z-10 flex h-full w-full items-stretch">
+                  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr]">
+                      {/* Left Column: Decorative Graphics (Reversed) */}
+                      <div className="relative hidden min-h-[400px] items-center justify-start lg:flex order-2 lg:order-1">
+                        {/* Decorative Element 1: Vertical Bar (Top) */}
+                        <div className="absolute inset-y-16 left-16 w-4 rounded" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                        
+                        {/* Decorative Element 2: Vertical Bar (Bottom) */}
+                        <div className="absolute bottom-20 left-16 h-12 w-4 rounded" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                        
+                        {/* Decorative Element 3: Large Square */}
+                        <div className="absolute top-16 left-16 h-24 w-24" style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
+                        
+                        {/* Decorative Element 4: Gradient Overlay */}
+                        <div className="absolute right-[-80px] top-0 h-full w-[calc(100%+80px)]" style={{ background: 'linear-gradient(to left, transparent, rgba(201, 163, 78, 0.15), transparent)' }} />
+                        
+                        {/* Image Container */}
+                        <div className="relative h-full w-full overflow-hidden">
+                          <Image
+                            src="/2.jpg"
+                            alt="Silver Collection"
+                            fill
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Right Column: Text Content (Reversed) */}
+                      <div className="flex flex-col justify-center py-16 order-1 lg:order-2">
+                        {/* Decorative Red Lines */}
+                        <div className="mb-6 flex items-center gap-2">
+                          <span className="h-1 w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                          <span className="h-1 w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                          <span className="h-1 w-2" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                        </div>
+                        
+                        {/* Eyebrow Text */}
+                        <span className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
+                          Elegant Silver Collection
+                        </span>
+                        
+                        {/* Main Headline */}
+                        <h1 className="text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+                          Sophisticated Designs for Modern Times
+                        </h1>
+                        
+                        {/* Description */}
+                        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/85">
+                          Discover the refined beauty of our silver collection. Combining contemporary elegance with timeless appeal, our silver jewelry pieces are perfect for both everyday wear and special occasions. Quality craftsmanship meets modern design.
+                        </p>
+                        
+                        {/* CTA Buttons */}
+                        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                          <Link 
+                            href="/contact" 
+                            className="inline-flex items-center justify-center rounded-md px-8 py-4 text-base font-semibold uppercase tracking-wide shadow-md transition"
+                            style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
+                            onMouseEnter={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #510c74, #240334)'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #670099, #510c74, #240334)'; }}
+                          >
+                            Speak to an Expert
+                          </Link>
+                          <Link 
+                            href="/products" 
+                            className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-8 py-4 text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f]"
+                            style={{ color: '#C9A34E' }}
+                          >
+                            View Our Products
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CarouselItem>
+          </CarouselContent>
+          
+          {/* Navigation Arrows */}
+          <CarouselPrevious 
+            className="left-2 md:left-4 lg:left-8 h-10 w-10 md:h-12 md:w-12 bg-white/80 backdrop-blur-sm border-white/50 hover:bg-white/90 hover:border-white z-30"
+          />
+          <CarouselNext 
+            className="right-2 md:right-4 lg:right-8 h-10 w-10 md:h-12 md:w-12 backdrop-blur-sm z-30"
+            style={{ backgroundColor: '#d1b2e0', borderColor: '#510c74', color: '#240334' }}
+            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#510c74'; e.currentTarget.style.borderColor = '#d1b2e0'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#d1b2e0'; e.currentTarget.style.borderColor = '#510c74'; }}
+          />
+        </Carousel>
+        
+        {/* Slide Indicators */}
+        <div className="absolute bottom-20 sm:bottom-24 lg:bottom-28 left-1/2 transform -translate-x-1/2 z-30 flex items-center space-x-2">
+          {[0, 1, 2, 3].map((index) => (
+            <button
+              key={index}
+              onClick={() => api?.scrollTo(index)}
+              className={`transition-all duration-300 rounded-full ${
+                current === index
+                  ? "w-8 h-2"
+                  : "w-2 h-2"
+              }`}
+              style={current === index ? { backgroundColor: '#d1b2e0' } : { backgroundColor: '#d1b2e0', opacity: 0.4 }}
+              onMouseEnter={(e) => { if (current !== index) e.currentTarget.style.opacity = '0.6'; }}
+              onMouseLeave={(e) => { if (current !== index) e.currentTarget.style.opacity = '0.4'; }}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
       </section>
-
+      
         {/* About Section */}
-        <section className="py-12 md:py-20 bg-white">
+        <section className="py-12 md:py-20" style={{ backgroundColor: '#eae0cc' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="space-y-6 md:space-y-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <div>
-                <h2 className="font-light-300 text-3xl md:text-4xl lg:text-5xl text-gray-900 mb-4 md:mb-6 animate-fade-in-up text-center lg:text-left" style={{ animationDelay: '0.4s' }}>About Alankarika</h2>
-                <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-4 md:mb-6 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+                <h2 className="font-light-300 text-3xl md:text-4xl lg:text-5xl mb-4 md:mb-6 animate-fade-in-up text-center lg:text-left gradient-text" style={{ animationDelay: '0.4s' }}>About Iitaon Jewellery</h2>
+                <p className="text-base md:text-lg leading-relaxed mb-4 md:mb-6 animate-fade-in-up" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.6s' }}>
                   At Rose Jewels, we believe that jewelry is more than just an accessory—it's a reflection of your unique story,
                   your precious moments, and your personal style. For over two decades, we've been dedicated to creating
                   exquisite pieces that celebrate life's most beautiful moments.
                 </p>
-                <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-6 md:mb-8 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
+                <p className="text-sm md:text-base leading-relaxed mb-6 md:mb-8 animate-fade-in-up" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.8s' }}>
                   Our master craftsmen combine traditional techniques with modern innovation to create jewelry that stands
                   the test of time. Every piece is carefully designed and meticulously crafted using only the finest
                   materials, ensuring that your jewelry remains as beautiful as the day you first wore it.
                 </p>
                 <div className="text-center lg:text-left">
                   <Link href="/about">
-                    <Button size="lg" className="bg-[#8B7355] hover:bg-[#D4AF37] text-white px-6 md:px-8 py-3 text-base md:text-lg animate-fade-in-up transition-all duration-300 hover:scale-105 shadow-lg" style={{ animationDelay: '1s' }}>
+                    <Button size="lg" className="px-6 md:px-8 py-3 text-base md:text-lg animate-fade-in-up transition-all duration-300 hover:scale-105 shadow-lg" style={{ background: 'linear-gradient(90deg, #670099, #510c74)', color: '#C9A34E', animationDelay: '1s' }}>
                       Learn More About Us
                     </Button>
                   </Link>
@@ -183,20 +641,20 @@ export default function Home() {
             <div className="relative animate-fade-in-up text-center lg:text-left" style={{ animationDelay: '0.3s' }}>
               <Image
                 src="/logoalan-removebg-preview.png"
-                alt="Alankarika Logo"
+                alt="Iitaon Jewellery Logo"
                 width={800}
                 height={700}
                 className="rounded-2xl shadow-lg object-contain animate-fade-in-up transition-all duration-300 hover:scale-105 w-full max-w-md mx-auto lg:max-w-full"
                 style={{ animationDelay: '0.5s' }}
               />
-              <div className="absolute -bottom-3 -left-3 lg:-bottom-6 lg:-left-6 bg-white p-3 lg:p-6 rounded-xl lg:rounded-2xl shadow-lg animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
+              <div className="absolute -bottom-3 -left-3 lg:-bottom-6 lg:-left-6 p-3 lg:p-6 rounded-xl lg:rounded-2xl shadow-lg animate-fade-in-up" style={{ backgroundColor: '#d1b2e0', animationDelay: '0.7s' }}>
                 <div className="flex items-center space-x-2 lg:space-x-4">
                   <div className="w-8 h-8 lg:w-12 lg:h-12 bg-blue-600 rounded-full flex items-center justify-center">
                     <Star className="w-4 h-4 lg:w-6 lg:h-6 text-white" />
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-900 text-xs lg:text-sm">Premium Quality</p>
-                    <p className="text-xs lg:text-sm text-gray-600">Certified & Authentic</p>
+                    <p className="font-semibold text-[#240334] text-xs lg:text-sm">Premium Quality</p>
+                    <p className="text-xs lg:text-sm text-[#240334] opacity-80">Certified & Authentic</p>
                   </div>
                 </div>
               </div>
@@ -206,142 +664,138 @@ export default function Home() {
       </section>
 
        {/* New Arrivals Section */}
-       <section className="py-12 md:py-20" style={{ backgroundColor: '#f9f7c4' }}>
+       <section className="py-12 md:py-20" style={{ backgroundColor: '#eae0cc' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between mb-8 md:mb-16 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <div className="text-center flex-1">
-              <h2 className="font-light-300 text-3xl md:text-4xl lg:text-5xl text-gray-900 mb-3 md:mb-4 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>New Arrivals</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-base lg:text-lg animate-fade-in-up px-4" style={{ animationDelay: '0.6s' }}>
+              <h2 className="font-light-300 text-3xl md:text-4xl lg:text-5xl mb-3 md:mb-4 animate-fade-in-up gradient-text" style={{ animationDelay: '0.4s' }}>New Arrivals</h2>
+              <p className="max-w-2xl mx-auto text-sm md:text-base lg:text-lg animate-fade-in-up px-4" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.6s' }}>
                 Discover our latest collection of exquisite jewelry pieces, crafted with precision and designed to make you shine.
               </p>
             </div>
            
           </div>
 
-                    <div className="relative overflow-hidden">
-            <div className="flex gap-4 md:gap-8 transition-transform duration-300 ease-in-out" style={{ transform: `translateX(-${currentSlide * 288}px)` }}>
-              {/* Debug: {newArrivals.length} products, Current slide: {currentSlide} */}
-              {/* Create a circular carousel by duplicating items */}
-              {loading ? (
-                // Loading state
-                Array.from({ length: 4 }).map((_, index) => (
-                  <div key={`loading-${index}`} className="animate-fade-in-up flex-shrink-0 w-72 md:w-80" style={{ animationDelay: `${0.8 + index * 0.1}s` }}>
-                    <div className="relative overflow-hidden rounded-2xl shadow-lg bg-gray-200 animate-pulse">
-                      <div className="w-full h-64 md:h-80 bg-gray-300"></div>
-                    </div>
-                    <div className="mt-3 md:mt-4 p-3 md:p-4">
-                      <div className="h-5 md:h-6 bg-gray-200 rounded mb-2 animate-pulse"></div>
-                      <div className="h-3 md:h-4 bg-gray-200 rounded mb-3 animate-pulse"></div>
-                      <div className="h-6 md:h-8 bg-gray-200 rounded mb-4 animate-pulse"></div>
-                      <div className="flex space-x-2 md:space-x-3">
-                        <div className="flex-1 h-8 md:h-10 bg-gray-200 rounded animate-pulse"></div>
-                        <div className="flex-1 h-8 md:h-10 bg-gray-200 rounded animate-pulse"></div>
-                      </div>
-                    </div>
+          {/* Products Grid */}
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {Array.from({ length: 8 }).map((_, index) => (
+                <div key={`loading-${index}`} className="bg-white rounded-lg overflow-hidden shadow-md animate-pulse">
+                  <div className="aspect-[3/4] bg-gray-200"></div>
+                  <div className="p-4 space-y-2">
+                    <div className="h-4 bg-gray-200 rounded"></div>
+                    <div className="h-6 bg-gray-200 rounded"></div>
+                    <div className="h-5 bg-gray-200 rounded"></div>
                   </div>
-                ))
-              ) : newArrivals.length === 0 ? (
-                // Empty state
-                <div className="text-center py-16">
-                  <p className="text-gray-500">No products available</p>
                 </div>
-              ) : (
-                [...newArrivals, ...newArrivals, ...newArrivals].map((product, index) => (
-                   <div key={`${product._id}-${index}`} className="group animate-fade-in-up flex-shrink-0 w-72 md:w-80" style={{ animationDelay: `${0.8 + (index % newArrivals.length) * 0.1}s` }}>
-                     <Link href={`/view-details?id=${product._id}`}>
-                       <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
-                         <Image
-                           src={product.images && product.images.length > 0 ? product.images[0].url : "/placeholder.svg"}
-                           alt={product.name}
-                           width={300}
-                           height={400}
-                           className="w-full h-64 md:h-80 object-cover group-hover:scale-110 transition-transform duration-500"
-                         />
-                         <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-300"></div>
-                         {product.isNew && (
-                           <div className="absolute top-3 md:top-4 right-3 md:right-4">
-                             <div className="bg-white px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-semibold text-gray-900">
-                               New
-                             </div>
-                           </div>
-                         )}
-                         {product.isOnSale && (
-                           <div className="absolute top-3 md:top-4 left-3 md:left-4">
-                             <div className="bg-red-500 px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-semibold text-white">
-                               {product.offerPercentage}% OFF
-                             </div>
-                           </div>
-                         )}
-                       </div>
-                     </Link>
-                    <div className="mt-3 md:mt-4 p-3 md:p-4">
-                      <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2 group-hover:text-[#8B7355] transition-colors">
+              ))}
+            </div>
+          ) : newArrivals.length === 0 ? (
+            <div className="text-center py-16">
+              <p style={{ color: '#240334', opacity: 0.7 }}>No products available</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {newArrivals.map((product) => {
+                const isFavorite = favorites.has(product._id)
+                const productImages = product.images && product.images.length > 0 ? product.images : []
+                const firstImage = productImages[0]?.url || "/placeholder.svg"
+                const secondImage = productImages[1]?.url || productImages[0]?.url || "/placeholder.svg"
+                
+                return (
+                  <Link 
+                    key={product._id} 
+                    href={`/view-details?id=${product._id}`}
+                    className="group relative bg-white hover:bg-[#111111] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                  >
+                    {/* Product Image */}
+                    <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
+                      {/* First Image - Always visible */}
+                      <Image
+                        src={firstImage}
+                        alt={product.name}
+                        fill
+                        className="object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
+                        loading="lazy"
+                      />
+                      
+                      {/* Second Image - Fades in on hover */}
+                      <Image
+                        src={secondImage}
+                        alt={product.name}
+                        fill
+                        className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                        loading="lazy"
+                      />
+                      
+                      {/* Heart Icon - Top Right */}
+                      <button
+                        onClick={(e) => toggleFavorite(product._id, e)}
+                        className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white transition-colors duration-200"
+                        aria-label="Add to favorites"
+                      >
+                        <Heart 
+                          className={`h-5 w-5 transition-colors duration-200 ${
+                            isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-600'
+                          }`}
+                        />
+                      </button>
+
+                      {/* Sale Badge */}
+                      {product.isOnSale && (
+                        <div className="absolute top-3 left-3">
+                          <div className="px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ backgroundColor: '#CD7F32' }}>
+                            {product.offerPercentage}% OFF
+                          </div>
+                        </div>
+                      )}
+
+                      {/* New Badge */}
+                      {product.isNew && (
+                        <div className="absolute top-3 left-3" style={{ top: product.isOnSale ? '3.5rem' : '0.75rem' }}>
+                          <div className="bg-white px-3 py-1 rounded-full text-xs font-semibold text-gray-900">
+                            New
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Product Info */}
+                    <div className="p-4 space-y-2">
+                      {/* Category/Brand */}
+                      {product.category && (
+                        <p className="text-xs font-medium text-gray-600 group-hover:text-white/70 uppercase tracking-wide transition-colors duration-300">
+                          {product.category}
+                        </p>
+                      )}
+
+                      {/* Product Name */}
+                      <h3 className="font-semibold text-gray-900 group-hover:text-white line-clamp-2 transition-colors duration-300">
                         {product.name}
                       </h3>
-                      <p className="text-gray-600 text-xs md:text-sm mb-3">JEWELS BY LAHARI</p>
-                      <div className="mb-3 md:mb-4">
-                        <span className="text-lg md:text-2xl font-bold text-[#8B7355]">₹{product.price.toFixed(2)}</span>
+
+                      {/* Price */}
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg font-bold text-[#510c74] group-hover:text-[#C9A34E] transition-colors duration-300">
+                          ₹{product.price.toFixed(2)}
+                        </span>
                         {product.originalPrice && product.originalPrice > product.price && (
-                          <span className="text-xs md:text-sm text-gray-500 line-through ml-2">₹{product.originalPrice.toFixed(2)}</span>
+                          <span className="text-sm text-gray-500 group-hover:text-white/60 line-through transition-colors duration-300">
+                            ₹{product.originalPrice.toFixed(2)}
+                          </span>
                         )}
                       </div>
-                      {/* Action Buttons - Horizontal Layout Below Price */}
-                      <div className="flex space-x-2 md:space-x-3">
-                        <Button 
-                          className="flex-1 bg-[#8B7355] hover:bg-[#D4AF37] text-white text-xs md:text-sm py-2"
-                          onClick={() => addItem({
-                            id: product._id,
-                            name: product.name,
-                            price: product.price,
-                            originalPrice: product.originalPrice,
-                            image: product.images && product.images.length > 0 ? product.images[0].url : "/placeholder.svg",
-                            category: product.category,
-                            brand: "JEWELS BY LAHARI"
-                          })}
-                        >
-                          <ShoppingCart className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" />
-                          <span className="hidden sm:inline">Add to Cart</span>
-                          <span className="sm:hidden">Add</span>
-                        </Button>
-                        <Link href={`/checkout?product=${product._id}&quantity=1`}>
-                          <Button className="flex-1 bg-[#D4AF37] hover:bg-[#8B7355] text-white text-xs md:text-sm py-2">
-                            Buy Now
-                          </Button>
-                        </Link>
-                      </div>
                     </div>
-                  </div>
-                ))
-              )}
+                  </Link>
+                )
+              })}
             </div>
-            
-            {/* Navigation Arrows */}
-            <div className="absolute inset-0 pointer-events-none">
-              <button 
-                onClick={() => {
-                  console.log('Left arrow clicked, current slide:', currentSlide)
-                  handlePrevSlide()
-                }}
-                 className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 md:p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 z-40 cursor-pointer pointer-events-auto"
-              >
-                <ChevronLeft className="w-4 h-4 md:w-6 md:h-6 text-gray-600" />
-              </button>
-              <button 
-                onClick={() => {
-                  console.log('Right arrow clicked, current slide:', currentSlide)
-                  handleNextSlide()
-                }}
-                 className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 md:p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 z-40 cursor-pointer pointer-events-auto"
-              >
-                <ChevronRight className="w-4 h-4 md:w-6 md:h-6 text-gray-600" />
-              </button>
-            </div>
-          </div>
+          )}
           
           {/* View All Button */}
           <div className="text-center mt-8 md:mt-12 animate-fade-in-up" style={{ animationDelay: '1s' }}>
             <Link href="/products">
-              <Button size="lg" className="bg-gradient-to-r from-white to-[#D4AF37] hover:bg-[#D4AF37] text-black hover:text-black px-6 md:px-8 py-3 text-base md:text-lg transition-all duration-300 hover:scale-105 rounded-full border border-[#D4AF37]/30">
+              <Button size="lg" className="px-6 md:px-8 py-3 text-base md:text-lg transition-all duration-300 hover:scale-105 rounded-full" style={{ background: 'linear-gradient(90deg, #670099, #510c74)', color: '#C9A34E', border: '1px solid rgba(103, 0, 153, 0.3)' }}>
                 View All New Arrivals
               </Button>
             </Link>
@@ -350,137 +804,137 @@ export default function Home() {
       </section>
 
        {/* Latest Gems Section */}
-       <section className="py-12 md:py-20 bg-white">
+       <section className="py-12 md:py-20" style={{ backgroundColor: '#eae0cc' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between mb-8 md:mb-16 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <div className="text-center flex-1">
-              <h2 className="font-light-300 text-3xl md:text-4xl lg:text-5xl text-gray-900 mb-3 md:mb-4 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>Latest Gems</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-base lg:text-lg animate-fade-in-up px-4" style={{ animationDelay: '0.6s' }}>
+              <h2 className="font-light-300 text-3xl md:text-4xl lg:text-5xl mb-3 md:mb-4 animate-fade-in-up gradient-text" style={{ animationDelay: '0.4s' }}>Latest Gems</h2>
+              <p className="max-w-2xl mx-auto text-sm md:text-base lg:text-lg animate-fade-in-up px-4" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.6s' }}>
                 Discover our most precious and exclusive gemstone jewelry collection, featuring rare stones and premium craftsmanship.
               </p>
             </div>
           </div>
 
-          <div className="relative overflow-hidden">
-            <div className="flex gap-4 md:gap-8 transition-transform duration-300 ease-in-out" style={{ transform: `translateX(-${currentGemsSlide * 288}px)` }}>
-              {/* Create a circular carousel by duplicating items */}
-              {loading ? (
-                // Loading state
-                Array.from({ length: 4 }).map((_, index) => (
-                  <div key={`loading-gems-${index}`} className="animate-fade-in-up flex-shrink-0 w-72 md:w-80" style={{ animationDelay: `${0.8 + index * 0.1}s` }}>
-                    <div className="relative overflow-hidden rounded-2xl shadow-lg bg-gray-200 animate-pulse">
-                      <div className="w-full h-64 md:h-80 bg-gray-300"></div>
-                    </div>
-                    <div className="mt-3 md:mt-4 p-3 md:p-4">
-                      <div className="h-5 md:h-6 bg-gray-200 rounded mb-2 animate-pulse"></div>
-                      <div className="h-3 md:h-4 bg-gray-200 rounded mb-3 animate-pulse"></div>
-                      <div className="h-6 md:h-8 bg-gray-200 rounded mb-4 animate-pulse"></div>
-                      <div className="flex space-x-2 md:space-x-3">
-                        <div className="flex-1 h-8 md:h-10 bg-gray-200 rounded animate-pulse"></div>
-                        <div className="flex-1 h-8 md:h-10 bg-gray-200 rounded animate-pulse"></div>
-                      </div>
-                    </div>
+          {/* Products Grid */}
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {Array.from({ length: 8 }).map((_, index) => (
+                <div key={`loading-${index}`} className="bg-white rounded-2xl overflow-hidden shadow-md animate-pulse">
+                  <div className="aspect-[3/4] bg-gray-200"></div>
+                  <div className="p-4 space-y-2">
+                    <div className="h-4 bg-gray-200 rounded"></div>
+                    <div className="h-6 bg-gray-200 rounded"></div>
+                    <div className="h-5 bg-gray-200 rounded"></div>
                   </div>
-                ))
-              ) : latestGems.length === 0 ? (
-                // Empty state
-                <div className="text-center py-16">
-                  <p className="text-gray-500">No products available</p>
                 </div>
-              ) : (
-                [...latestGems, ...latestGems, ...latestGems].map((product, index) => (
-                  <div key={`${product._id}-${index}`} className="group animate-fade-in-up flex-shrink-0 w-80" style={{ animationDelay: `${0.8 + (index % latestGems.length) * 0.1}s` }}>
-                    <Link href={`/view-details?id=${product._id}`}>
-                      <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
-                        <Image
-                          src={product.images && product.images.length > 0 ? product.images[0].url : "/placeholder.svg"}
-                          alt={product.name}
-                          width={300}
-                          height={400}
-                          className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
+              ))}
+            </div>
+          ) : latestGems.length === 0 ? (
+            <div className="text-center py-16">
+              <p style={{ color: '#240334', opacity: 0.7 }}>No products available</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {latestGems.map((product) => {
+                const isFavorite = favorites.has(product._id)
+                const productImages = product.images && product.images.length > 0 ? product.images : []
+                const firstImage = productImages[0]?.url || "/placeholder.svg"
+                const secondImage = productImages[1]?.url || productImages[0]?.url || "/placeholder.svg"
+                
+                return (
+                  <Link 
+                    key={product._id} 
+                    href={`/view-details?id=${product._id}`}
+                    className="group relative bg-white hover:bg-[#111111] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                  >
+                    {/* Product Image */}
+                    <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
+                      {/* First Image - Always visible */}
+                      <Image
+                        src={firstImage}
+                        alt={product.name}
+                        fill
+                        className="object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
+                        loading="lazy"
+                      />
+                      
+                      {/* Second Image - Fades in on hover */}
+                      <Image
+                        src={secondImage}
+                        alt={product.name}
+                        fill
+                        className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                        loading="lazy"
+                      />
+                      
+                      {/* Heart Icon - Top Right */}
+                      <button
+                        onClick={(e) => toggleFavorite(product._id, e)}
+                        className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white transition-colors duration-200"
+                        aria-label="Add to favorites"
+                      >
+                        <Heart 
+                          className={`h-5 w-5 transition-colors duration-200 ${
+                            isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-600'
+                          }`}
                         />
-                        <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-300"></div>
-                        <div className="absolute top-4 right-4">
-                          <div className="px-3 py-1 rounded-full text-sm font-bold text-gray-900 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300 shadow-lg border border-gray-400">
-                            Premium
+                      </button>
+
+                      {/* Sale Badge */}
+                      {product.isOnSale && (
+                        <div className="absolute top-3 left-3">
+                          <div className="px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ backgroundColor: '#CD7F32' }}>
+                            {product.offerPercentage}% OFF
                           </div>
                         </div>
-                        {product.isOnSale && (
-                          <div className="absolute top-4 left-4">
-                            <div className="bg-red-500 px-3 py-1 rounded-full text-sm font-semibold text-white">
-                              {product.offerPercentage}% OFF
-                            </div>
+                      )}
+
+                      {/* New Badge */}
+                      {product.isNew && (
+                        <div className="absolute top-3 left-3" style={{ top: product.isOnSale ? '3.5rem' : '0.75rem' }}>
+                          <div className="bg-white px-3 py-1 rounded-full text-xs font-semibold text-gray-900">
+                            New
                           </div>
-                        )}
-                      </div>
-                    </Link>
-                    <div className="mt-4 p-4">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-[#8B7355] transition-colors">
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Product Info */}
+                    <div className="p-4 space-y-2">
+                      {/* Category/Brand */}
+                      {product.category && (
+                        <p className="text-xs font-medium text-gray-600 group-hover:text-white/70 uppercase tracking-wide transition-colors duration-300">
+                          {product.category}
+                        </p>
+                      )}
+
+                      {/* Product Name */}
+                      <h3 className="font-semibold text-gray-900 group-hover:text-white line-clamp-2 transition-colors duration-300">
                         {product.name}
                       </h3>
-                      <p className="text-gray-600 text-sm mb-3">JEWELS BY LAHARI</p>
-                      <div className="mb-4">
-                        <span className="text-2xl font-bold text-[#8B7355]">₹{product.price.toFixed(2)}</span>
+
+                      {/* Price */}
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg font-bold text-[#510c74] group-hover:text-[#C9A34E] transition-colors duration-300">
+                          ₹{product.price.toFixed(2)}
+                        </span>
                         {product.originalPrice && product.originalPrice > product.price && (
-                          <span className="text-sm text-gray-500 line-through ml-2">₹{product.originalPrice.toFixed(2)}</span>
+                          <span className="text-sm text-gray-500 group-hover:text-white/60 line-through transition-colors duration-300">
+                            ₹{product.originalPrice.toFixed(2)}
+                          </span>
                         )}
                       </div>
-                      {/* Action Buttons - Horizontal Layout Below Price */}
-                      <div className="flex space-x-3">
-                        <Button 
-                          className="flex-1 bg-[#8B7355] hover:bg-[#D4AF37] text-white"
-                          onClick={() => addItem({
-                            id: product._id,
-                            name: product.name,
-                            price: product.price,
-                            originalPrice: product.originalPrice,
-                            image: product.images && product.images.length > 0 ? product.images[0].url : "/placeholder.svg",
-                            category: product.category,
-                            brand: "JEWELS BY LAHARI"
-                          })}
-                        >
-                          <ShoppingCart className="w-4 h-4 mr-2" />
-                          Add to Cart
-                        </Button>
-                        <Link href={`/checkout?product=${product._id}&quantity=1`}>
-                          <Button className="flex-1 bg-[#D4AF37] hover:bg-[#8B7355] text-white">
-                            Buy Now
-                          </Button>
-                        </Link>
-                      </div>
                     </div>
-                  </div>
-                ))
-              )}
+                  </Link>
+                )
+              })}
             </div>
-            
-            {/* Navigation Arrows */}
-            <div className="absolute inset-0 pointer-events-none">
-              <button 
-                onClick={() => {
-                  console.log('Left gems arrow clicked, current slide:', currentGemsSlide)
-                  handlePrevGemsSlide()
-                }}
-                 className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 z-40 cursor-pointer pointer-events-auto"
-              >
-                <ChevronLeft className="w-6 h-6 text-gray-600" />
-              </button>
-              <button 
-                onClick={() => {
-                  console.log('Right gems arrow clicked, current slide:', currentGemsSlide)
-                  handleNextGemsSlide()
-                }}
-                 className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 z-40 cursor-pointer pointer-events-auto"
-              >
-                <ChevronRight className="w-6 h-6 text-gray-600" />
-              </button>
-            </div>
-          </div>
+          )}
           
           {/* View All Button */}
           <div className="text-center mt-12 animate-fade-in-up" style={{ animationDelay: '1s' }}>
             <Link href="/products">
-              <Button size="lg" className="bg-gradient-to-r from-white to-[#D4AF37] hover:bg-[#D4AF37] text-black hover:text-black px-8 py-3 text-lg transition-all duration-300 hover:scale-105 rounded-full border border-[#D4AF37]/30">
+              <Button size="lg" className="px-8 py-3 text-lg transition-all duration-300 hover:scale-105 rounded-full" style={{ background: 'linear-gradient(90deg, #670099, #510c74)', color: '#C9A34E', border: '1px solid rgba(103, 0, 153, 0.3)' }}>
                 View All Latest Gems
               </Button>
             </Link>
@@ -489,201 +943,193 @@ export default function Home() {
       </section>
 
        {/* Categories Section */}
-       <section className="py-20 bg-white mt-16">
+       <section className="py-20 mt-16" style={{ backgroundColor: '#eae0cc' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="text-center mb-16 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <h2 className="font-light-300 text-5xl text-gray-900 mb-4 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>Shop by Category</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+            <h2 className="font-light-300 text-5xl mb-4 animate-fade-in-up gradient-text" style={{ animationDelay: '0.4s' }}>Shop by Category</h2>
+            <p className="max-w-2xl mx-auto text-lg animate-fade-in-up" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.6s' }}>
               Explore our diverse collection of jewelry categories, each carefully curated to suit every style and occasion.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {categories.map((category, index) => (
-              <Link key={category.id} href={`/products?category=${encodeURIComponent(category.name)}`} className="group">
-                <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up" style={{ animationDelay: `${0.8 + index * 0.1}s` }}>
-                  <Image
-                    src={category.image || "/placeholder.svg"}
-                    alt={category.name}
-                    width={300}
-                    height={400}
-                    className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-50 transition-all duration-300"></div>
-                  <div className="absolute inset-0 flex flex-col justify-end p-6">
-                    <h3 className="text-2xl font-semibold text-white mb-2">{category.name}</h3>
-                    <p className="text-white opacity-90">{category.count} Products</p>
+              <article 
+                key={category.id}
+                className="group relative aspect-[4/3.5] overflow-hidden rounded-lg bg-gray-50 shadow-lg transition-transform duration-500 hover:-translate-y-1 cursor-pointer animate-fade-in-up min-h-[400px]"
+                style={{ animationDelay: `${0.8 + index * 0.1}s` }}
+              >
+                <Link href={`/products?category=${encodeURIComponent(category.name)}`} className="block h-full w-full">
+                  {/* Image Container - Fills entire card */}
+                  <div className="relative h-full w-full">
+                    <Image
+                      src={category.image || "/placeholder.svg"}
+                      alt={category.name}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      loading="lazy"
+                    />
                   </div>
-                </div>
-              </Link>
+                  
+                  {/* Hover Overlay with Text */}
+                  <div className="absolute inset-0 flex items-start p-8 sm:p-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-black/30">
+                    <div>
+                      <h3 className="text-3xl font-bold uppercase tracking-tight sm:text-4xl text-white">
+                        {category.name}
+                      </h3>
+                      <span className="mt-4 block h-[4px] w-12 origin-left transition-[width] duration-500 ease-out group-hover:w-40" style={{ backgroundColor: '#C9A34E' }} />
+                      <p className="mt-2 text-lg font-medium text-white opacity-90">
+                        {category.count} Products
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
       {/* Featured Products */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20" style={{ backgroundColor: '#eae0cc' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="text-center mb-16 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <h2 className="font-light-300 text-5xl text-gray-900 mb-4 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>Featured Products</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+            <h2 className="font-light-300 text-5xl mb-4 animate-fade-in-up gradient-text" style={{ animationDelay: '0.4s' }}>Featured Products</h2>
+            <p className="max-w-2xl mx-auto text-lg animate-fade-in-up" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.6s' }}>
               Discover our handpicked selection of the finest jewelry pieces, crafted with precision and designed to make you shine.
             </p>
           </div>
 
-          <div className="relative overflow-hidden">
-            <div className="flex gap-8 transition-transform duration-300 ease-in-out" style={{ transform: `translateX(-${currentFeaturedSlide * 400}px)` }}>
-              {/* Create a circular carousel by duplicating items */}
-              {loading ? (
-                // Loading state
-                Array.from({ length: 3 }).map((_, index) => (
-                  <div key={`loading-featured-${index}`} className="animate-fade-in-up flex-shrink-0 w-96" style={{ animationDelay: `${0.8 + index * 0.1}s` }}>
-                    <div className="relative overflow-hidden rounded-2xl shadow-lg bg-gray-200 animate-pulse">
-                      <div className="w-full h-64 bg-gray-300"></div>
-                    </div>
-                    <div className="mt-4 p-4">
-                      <div className="h-6 bg-gray-200 rounded mb-2 animate-pulse"></div>
-                      <div className="h-4 bg-gray-200 rounded mb-3 animate-pulse"></div>
-                      <div className="h-8 bg-gray-200 rounded mb-4 animate-pulse"></div>
-                      <div className="flex space-x-3">
-                        <div className="flex-1 h-10 bg-gray-200 rounded animate-pulse"></div>
-                        <div className="flex-1 h-10 bg-gray-200 rounded animate-pulse"></div>
-                      </div>
-                    </div>
+          {/* Products Grid */}
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {Array.from({ length: 8 }).map((_, index) => (
+                <div key={`loading-${index}`} className="bg-white rounded-2xl overflow-hidden shadow-md animate-pulse">
+                  <div className="aspect-[3/4] bg-gray-200"></div>
+                  <div className="p-4 space-y-2">
+                    <div className="h-4 bg-gray-200 rounded"></div>
+                    <div className="h-6 bg-gray-200 rounded"></div>
+                    <div className="h-5 bg-gray-200 rounded"></div>
                   </div>
-                ))
-              ) : featuredProducts.length === 0 ? (
-                // Empty state
-                <div className="text-center py-16">
-                  <p className="text-gray-500">No products available</p>
                 </div>
-              ) : (
-                [...featuredProducts, ...featuredProducts, ...featuredProducts].map((product, index) => (
-                  <div key={`${product._id}-${index}`} className="group animate-fade-in-up flex-shrink-0 w-96" style={{ animationDelay: `${0.8 + (index % featuredProducts.length) * 0.1}s` }}>
-                    <div className="bg-white rounded-2xl shadow-md overflow-hidden group hover:shadow-xl transition-all duration-300">
-                      <Link href={`/view-details?id=${product._id}`}>
-                        <div className="relative overflow-hidden cursor-pointer">
-                          <Image
-                            src={product.images && product.images.length > 0 ? product.images[0].url : "/placeholder.svg"}
-                            alt={product.name}
-                            width={300}
-                            height={300}
-                            className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
-                          />
+              ))}
+            </div>
+          ) : featuredProducts.length === 0 ? (
+            <div className="text-center py-16">
+              <p style={{ color: '#240334', opacity: 0.7 }}>No products available</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {featuredProducts.map((product) => {
+                const isFavorite = favorites.has(product._id)
+                const productImages = product.images && product.images.length > 0 ? product.images : []
+                const firstImage = productImages[0]?.url || "/placeholder.svg"
+                const secondImage = productImages[1]?.url || productImages[0]?.url || "/placeholder.svg"
+                
+                return (
+                  <Link 
+                    key={product._id} 
+                    href={`/view-details?id=${product._id}`}
+                    className="group relative bg-white hover:bg-[#111111] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                  >
+                    {/* Product Image */}
+                    <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
+                      {/* First Image - Always visible */}
+                      <Image
+                        src={firstImage}
+                        alt={product.name}
+                        fill
+                        className="object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
+                        loading="lazy"
+                      />
+                      
+                      {/* Second Image - Fades in on hover */}
+                      <Image
+                        src={secondImage}
+                        alt={product.name}
+                        fill
+                        className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                        loading="lazy"
+                      />
+                      
+                      {/* Heart Icon - Top Right */}
+                      <button
+                        onClick={(e) => toggleFavorite(product._id, e)}
+                        className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white transition-colors duration-200"
+                        aria-label="Add to favorites"
+                      >
+                        <Heart 
+                          className={`h-5 w-5 transition-colors duration-200 ${
+                            isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-600'
+                          }`}
+                        />
+                      </button>
 
-                          {/* Badges */}
-                          <div className="absolute top-4 left-4 flex flex-col space-y-2">
-                            {product.isNew && (
-                              <span className="bg-green-500 text-white px-3 py-1 text-xs font-bold rounded-full">NEW</span>
-                            )}
-                            {product.isOnSale && (
-                              <span className="bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-full">SALE</span>
-                            )}
-                          </div>
-                          
-                          {/* Featured Badge */}
-                          <div className="absolute top-4 right-4">
-                            <span className="bg-[#D4AF37] text-black px-3 py-1 text-xs font-bold rounded-full">FEATURED</span>
-                          </div>
-                        </div>
-                      </Link>
-
-                      <div className="p-6">
-                        <p className="text-sm text-gray-500 mb-2">{product.category}</p>
-
-                        <div className="flex items-center mb-2">
-                          <div className="flex items-center">
-                            {[...Array(5)].map((_, i) => (
-                              <Star
-                                key={i}
-                                className={`w-4 h-4 ${
-                                  i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"
-                                }`}
-                              />
-                            ))}
-                          </div>
-                          <span className="text-sm text-gray-500 ml-2">({product.reviews})</span>
-                        </div>
-
-                        <h3 className="text-lg font-semibold text-gray-900 mb-3 hover:text-[#C4A484] transition-colors">
-                          {product.name}
-                        </h3>
-
-                        <p className="text-sm text-gray-600 mb-3">JEWELS BY LAHARI</p>
-
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="flex items-center space-x-2">
-                            <span className="text-xl font-bold text-[#8B7355]">₹{product.price}</span>
-                            {product.originalPrice && product.originalPrice > product.price && (
-                              <span className="text-sm text-gray-500 line-through">₹{product.originalPrice}</span>
-                            )}
-                            {product.isOnSale && product.offerPercentage && (
-                              <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full">
-                                {product.offerPercentage}% OFF
-                              </span>
-                            )}
+                      {/* Sale Badge */}
+                      {product.isOnSale && (
+                        <div className="absolute top-3 left-3">
+                          <div className="px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ backgroundColor: '#CD7F32' }}>
+                            {product.offerPercentage}% OFF
                           </div>
                         </div>
+                      )}
 
-                        {/* Action Buttons */}
-                        <div className="flex space-x-3 mt-4">
-                          <Button 
-                            className="flex-1 bg-[#8B7355] hover:bg-[#D4AF37] text-white py-2 px-4 text-sm font-medium"
-                            onClick={() => addItem({
-                              id: product._id,
-                              name: product.name,
-                              price: product.price,
-                              originalPrice: product.originalPrice,
-                              image: product.images && product.images.length > 0 ? product.images[0].url : "/placeholder.svg",
-                              category: product.category,
-                              brand: "JEWELS BY LAHARI"
-                            })}
-                          >
-                            <ShoppingCart className="w-4 h-4 mr-2" />
-                            Add to Cart
-                          </Button>
-                          <Link href={`/checkout?product=${product._id}&quantity=1`}>
-                            <Button className="flex-1 bg-[#D4AF37] hover:bg-[#8B7355] text-white py-2 px-4 text-sm font-medium">
-                              Buy Now
-                            </Button>
-                          </Link>
+                      {/* New Badge */}
+                      {product.isNew && (
+                        <div className="absolute top-3 left-3" style={{ top: product.isOnSale ? '3.5rem' : '0.75rem' }}>
+                          <div className="bg-white px-3 py-1 rounded-full text-xs font-semibold text-gray-900">
+                            New
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Featured Badge */}
+                      <div className="absolute top-3 left-3" style={{ top: (product.isOnSale && product.isNew) ? '5.5rem' : (product.isOnSale || product.isNew) ? '3.5rem' : '0.75rem' }}>
+                        <div className="px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ background: 'linear-gradient(90deg, #670099, #510c74)' }}>
+                          FEATURED
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))
-              )}
+
+                    {/* Product Info */}
+                    <div className="p-4 space-y-2">
+                      {/* Category/Brand */}
+                      {product.category && (
+                        <p className="text-xs font-medium text-gray-600 group-hover:text-white/70 uppercase tracking-wide transition-colors duration-300">
+                          {product.category}
+                        </p>
+                      )}
+
+                      {/* Product Name */}
+                      <h3 className="font-semibold text-gray-900 group-hover:text-white line-clamp-2 transition-colors duration-300">
+                        {product.name}
+                      </h3>
+
+                      {/* Price */}
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg font-bold text-[#510c74] group-hover:text-[#C9A34E] transition-colors duration-300">
+                          ₹{product.price.toFixed(2)}
+                        </span>
+                        {product.originalPrice && product.originalPrice > product.price && (
+                          <span className="text-sm text-gray-500 group-hover:text-white/60 line-through transition-colors duration-300">
+                            ₹{product.originalPrice.toFixed(2)}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+                )
+              })}
             </div>
-            
-            {/* Navigation Arrows */}
-            <div className="absolute inset-0 pointer-events-none">
-              <button 
-                onClick={() => {
-                  console.log('Left featured arrow clicked, current slide:', currentFeaturedSlide)
-                  handlePrevFeaturedSlide()
-                }}
-                 className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 z-40 cursor-pointer pointer-events-auto"
-              >
-                <ChevronLeft className="w-6 h-6 text-gray-600" />
-              </button>
-              <button 
-                onClick={() => {
-                  console.log('Right featured arrow clicked, current slide:', currentFeaturedSlide)
-                  handleNextFeaturedSlide()
-                }}
-                 className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 z-40 cursor-pointer pointer-events-auto"
-              >
-                <ChevronRight className="w-6 h-6 text-gray-600" />
-              </button>
-            </div>
-          </div>
+          )}
 
           <div className="text-center mt-12 animate-fade-in-up" style={{ animationDelay: '1s' }}>
             <Link href="/products">
               <Button
                 variant="outline"
                 size="lg"
-                className="bg-gradient-to-r from-white to-[#D4AF37] hover:bg-[#D4AF37] text-black hover:text-black px-8 py-3 text-lg transition-all duration-300 hover:scale-105 rounded-full border border-[#D4AF37]/30"
+                className="px-8 py-3 text-lg transition-all duration-300 hover:scale-105 rounded-full"
+                style={{ background: 'linear-gradient(90deg, #670099, #510c74)', color: '#C9A34E', border: '1px solid rgba(103, 0, 153, 0.3)' }}
               >
                 Explore All Products
                 <ArrowRight className="w-5 h-5 ml-2" />
