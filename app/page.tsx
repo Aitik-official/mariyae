@@ -24,70 +24,6 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel"
 
-// Demo banners that will always be shown along with database banners
-const DEMO_BANNERS = [
-  {
-    _id: 'demo-1',
-    order: 1,
-    eyebrowText: 'Exquisite Jewelry Collection',
-    headline: 'Premium Imitation Jewellery for Every Occasion',
-    description: 'Discover our stunning collection of high-quality imitation jewelry. From elegant necklaces to exquisite rings, we offer timeless pieces that celebrate life\'s most precious moments. Crafted with precision and designed to make you shine.',
-    button1Text: 'Buy Now',
-    button1Link: '/products',
-    button2Text: 'View Other Products',
-    button2Link: '/products',
-    layoutType: 'normal' as const,
-    backgroundImage: '/2.jpg',
-    decorativeImage: '/2.jpg',
-    isActive: true
-  },
-  {
-    _id: 'demo-2',
-    order: 2,
-    eyebrowText: 'Premium Gold Collection',
-    headline: 'Timeless Elegance in Every Piece',
-    description: 'Experience the luxury of our premium gold collection. Each piece is meticulously crafted to perfection, combining traditional artistry with modern design. Elevate your style with jewelry that speaks to your unique personality.',
-    button1Text: 'Buy Now',
-    button1Link: '/products',
-    button2Text: 'View Other Products',
-    button2Link: '/products',
-    layoutType: 'reversed' as const,
-    backgroundImage: '/2.jpg',
-    decorativeImage: '/2.jpg',
-    isActive: true
-  },
-  {
-    _id: 'demo-3',
-    order: 3,
-    eyebrowText: 'Diamond & Gemstone Collection',
-    headline: 'Sparkle with Our Exquisite Gemstones',
-    description: 'Indulge in the brilliance of our diamond and gemstone collection. From classic diamonds to vibrant colored stones, each piece is designed to capture and reflect your inner radiance. Make every moment unforgettable.',
-    button1Text: 'Buy Now',
-    button1Link: '/products',
-    button2Text: 'View Other Products',
-    button2Link: '/products',
-    layoutType: 'normal' as const,
-    backgroundImage: '/2.jpg',
-    decorativeImage: '/2.jpg',
-    isActive: true
-  },
-  {
-    _id: 'demo-4',
-    order: 4,
-    eyebrowText: 'Elegant Silver Collection',
-    headline: 'Sophisticated Designs for Modern Times',
-    description: 'Discover the refined beauty of our silver collection. Combining contemporary elegance with timeless appeal, our silver jewelry pieces are perfect for both everyday wear and special occasions. Quality craftsmanship meets modern design.',
-    button1Text: 'Buy Now',
-    button1Link: '/products',
-    button2Text: 'View Other Products',
-    button2Link: '/products',
-    layoutType: 'reversed' as const,
-    backgroundImage: '/2.jpg',
-    decorativeImage: '/2.jpg',
-    isActive: true
-  }
-]
-
 // Helper function to render a banner slide
 const renderBannerSlide = (banner: any, index: number): JSX.Element => {
   const isReversed = banner.layoutType === 'reversed'
@@ -584,13 +520,6 @@ export default function Home() {
                 {renderBannerSlide(banner, index)}
               </CarouselItem>
             ))}
-            
-            {/* Demo Banners - Always shown along with database banners */}
-            {DEMO_BANNERS.map((banner, index) => (
-              <CarouselItem key={banner._id}>
-                {renderBannerSlide(banner, banners.length + index)}
-              </CarouselItem>
-            ))}
           </CarouselContent>
           
           {/* Navigation Arrows */}
@@ -607,7 +536,7 @@ export default function Home() {
         
         {/* Slide Indicators */}
         <div className="absolute bottom-20 sm:bottom-24 lg:bottom-28 left-1/2 transform -translate-x-1/2 z-30 flex items-center space-x-2">
-          {Array.from({ length: banners.length + DEMO_BANNERS.length }).map((_, index) => (
+          {Array.from({ length: banners.length }).map((_, index) => (
             <button
               key={index}
               onClick={() => api?.scrollTo(index)}
