@@ -154,3 +154,29 @@
   overflow: hidden;
   -webkit-overflow-scrolling: touch;
 }
+
+/* Disable dropdown slide-in animation for category select */
+[data-radix-select-content],
+[data-radix-select-content][data-state="open"],
+[data-radix-select-content][data-state="closed"],
+[data-radix-select-content][data-side="bottom"],
+[data-radix-select-content][data-side="top"],
+[data-radix-select-content][data-side="left"],
+[data-radix-select-content][data-side="right"] {
+  animation: none !important;
+  transform: translateY(0) translateX(0) scale(1) !important;
+  transition: none !important;
+  opacity: 1 !important;
+}
+
+/* Override Tailwind animation classes */
+[data-radix-select-content].animate-in,
+[data-radix-select-content][data-state="open"].animate-in {
+  animation: none !important;
+}
+
+[data-radix-select-content].slide-in-from-top-2,
+[data-radix-select-content][data-side="bottom"].slide-in-from-top-2 {
+  transform: translateY(0) !important;
+  animation: none !important;
+}

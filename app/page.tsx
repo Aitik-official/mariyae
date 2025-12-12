@@ -24,6 +24,203 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel"
 
+// Demo banners that will always be shown along with database banners
+const DEMO_BANNERS = [
+  {
+    _id: 'demo-1',
+    order: 1,
+    eyebrowText: 'Exquisite Jewelry Collection',
+    headline: 'Premium Imitation Jewellery for Every Occasion',
+    description: 'Discover our stunning collection of high-quality imitation jewelry. From elegant necklaces to exquisite rings, we offer timeless pieces that celebrate life\'s most precious moments. Crafted with precision and designed to make you shine.',
+    button1Text: 'Buy Now',
+    button1Link: '/products',
+    button2Text: 'View Other Products',
+    button2Link: '/products',
+    layoutType: 'normal' as const,
+    backgroundImage: '/2.jpg',
+    decorativeImage: '/2.jpg',
+    isActive: true
+  },
+  {
+    _id: 'demo-2',
+    order: 2,
+    eyebrowText: 'Premium Gold Collection',
+    headline: 'Timeless Elegance in Every Piece',
+    description: 'Experience the luxury of our premium gold collection. Each piece is meticulously crafted to perfection, combining traditional artistry with modern design. Elevate your style with jewelry that speaks to your unique personality.',
+    button1Text: 'Buy Now',
+    button1Link: '/products',
+    button2Text: 'View Other Products',
+    button2Link: '/products',
+    layoutType: 'reversed' as const,
+    backgroundImage: '/2.jpg',
+    decorativeImage: '/2.jpg',
+    isActive: true
+  },
+  {
+    _id: 'demo-3',
+    order: 3,
+    eyebrowText: 'Diamond & Gemstone Collection',
+    headline: 'Sparkle with Our Exquisite Gemstones',
+    description: 'Indulge in the brilliance of our diamond and gemstone collection. From classic diamonds to vibrant colored stones, each piece is designed to capture and reflect your inner radiance. Make every moment unforgettable.',
+    button1Text: 'Buy Now',
+    button1Link: '/products',
+    button2Text: 'View Other Products',
+    button2Link: '/products',
+    layoutType: 'normal' as const,
+    backgroundImage: '/2.jpg',
+    decorativeImage: '/2.jpg',
+    isActive: true
+  },
+  {
+    _id: 'demo-4',
+    order: 4,
+    eyebrowText: 'Elegant Silver Collection',
+    headline: 'Sophisticated Designs for Modern Times',
+    description: 'Discover the refined beauty of our silver collection. Combining contemporary elegance with timeless appeal, our silver jewelry pieces are perfect for both everyday wear and special occasions. Quality craftsmanship meets modern design.',
+    button1Text: 'Buy Now',
+    button1Link: '/products',
+    button2Text: 'View Other Products',
+    button2Link: '/products',
+    layoutType: 'reversed' as const,
+    backgroundImage: '/2.jpg',
+    decorativeImage: '/2.jpg',
+    isActive: true
+  }
+]
+
+// Helper function to render a banner slide
+const renderBannerSlide = (banner: any, index: number): JSX.Element => {
+  const isReversed = banner.layoutType === 'reversed'
+  const gridCols = isReversed ? 'lg:grid-cols-[0.95fr_1.05fr]' : 'lg:grid-cols-[1.05fr_0.95fr]'
+  const textOrder = isReversed ? 'order-1 lg:order-2' : ''
+  const imageOrder = isReversed ? 'order-2 lg:order-1' : ''
+  const gradientDirection = isReversed ? 'to left' : 'to right'
+  const imagePosition = isReversed ? 'lg:justify-start' : 'lg:justify-end'
+  const decorativePosition = isReversed ? 'left-8 lg:left-16' : 'right-8 lg:right-16'
+  const gradientPosition = isReversed ? 'right-0 lg:right-[-80px]' : 'left-0 lg:left-[-80px]'
+  const gradientCalc = isReversed ? 'lg:w-[calc(100%+80px)]' : 'lg:w-[calc(100%+80px)]'
+
+  return (
+    <div className="relative min-h-[500px] sm:min-h-[550px] md:min-h-[620px] w-full">
+        {/* Background Layer */}
+        <div className="absolute inset-0">
+          {banner.backgroundImage ? (
+            <Image
+              src={banner.backgroundImage}
+              alt={banner.headline || 'Banner'}
+              fill
+              className="h-full w-full object-cover"
+              priority={index === 0}
+              sizes="100vw"
+            />
+          ) : (
+            <Image
+              src="/2.jpg"
+              alt={banner.headline || 'Banner'}
+              fill
+              className="h-full w-full object-cover"
+              priority={index === 0}
+              sizes="100vw"
+            />
+          )}
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(103, 0, 153, 0.95), rgba(81, 12, 116, 0.85), rgba(36, 3, 52, 0.60))' }} />
+        </div>
+
+        {/* Content Layer */}
+        <div className="relative z-10 flex h-full w-full items-stretch">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className={`grid gap-6 sm:gap-8 lg:gap-12 ${gridCols}`}>
+              {/* Text Content Column */}
+              <div className={`flex flex-col justify-center items-center text-center py-6 sm:py-8 md:py-12 lg:py-16 pt-12 sm:pt-16 md:pt-20 lg:pt-24 ${textOrder}`}>
+                {/* Decorative Lines */}
+                <div className="mb-4 sm:mb-6 flex items-center justify-center gap-2">
+                  <span className="h-1 w-8 sm:w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                  <span className="h-1 w-3 sm:w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                  <span className="h-1 w-2" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                </div>
+                
+                {/* Eyebrow Text */}
+                {banner.eyebrowText && (
+                  <span className="mb-2 sm:mb-4 text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
+                    {banner.eyebrowText}
+                  </span>
+                )}
+                
+                {/* Main Headline */}
+                {banner.headline && (
+                  <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-tight">
+                    {banner.headline}
+                  </h1>
+                )}
+                
+                {/* Description */}
+                {banner.description && (
+                  <p className="mt-3 sm:mt-4 md:mt-6 max-w-2xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed text-white/85">
+                    {banner.description}
+                  </p>
+                )}
+                
+                {/* CTA Buttons */}
+                <div className="mt-4 sm:mt-6 md:mt-8 lg:mt-10 flex flex-row items-center justify-center gap-3 sm:gap-4">
+                  {banner.button1Text && (
+                    <Link 
+                      href={banner.button1Link || '/products'} 
+                      className="inline-flex items-center justify-center rounded-md px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition whitespace-nowrap"
+                      style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #510c74, #240334)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #670099, #510c74, #240334)'; }}
+                    >
+                      {banner.button1Text}
+                    </Link>
+                  )}
+                  {banner.button2Text && (
+                    <Link 
+                      href={banner.button2Link || '/products'} 
+                      className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f] whitespace-nowrap"
+                      style={{ color: '#C9A34E' }}
+                    >
+                      {banner.button2Text}
+                    </Link>
+                  )}
+                </div>
+              </div>
+
+              {/* Decorative Graphics Column */}
+              <div className={`relative min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[400px] items-center justify-center ${imagePosition} flex mt-4 lg:mt-0 ${imageOrder}`}>
+                {/* Decorative Elements */}
+                <div className={`absolute inset-y-16 ${decorativePosition} w-3 lg:w-4 rounded hidden lg:block`} style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                <div className={`absolute bottom-12 lg:bottom-20 ${decorativePosition} h-8 lg:h-12 w-3 lg:w-4 rounded hidden lg:block`} style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+                <div className={`absolute top-8 lg:top-16 ${decorativePosition} h-16 w-16 lg:h-24 lg:w-24 hidden lg:block`} style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
+                <div className={`absolute ${gradientPosition} top-0 h-full w-full ${gradientCalc}`} style={{ background: `linear-gradient(${gradientDirection}, transparent, rgba(201, 163, 78, 0.15), transparent)` }} />
+                
+                {/* Image Container */}
+                <div className="relative h-[85%] w-[85%] max-h-[350px] max-w-[450px] overflow-hidden rounded-lg lg:rounded-none mx-auto">
+                  {banner.decorativeImage ? (
+                    <Image
+                      src={banner.decorativeImage}
+                      alt={banner.headline || 'Banner'}
+                      fill
+                      className="h-full w-full object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+                    />
+                  ) : (
+                    <Image
+                      src="/2.jpg"
+                      alt={banner.headline || 'Banner'}
+                      fill
+                      className="h-full w-full object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  )
+}
+
 export default function Home() {
   const { addItem } = useCart()
   const { products, loading, error } = useProducts()
@@ -32,15 +229,211 @@ export default function Home() {
   const [currentGemsSlide, setCurrentGemsSlide] = useState(0)
   const [currentFeaturedSlide, setCurrentFeaturedSlide] = useState(0)
   const [favorites, setFavorites] = useState<Set<string>>(new Set())
+  const [categories, setCategories] = useState<Array<{id: string, name: string, count: number, image: string}>>([])
+  const [subCategories, setSubCategories] = useState<Array<{id: string, name: string, count: number, image: string, mainCategory: string}>>([])
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [selectedMainCategoryId, setSelectedMainCategoryId] = useState<string | null>(null)
+  const [isViewingSubCategories, setIsViewingSubCategories] = useState(false)
+  const [activeCard, setActiveCard] = useState<string | null>(null)
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null)
   
   // Hero carousel state
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
+  const [banners, setBanners] = useState<Array<{
+    _id: string
+    order: number
+    eyebrowText: string
+    headline: string
+    description: string
+    button1Text: string
+    button1Link: string
+    button2Text: string
+    button2Link: string
+    layoutType: 'normal' | 'reversed'
+    backgroundImage: string
+    decorativeImage: string
+    isActive: boolean
+  }>>([])
+  const [bannersLoading, setBannersLoading] = useState(true)
   
   // Get real products from database
   const featuredProducts = products.slice(0, 4)
   const newArrivals = products.slice(0, 12)
   const latestGems = products.slice(0, 8)
+
+  // Fetch main categories from database
+  useEffect(() => {
+    const fetchMainCategories = async () => {
+      try {
+        const response = await fetch('/api/categories/main')
+        const data = await response.json()
+        
+        if (data.success && data.categories) {
+          // Count products per main category
+          const categoriesWithCounts = data.categories.map((mainCat: any) => {
+            // Count products that match this main category name
+            const count = products.filter(p => 
+              p.category === mainCat.name || 
+              p.mainCategory === mainCat.name
+            ).length
+            
+            return {
+              id: mainCat._id,
+              name: mainCat.name,
+              count: count,
+              image: mainCat.image || "/placeholder.svg"
+            }
+          })
+
+          // Limit to 9 categories for 3x3 grid, or show all if less than 9
+          setCategories(categoriesWithCounts.slice(0, 9))
+        }
+      } catch (error) {
+        console.error('Error fetching main categories:', error)
+        // Fallback to product-based categories if API fails
+        if (products.length > 0) {
+          const categoryMap = new Map<string, { count: number, image: string }>()
+          
+          products.forEach((product) => {
+            if (product.category) {
+              const categoryName = product.category
+              if (!categoryMap.has(categoryName)) {
+                const categoryProduct = products.find(p => p.category === categoryName)
+                const categoryImage = categoryProduct?.images && categoryProduct.images.length > 0 
+                  ? categoryProduct.images[0].url 
+                  : "/placeholder.svg"
+                
+                categoryMap.set(categoryName, {
+                  count: 1,
+                  image: categoryImage
+                })
+              } else {
+                const existing = categoryMap.get(categoryName)!
+                categoryMap.set(categoryName, {
+                  ...existing,
+                  count: existing.count + 1
+                })
+              }
+            }
+          })
+
+          const categoriesArray = Array.from(categoryMap.entries()).map(([name, data], index) => ({
+            id: `category-${index}`,
+            name,
+            count: data.count,
+            image: data.image
+          }))
+
+          setCategories(categoriesArray.slice(0, 9))
+        }
+      }
+    }
+
+    fetchMainCategories()
+  }, [products])
+
+  const handleCategoryClick = async (categoryName: string, categoryId: string) => {
+    setActiveCard(categoryName)
+    setSelectedCategory(categoryName)
+    setSelectedMainCategoryId(categoryId)
+    
+    try {
+      const response = await fetch(`/api/categories/sub?mainCategory=${encodeURIComponent(categoryName)}`)
+      const data = await response.json()
+      
+      if (data.success && data.subCategories && data.subCategories.length > 0) {
+        const subCategoriesWithCounts = data.subCategories.map((subCat: any) => {
+          const count = products.filter(p => 
+            p.subCategory === subCat.name || 
+            p.category === subCat.name
+          ).length
+          
+          return {
+            id: subCat._id,
+            name: subCat.name,
+            count,
+            image: subCat.image || "/placeholder.svg",
+            mainCategory: subCat.mainCategory
+          }
+        })
+        setSubCategories(subCategoriesWithCounts)
+        setIsViewingSubCategories(true)
+      } else {
+        setSubCategories([])
+        setIsViewingSubCategories(false)
+      }
+    } catch (error) {
+      console.error('Error fetching subcategories:', error)
+      setSubCategories([])
+      setIsViewingSubCategories(false)
+    }
+  }
+
+  const handleSubCategoryClick = (subCategoryName: string) => {
+    setActiveCard(subCategoryName)
+    setSelectedCategory(subCategoryName)
+    setIsViewingSubCategories(false)
+  }
+
+  const handleBackToCategories = () => {
+    setSelectedCategory(null)
+    setSelectedMainCategoryId(null)
+    setSubCategories([])
+    setIsViewingSubCategories(false)
+    setActiveCard(null)
+    setHoveredCard(null)
+  }
+
+  const handleBackToSubCategories = () => {
+    setIsViewingSubCategories(true)
+    setSelectedCategory(null)
+  }
+
+  const getFilteredProducts = () => {
+    if (!selectedCategory) return []
+    
+    return products.filter(product => {
+      const productCategory = product.category?.toLowerCase() || ''
+      const productSubCategory = product.subCategory?.toLowerCase() || ''
+      const selected = selectedCategory.toLowerCase()
+      
+      return productCategory === selected || 
+             productSubCategory === selected ||
+             productCategory.includes(selected) ||
+             productSubCategory.includes(selected) ||
+             selected.includes(productCategory) ||
+             selected.includes(productSubCategory)
+    })
+  }
+
+  const filteredProducts = getFilteredProducts()
+
+  // Fetch banners from database
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        setBannersLoading(true)
+        const response = await fetch('/api/banners')
+        const data = await response.json()
+        
+        if (data.success && data.banners) {
+          // Filter only active banners and sort by order
+          const activeBanners = data.banners
+            .filter((banner: any) => banner.isActive !== false)
+            .sort((a: any, b: any) => a.order - b.order)
+          setBanners(activeBanners)
+        }
+      } catch (error) {
+        console.error('Error fetching banners:', error)
+        setBanners([])
+      } finally {
+        setBannersLoading(false)
+      }
+    }
+
+    fetchBanners()
+  }, [])
 
   // Toggle favorite function
   const toggleFavorite = (productId: string, e: React.MouseEvent) => {
@@ -70,18 +463,27 @@ export default function Home() {
     })
   }, [api])
   
-  // Hero carousel auto-play
+  // Hero carousel auto-play with seamless looping
   useEffect(() => {
     if (!api) {
       return
     }
 
     const interval = setInterval(() => {
-      api.scrollNext()
+      const selectedIndex = api.selectedScrollSnap()
+      const slideCount = api.slideNodes().length
+      
+      // If we're at the last slide, jump to first slide without animation
+      if (selectedIndex === slideCount - 1) {
+        api.scrollTo(0, false) // false = no animation, instant jump
+      } else {
+        api.scrollNext()
+      }
     }, 5500)
 
     return () => clearInterval(interval)
   }, [api])
+
   
   // Show loading state if products are still loading
   if (loading && products.length === 0) {
@@ -147,36 +549,6 @@ export default function Home() {
     setCurrentFeaturedSlide((prev: number) => prev === featuredProducts.length - 1 ? 0 : prev + 1)
   }
 
-  const categories = [
-    {
-      id: 1,
-      name: "Rings",
-      count: products.filter(p => p.category === "Rings").length,
-      image: "https://res.cloudinary.com/djjj41z17/image/upload/v1754041278/7K0A0299_jboywk.jpg",
-      href: "/categories/rings",
-    },
-    {
-      id: 2,
-      name: "Necklaces",
-      count: products.filter(p => p.category === "Necklaces").length,
-      image: "https://res.cloudinary.com/djjj41z17/image/upload/v1754041775/RNK-387_mhmryo.jpg",
-      href: "/categories/necklaces",
-    },
-    {
-      id: 3,
-      name: "Pendants",
-      count: products.filter(p => p.category === "Pendants").length,
-      image: "https://res.cloudinary.com/djjj41z17/image/upload/v1754042374/RP_2237_thzcn1.jpg",
-      href: "/categories/earrings",
-    },
-    {
-      id: 4,
-      name: "Mangalsutra",
-      count: products.filter(p => p.category === "Mangalsutra").length,
-      image: "https://res.cloudinary.com/djjj41z17/image/upload/v1754040744/1J8A0224_kecmbm.jpg",
-      href: "/categories/bracelets",
-    },
-  ]
 
   return (
     <div className="min-h-screen" style={{ background: 'linear-gradient(180deg, #240334 0%, #510c74 50%, #670099 100%)' }}>
@@ -191,7 +563,7 @@ export default function Home() {
       </section>
 
       {/* Hero Section */}
-      <section className="relative w-full min-h-[500px] sm:min-h-[550px] md:min-h-[620px] overflow-hidden" style={{ background: 'linear-gradient(180deg, #240334 0%, #510c74 50%, #670099 100%)' }}>
+      <section className="relative w-full min-h-[500px] sm:min-h-[550px] md:min-h-[620px] overflow-hidden" style={{ background: 'linear-gradient(180deg, #240334 0%, #510c74 50%, #670099 100%)', zIndex: 1 }}>
         <Carousel
           setApi={setApi}
           opts={{
@@ -201,387 +573,24 @@ export default function Home() {
             dragFree: false,
             startIndex: 0,
             watchDrag: true,
+            skipSnaps: false,
           }}
           className="w-full"
         >
           <CarouselContent>
-            {/* Slide 1 */}
-            <CarouselItem>
-              <div className="relative min-h-[500px] sm:min-h-[550px] md:min-h-[620px] w-full">
-                {/* Background Layer */}
-                <div className="absolute inset-0">
-          <Image
-            src="/2.jpg"
-                    alt="Exquisite Jewelry Collection"
-            fill
-                    className="h-full w-full object-cover"
-            priority
-                    sizes="100vw"
-          />
-                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(103, 0, 153, 0.95), rgba(81, 12, 116, 0.85), rgba(36, 3, 52, 0.60))' }} />
-        </div>
-
-                {/* Content Layer */}
-                <div className="relative z-10 flex h-full w-full items-stretch">
-                  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-6 sm:gap-8 lg:gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-                      {/* Left Column: Text Content */}
-                      <div className="flex flex-col justify-center items-center text-center py-6 sm:py-8 md:py-12 lg:py-16">
-                        {/* Decorative Red Lines */}
-                        <div className="mb-4 sm:mb-6 flex items-center justify-center gap-2">
-                          <span className="h-1 w-8 sm:w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                          <span className="h-1 w-3 sm:w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                          <span className="h-1 w-2" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                        </div>
-                        
-                        {/* Eyebrow Text */}
-                        <span className="mb-2 sm:mb-4 text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
-                          Exquisite Jewelry Collection
-                        </span>
-                        
-                        {/* Main Headline */}
-                        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-tight">
-                          Premium Imitation Jewellery for Every Occasion
-                        </h1>
-                        
-                        {/* Description */}
-                        <p className="mt-3 sm:mt-4 md:mt-6 max-w-2xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed text-white/85">
-                          Discover our stunning collection of high-quality imitation jewelry. From elegant necklaces to exquisite rings, we offer timeless pieces that celebrate life's most precious moments. Crafted with precision and designed to make you shine.
-                        </p>
-                        
-                        {/* CTA Buttons */}
-                        <div className="mt-4 sm:mt-6 md:mt-8 lg:mt-10 flex flex-row items-center justify-center gap-3 sm:gap-4">
-                          <Link 
-                            href="/contact" 
-                            className="inline-flex items-center justify-center rounded-md px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition whitespace-nowrap"
-                            style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
-                            onMouseEnter={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #510c74, #240334)'; }}
-                            onMouseLeave={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #670099, #510c74, #240334)'; }}
-                          >
-                            Speak to an Expert
-                          </Link>
-                          <Link 
-                            href="/products" 
-                            className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f] whitespace-nowrap"
-                            style={{ color: '#C9A34E' }}
-                          >
-                            View Our Products
-                          </Link>
-                        </div>
-                      </div>
-
-                      {/* Right Column: Decorative Graphics - Now visible on mobile */}
-                      <div className="relative min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[400px] items-center justify-center lg:justify-end flex mt-4 lg:mt-0">
-                        {/* Decorative Element 1: Vertical Bar (Top) - Hidden on mobile */}
-                        <div className="absolute inset-y-16 right-8 lg:right-16 w-3 lg:w-4 rounded hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
-                        
-                        {/* Decorative Element 2: Vertical Bar (Bottom) - Hidden on mobile */}
-                        <div className="absolute bottom-12 lg:bottom-20 right-8 lg:right-16 h-8 lg:h-12 w-3 lg:w-4 rounded hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
-                        
-                        {/* Decorative Element 3: Large Square - Hidden on mobile */}
-                        <div className="absolute top-8 lg:top-16 right-8 lg:right-16 h-16 w-16 lg:h-24 lg:w-24 hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
-                        
-                        {/* Decorative Element 4: Gradient Overlay */}
-                        <div className="absolute left-0 lg:left-[-80px] top-0 h-full w-full lg:w-[calc(100%+80px)]" style={{ background: 'linear-gradient(to right, transparent, rgba(201, 163, 78, 0.15), transparent)' }} />
-                        
-                        {/* Image Container - Visible on all screens */}
-                        <div className="relative h-full w-full overflow-hidden rounded-lg lg:rounded-none">
-                          <Image
-                            src="/2.jpg"
-                            alt="Jewelry Collection"
-                            fill
-                            className="h-full w-full object-cover"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CarouselItem>
+            {/* Dynamic Banners from Database */}
+            {banners.map((banner, index) => (
+              <CarouselItem key={banner._id}>
+                {renderBannerSlide(banner, index)}
+              </CarouselItem>
+            ))}
             
-            {/* Slide 2 - Reversed Layout */}
-            <CarouselItem>
-              <div className="relative min-h-[500px] sm:min-h-[550px] md:min-h-[620px] w-full">
-                {/* Background Layer */}
-                <div className="absolute inset-0">
-                  <Image
-                    src="/2.jpg"
-                    alt="Premium Gold Collection"
-                    fill
-                    className="h-full w-full object-cover"
-                  />
-                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(103, 0, 153, 0.95), rgba(81, 12, 116, 0.85), rgba(36, 3, 52, 0.60))' }} />
-                </div>
-
-                {/* Content Layer */}
-                <div className="relative z-10 flex h-full w-full items-stretch">
-                  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-8 sm:gap-12 lg:grid-cols-[0.95fr_1.05fr]">
-                      {/* Left Column: Decorative Graphics (Reversed) - Now visible on mobile */}
-                      <div className="relative min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[400px] items-center justify-center lg:justify-start flex order-2 lg:order-1 mt-4 lg:mt-0">
-                        {/* Decorative Element 1: Vertical Bar (Top) - Hidden on mobile */}
-                        <div className="absolute inset-y-16 left-8 lg:left-16 w-3 lg:w-4 rounded hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
-                        
-                        {/* Decorative Element 2: Vertical Bar (Bottom) - Hidden on mobile */}
-                        <div className="absolute bottom-12 lg:bottom-20 left-8 lg:left-16 h-8 lg:h-12 w-3 lg:w-4 rounded hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
-                        
-                        {/* Decorative Element 3: Large Square - Hidden on mobile */}
-                        <div className="absolute top-8 lg:top-16 left-8 lg:left-16 h-16 w-16 lg:h-24 lg:w-24 hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
-                        
-                        {/* Decorative Element 4: Gradient Overlay */}
-                        <div className="absolute right-0 lg:right-[-80px] top-0 h-full w-full lg:w-[calc(100%+80px)]" style={{ background: 'linear-gradient(to left, transparent, rgba(201, 163, 78, 0.15), transparent)' }} />
-                        
-                        {/* Image Container - Visible on all screens */}
-                        <div className="relative h-full w-full overflow-hidden rounded-lg lg:rounded-none">
-                          <Image
-                            src="/2.jpg"
-                            alt="Gold Collection"
-                            fill
-                            className="h-full w-full object-cover"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Right Column: Text Content (Reversed) */}
-                      <div className="flex flex-col justify-center items-center text-center py-6 sm:py-8 md:py-12 lg:py-16 order-1 lg:order-2">
-                        {/* Decorative Red Lines */}
-                        <div className="mb-4 sm:mb-6 flex items-center justify-center gap-2">
-                          <span className="h-1 w-8 sm:w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                          <span className="h-1 w-3 sm:w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                          <span className="h-1 w-2" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                        </div>
-                        
-                        {/* Eyebrow Text */}
-                        <span className="mb-2 sm:mb-4 text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
-                          Premium Gold Collection
-                        </span>
-                        
-                        {/* Main Headline */}
-                        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-tight">
-                          Timeless Elegance in Every Piece
-                        </h1>
-                        
-                        {/* Description */}
-                        <p className="mt-3 sm:mt-4 md:mt-6 max-w-2xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed text-white/85">
-                          Experience the luxury of our premium gold collection. Each piece is meticulously crafted to perfection, combining traditional artistry with modern design. Elevate your style with jewelry that speaks to your unique personality.
-                        </p>
-                        
-                        {/* CTA Buttons */}
-                        <div className="mt-4 sm:mt-6 md:mt-8 lg:mt-10 flex flex-row items-center justify-center gap-3 sm:gap-4">
-                          <Link 
-                            href="/contact" 
-                            className="inline-flex items-center justify-center rounded-md px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition whitespace-nowrap"
-                            style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
-                            onMouseEnter={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #510c74, #240334)'; }}
-                            onMouseLeave={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #670099, #510c74, #240334)'; }}
-                          >
-                            Speak to an Expert
-                          </Link>
-                          <Link 
-                            href="/products" 
-                            className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f] whitespace-nowrap"
-                            style={{ color: '#C9A34E' }}
-                          >
-                            View Our Products
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CarouselItem>
-            
-            {/* Slide 3 */}
-            <CarouselItem>
-              <div className="relative min-h-[500px] sm:min-h-[550px] md:min-h-[620px] w-full">
-                {/* Background Layer */}
-                <div className="absolute inset-0">
-                  <Image
-                    src="/2.jpg"
-                    alt="Diamond & Gemstone Collection"
-                    fill
-                    className="h-full w-full object-cover"
-                  />
-                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(103, 0, 153, 0.95), rgba(81, 12, 116, 0.85), rgba(36, 3, 52, 0.60))' }} />
-                </div>
-
-                {/* Content Layer */}
-                <div className="relative z-10 flex h-full w-full items-stretch">
-                  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-6 sm:gap-8 lg:gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-                      {/* Left Column: Text Content */}
-                      <div className="flex flex-col justify-center items-center text-center py-6 sm:py-8 md:py-12 lg:py-16">
-                        {/* Decorative Red Lines */}
-                        <div className="mb-4 sm:mb-6 flex items-center justify-center gap-2">
-                          <span className="h-1 w-8 sm:w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                          <span className="h-1 w-3 sm:w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                          <span className="h-1 w-2" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                        </div>
-                        
-                        {/* Eyebrow Text */}
-                        <span className="mb-2 sm:mb-4 text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
-                          Diamond & Gemstone Collection
-                        </span>
-                        
-                        {/* Main Headline */}
-                        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-tight">
-                          Sparkle with Our Exquisite Gemstones
-                        </h1>
-                        
-                        {/* Description */}
-                        <p className="mt-3 sm:mt-4 md:mt-6 max-w-2xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed text-white/85">
-                          Indulge in the brilliance of our diamond and gemstone collection. From classic diamonds to vibrant colored stones, each piece is designed to capture and reflect your inner radiance. Make every moment unforgettable.
-                        </p>
-                        
-                        {/* CTA Buttons */}
-                        <div className="mt-4 sm:mt-6 md:mt-8 lg:mt-10 flex flex-row items-center justify-center gap-3 sm:gap-4">
-                          <Link 
-                            href="/contact" 
-                            className="inline-flex items-center justify-center rounded-md px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition whitespace-nowrap"
-                            style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
-                            onMouseEnter={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #510c74, #240334)'; }}
-                            onMouseLeave={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #670099, #510c74, #240334)'; }}
-                          >
-                            Speak to an Expert
-                          </Link>
-                          <Link 
-                            href="/products" 
-                            className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f] whitespace-nowrap"
-                            style={{ color: '#C9A34E' }}
-                          >
-                            View Our Products
-                          </Link>
-                        </div>
-                      </div>
-
-                      {/* Right Column: Decorative Graphics - Now visible on mobile */}
-                      <div className="relative min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[400px] items-center justify-center lg:justify-end flex mt-4 lg:mt-0">
-                        {/* Decorative Element 1: Vertical Bar (Top) - Hidden on mobile */}
-                        <div className="absolute inset-y-16 right-8 lg:right-16 w-3 lg:w-4 rounded hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
-                        
-                        {/* Decorative Element 2: Vertical Bar (Bottom) - Hidden on mobile */}
-                        <div className="absolute bottom-12 lg:bottom-20 right-8 lg:right-16 h-8 lg:h-12 w-3 lg:w-4 rounded hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
-                        
-                        {/* Decorative Element 3: Large Square - Hidden on mobile */}
-                        <div className="absolute top-8 lg:top-16 right-8 lg:right-16 h-16 w-16 lg:h-24 lg:w-24 hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
-                        
-                        {/* Decorative Element 4: Gradient Overlay */}
-                        <div className="absolute left-0 lg:left-[-80px] top-0 h-full w-full lg:w-[calc(100%+80px)]" style={{ background: 'linear-gradient(to right, transparent, rgba(201, 163, 78, 0.15), transparent)' }} />
-                        
-                        {/* Image Container - Visible on all screens */}
-                        <div className="relative h-full w-full overflow-hidden rounded-lg lg:rounded-none">
-                          <Image
-                            src="/2.jpg"
-                            alt="Gemstone Collection"
-                            fill
-                            className="h-full w-full object-cover"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CarouselItem>
-            
-            {/* Slide 4 - Reversed Layout */}
-            <CarouselItem>
-              <div className="relative min-h-[500px] sm:min-h-[550px] md:min-h-[620px] w-full">
-                {/* Background Layer */}
-                <div className="absolute inset-0">
-                  <Image
-                    src="/2.jpg"
-                    alt="Elegant Silver Collection"
-                    fill
-                    className="h-full w-full object-cover"
-                  />
-                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(103, 0, 153, 0.95), rgba(81, 12, 116, 0.85), rgba(36, 3, 52, 0.60))' }} />
-                </div>
-
-                {/* Content Layer */}
-                <div className="relative z-10 flex h-full w-full items-stretch">
-                  <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-8 sm:gap-12 lg:grid-cols-[0.95fr_1.05fr]">
-                      {/* Left Column: Decorative Graphics (Reversed) - Now visible on mobile */}
-                      <div className="relative min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[400px] items-center justify-center lg:justify-start flex order-2 lg:order-1 mt-4 lg:mt-0">
-                        {/* Decorative Element 1: Vertical Bar (Top) - Hidden on mobile */}
-                        <div className="absolute inset-y-16 left-8 lg:left-16 w-3 lg:w-4 rounded hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
-                        
-                        {/* Decorative Element 2: Vertical Bar (Bottom) - Hidden on mobile */}
-                        <div className="absolute bottom-12 lg:bottom-20 left-8 lg:left-16 h-8 lg:h-12 w-3 lg:w-4 rounded hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
-                        
-                        {/* Decorative Element 3: Large Square - Hidden on mobile */}
-                        <div className="absolute top-8 lg:top-16 left-8 lg:left-16 h-16 w-16 lg:h-24 lg:w-24 hidden lg:block" style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
-                        
-                        {/* Decorative Element 4: Gradient Overlay */}
-                        <div className="absolute right-0 lg:right-[-80px] top-0 h-full w-full lg:w-[calc(100%+80px)]" style={{ background: 'linear-gradient(to left, transparent, rgba(201, 163, 78, 0.15), transparent)' }} />
-                        
-                        {/* Image Container - Visible on all screens */}
-                        <div className="relative h-full w-full overflow-hidden rounded-lg lg:rounded-none">
-                          <Image
-                            src="/2.jpg"
-                            alt="Silver Collection"
-                            fill
-                            className="h-full w-full object-cover"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Right Column: Text Content (Reversed) */}
-                      <div className="flex flex-col justify-center items-center text-center py-6 sm:py-8 md:py-12 lg:py-16 order-1 lg:order-2">
-                        {/* Decorative Red Lines */}
-                        <div className="mb-4 sm:mb-6 flex items-center justify-center gap-2">
-                          <span className="h-1 w-8 sm:w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                          <span className="h-1 w-3 sm:w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                          <span className="h-1 w-2" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                        </div>
-                        
-                        {/* Eyebrow Text */}
-                        <span className="mb-2 sm:mb-4 text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
-                          Elegant Silver Collection
-                        </span>
-                        
-                        {/* Main Headline */}
-                        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-tight">
-                          Sophisticated Designs for Modern Times
-                        </h1>
-                        
-                        {/* Description */}
-                        <p className="mt-3 sm:mt-4 md:mt-6 max-w-2xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed text-white/85">
-                          Discover the refined beauty of our silver collection. Combining contemporary elegance with timeless appeal, our silver jewelry pieces are perfect for both everyday wear and special occasions. Quality craftsmanship meets modern design.
-                        </p>
-                        
-                        {/* CTA Buttons */}
-                        <div className="mt-4 sm:mt-6 md:mt-8 lg:mt-10 flex flex-row items-center justify-center gap-3 sm:gap-4">
-                          <Link 
-                            href="/contact" 
-                            className="inline-flex items-center justify-center rounded-md px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition whitespace-nowrap"
-                            style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
-                            onMouseEnter={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #510c74, #240334)'; }}
-                            onMouseLeave={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #670099, #510c74, #240334)'; }}
-                          >
-                            Speak to an Expert
-                          </Link>
-                          <Link 
-                            href="/products" 
-                            className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f] whitespace-nowrap"
-                            style={{ color: '#C9A34E' }}
-                          >
-                            View Our Products
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CarouselItem>
+            {/* Demo Banners - Always shown along with database banners */}
+            {DEMO_BANNERS.map((banner, index) => (
+              <CarouselItem key={banner._id}>
+                {renderBannerSlide(banner, banners.length + index)}
+              </CarouselItem>
+            ))}
           </CarouselContent>
           
           {/* Navigation Arrows */}
@@ -598,7 +607,7 @@ export default function Home() {
         
         {/* Slide Indicators */}
         <div className="absolute bottom-20 sm:bottom-24 lg:bottom-28 left-1/2 transform -translate-x-1/2 z-30 flex items-center space-x-2">
-          {[0, 1, 2, 3].map((index) => (
+          {Array.from({ length: banners.length + DEMO_BANNERS.length }).map((_, index) => (
             <button
               key={index}
               onClick={() => api?.scrollTo(index)}
@@ -622,7 +631,7 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="space-y-6 md:space-y-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <div>
-                <h2 className="font-light-300 text-3xl md:text-4xl lg:text-5xl mb-4 md:mb-6 animate-fade-in-up text-center lg:text-left gradient-text" style={{ animationDelay: '0.4s' }}>About Iitaon Jewellery</h2>
+                <h2 className="font-light-300 text-3xl md:text-4xl lg:text-5xl mb-4 md:mb-6 animate-fade-in-up text-center lg:text-left gradient-text" style={{ animationDelay: '0.4s' }}>About Mariyae</h2>
                 <p className="text-base md:text-lg leading-relaxed mb-4 md:mb-6 animate-fade-in-up" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.6s' }}>
                   At Rose Jewels, we believe that jewelry is more than just an accessory—it's a reflection of your unique story,
                   your precious moments, and your personal style. For over two decades, we've been dedicated to creating
@@ -645,21 +654,21 @@ export default function Home() {
 
             <div className="relative animate-fade-in-up text-center lg:text-left" style={{ animationDelay: '0.3s' }}>
               <Image
-                src="/logoalan-removebg-preview.png"
-                alt="Iitaon Jewellery Logo"
+                src="/Gemini_Gener__copy.jpg"
+                alt="Mariyae Logo"
                 width={800}
                 height={700}
                 className="rounded-2xl shadow-lg object-contain animate-fade-in-up transition-all duration-300 hover:scale-105 w-full max-w-md mx-auto lg:max-w-full"
                 style={{ animationDelay: '0.5s' }}
               />
-              <div className="absolute -bottom-3 -left-3 lg:-bottom-6 lg:-left-6 p-3 lg:p-6 rounded-xl lg:rounded-2xl shadow-lg animate-fade-in-up" style={{ backgroundColor: '#d1b2e0', animationDelay: '0.7s' }}>
+              <div className="absolute -bottom-3 -right-3 lg:-bottom-6 lg:-right-6 p-3 lg:p-6 rounded-xl lg:rounded-2xl shadow-lg animate-fade-in-up" style={{ backgroundColor: '#d1b2e0', animationDelay: '0.7s' }}>
                 <div className="flex items-center space-x-2 lg:space-x-4">
-                  <div className="w-8 h-8 lg:w-12 lg:h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                    <Star className="w-4 h-4 lg:w-6 lg:h-6 text-white" />
+                  <div className="w-8 h-8 lg:w-12 lg:h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }}>
+                    <Star className="w-4 h-4 lg:w-6 lg:h-6" style={{ color: '#C9A34E' }} />
                   </div>
                   <div>
-                    <p className="font-semibold text-[#240334] text-xs lg:text-sm">Premium Quality</p>
-                    <p className="text-xs lg:text-sm text-[#240334] opacity-80">Certified & Authentic</p>
+                    <p className="font-semibold text-xs lg:text-sm" style={{ color: '#240334' }}>Premium Quality</p>
+                    <p className="text-xs lg:text-sm opacity-80" style={{ color: '#240334' }}>Certified & Authentic</p>
                   </div>
                 </div>
               </div>
@@ -947,8 +956,8 @@ export default function Home() {
         </div>
       </section>
 
-       {/* Categories Section */}
-       <section className="py-20 mt-16" style={{ backgroundColor: '#eae0cc' }}>
+      {/* Categories Section with subcategory flow */}
+      <section className="py-20" style={{ backgroundColor: '#eae0cc', borderTop: 'none' }}>
         <div className="w-full mx-auto px-4 lg:px-8">
           <div className="text-center mb-16 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <h2 className="font-light-300 text-5xl mb-4 animate-fade-in-up gradient-text" style={{ animationDelay: '0.4s' }}>Shop by Category</h2>
@@ -957,42 +966,265 @@ export default function Home() {
             </p>
           </div>
 
-          {/* 4-column grid - automatically continues with more rows if categories exceed 4 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 w-full px-4 lg:px-8">
-            {categories.map((category, index) => (
-              <article 
-                key={category.id}
-                className="group relative aspect-[4/3.5] overflow-hidden rounded-2xl bg-gray-50 shadow-lg transition-transform duration-500 hover:-translate-y-1 cursor-pointer animate-fade-in-up"
-                style={{ animationDelay: `${0.8 + index * 0.1}s` }}
-              >
-                <Link href={`/products?category=${encodeURIComponent(category.name)}`} className="block h-full w-full">
-                  {/* Image Container - Fills entire card */}
-                  <div className="relative h-full w-full">
-                  <Image
-                    src={category.image || "/placeholder.svg"}
-                    alt={category.name}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      loading="lazy"
+          {/* Main Categories */}
+          {!selectedCategory && !isViewingSubCategories && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 w-full px-4 lg:px-8">
+              {categories.map((category, index) => {
+                const isHovered = hoveredCard === category.name
+                const isActive = activeCard === category.name
+
+                return (
+                  <article 
+                    key={category.id}
+                    className="group relative aspect-[4/3.5] overflow-hidden rounded-2xl bg-gray-50 shadow-lg transition-transform duration-500 hover:-translate-y-1 cursor-pointer animate-fade-in-up"
+                    style={{ animationDelay: `${0.8 + index * 0.1}s` }}
+                    onMouseEnter={() => setHoveredCard(category.name)}
+                    onMouseLeave={() => setHoveredCard(null)}
+                    onClick={() => handleCategoryClick(category.name, category.id)}
+                  >
+                    {/* Image Container - Fills entire card */}
+                    <div className="relative h-full w-full">
+                      <Image
+                        src={category.image || "/placeholder.svg"}
+                        alt={category.name}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        loading="lazy"
+                      />
+                    </div>
+                    
+                    {/* Hover Overlay with Text */}
+                    <div className="absolute inset-0 flex items-start p-4 sm:p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-black/30">
+                      <div>
+                        <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-white">
+                          {category.name}
+                        </h3>
+                        <span className="mt-2 block h-[3px] w-8 origin-left transition-[width] duration-500 ease-out group-hover:w-24" style={{ backgroundColor: '#C9A34E' }} />
+                        <p className="mt-2 text-sm sm:text-base font-medium text-white opacity-90">
+                          {category.count} Products
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Animated borders similar to shop */}
+                    <div
+                      className="absolute bottom-0 left-1/2 h-0.5"
+                      style={{
+                        backgroundColor: '#C9A34E',
+                        transform: 'translateX(-50%)',
+                        width: isActive || isHovered ? '100%' : '0%',
+                        transition: isHovered
+                          ? 'width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s'
+                          : 'width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.6s'
+                      }}
                     />
-                  </div>
-                  
-                  {/* Hover Overlay with Text */}
-                  <div className="absolute inset-0 flex items-start p-4 sm:p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-black/30">
-                    <div>
-                      <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-white">
-                        {category.name}
-                      </h3>
-                      <span className="mt-2 block h-[3px] w-8 origin-left transition-[width] duration-500 ease-out group-hover:w-24" style={{ backgroundColor: '#C9A34E' }} />
-                      <p className="mt-2 text-sm sm:text-base font-medium text-white opacity-90">
-                        {category.count} Products
-                      </p>
-                  </div>
+                    <div
+                      className="absolute bottom-0 left-0 w-0.5"
+                      style={{
+                        backgroundColor: '#C9A34E',
+                        height: isActive || isHovered ? '100%' : '0%',
+                        transition: 'height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s'
+                      }}
+                    />
+                    <div
+                      className="absolute bottom-0 right-0 w-0.5"
+                      style={{
+                        backgroundColor: '#C9A34E',
+                        height: isActive || isHovered ? '100%' : '0%',
+                        transition: 'height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s'
+                      }}
+                    />
+                    <div
+                      className="absolute top-0 left-1/2 h-0.5"
+                      style={{
+                        backgroundColor: '#C9A34E',
+                        transform: 'translateX(-50%)',
+                        width: isActive ? '100%' : '0%',
+                        transition: 'width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s'
+                      }}
+                    />
+                  </article>
+                )
+              })}
+            </div>
+          )}
+
+          {/* Subcategories */}
+          {isViewingSubCategories && subCategories.length > 0 && (
+            <div className="w-full px-4 lg:px-8">
+              <div className="mb-8 flex items-center gap-4">
+                <Button
+                  variant="outline"
+                  onClick={handleBackToCategories}
+                  className="flex items-center gap-2"
+                  style={{ borderColor: '#C9A34E', color: '#C9A34E' }}
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  Back to Categories
+                </Button>
+                <h3 className="text-2xl sm:text-3xl font-bold gradient-text">
+                  {selectedCategory} - Subcategories
+                </h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+                {subCategories.map((subCategory, index) => {
+                  const isHovered = hoveredCard === subCategory.name
+                  const isActive = activeCard === subCategory.name
+                  return (
+                    <article
+                      key={subCategory.id}
+                      className="group relative aspect-[4/3.5] overflow-hidden rounded-2xl bg-gray-50 shadow-lg transition-transform duration-500 hover:-translate-y-1 cursor-pointer"
+                      style={{ animationDelay: `${0.8 + index * 0.1}s` }}
+                      onMouseEnter={() => setHoveredCard(subCategory.name)}
+                      onMouseLeave={() => setHoveredCard(null)}
+                      onClick={() => handleSubCategoryClick(subCategory.name)}
+                    >
+                      <div className="relative h-full w-full">
+                        <Image
+                          src={subCategory.image || "/placeholder.svg"}
+                          alt={subCategory.name}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-110"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="absolute inset-0 flex items-start p-4 sm:p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-black/30">
+                        <div>
+                          <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-white">
+                            {subCategory.name}
+                          </h3>
+                          <span className="mt-2 block h-[3px] w-8 origin-left transition-[width] duration-500 ease-out group-hover:w-24" style={{ backgroundColor: '#C9A34E' }} />
+                          <p className="mt-2 text-sm sm:text-base font-medium text-white opacity-90">
+                            {subCategory.count} Products
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        className="absolute bottom-0 left-1/2 h-0.5"
+                        style={{
+                          backgroundColor: '#C9A34E',
+                          transform: 'translateX(-50%)',
+                          width: isActive || isHovered ? '100%' : '0%',
+                          transition: isHovered
+                            ? 'width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s'
+                            : 'width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.6s'
+                        }}
+                      />
+                      <div
+                        className="absolute bottom-0 left-0 w-0.5"
+                        style={{
+                          backgroundColor: '#C9A34E',
+                          height: isActive || isHovered ? '100%' : '0%',
+                          transition: 'height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s'
+                        }}
+                      />
+                      <div
+                        className="absolute bottom-0 right-0 w-0.5"
+                        style={{
+                          backgroundColor: '#C9A34E',
+                          height: isActive || isHovered ? '100%' : '0%',
+                          transition: 'height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s'
+                        }}
+                      />
+                      <div
+                        className="absolute top-0 left-1/2 h-0.5"
+                        style={{
+                          backgroundColor: '#C9A34E',
+                          transform: 'translateX(-50%)',
+                          width: isActive ? '100%' : '0%',
+                          transition: 'width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s'
+                        }}
+                      />
+                    </article>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Products under selected category/subcategory */}
+          {selectedCategory && !isViewingSubCategories && (
+            <div className="w-full px-4 lg:px-8 mt-10">
+              <div className="mb-6 flex items-center gap-4">
+                <Button
+                  variant="outline"
+                  onClick={subCategories.length > 0 ? handleBackToSubCategories : handleBackToCategories}
+                  className="flex items-center gap-2"
+                  style={{ borderColor: '#C9A34E', color: '#C9A34E' }}
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  {subCategories.length > 0 ? 'Back to Subcategories' : 'Back to Categories'}
+                </Button>
+                <h3 className="text-2xl sm:text-3xl font-bold gradient-text">
+                  {selectedCategory} Products
+                </h3>
+              </div>
+
+              {filteredProducts.length === 0 ? (
+                <div className="text-center py-16">
+                  <p className="text-gray-600 text-lg mb-4">No products found in {selectedCategory}.</p>
+                  <Button 
+                    onClick={handleBackToCategories}
+                    style={{ backgroundColor: '#C9A34E', color: '#fff' }}
+                  >
+                    Back to Categories
+                  </Button>
                 </div>
-              </Link>
-              </article>
-            ))}
-          </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredProducts.map((product) => {
+                    const productImages = product.images && product.images.length > 0 ? product.images : []
+                    const firstImage = productImages[0]?.url || "/placeholder.svg"
+                    const secondImage = productImages[1]?.url || productImages[0]?.url || "/placeholder.svg"
+                    return (
+                      <Link 
+                        key={product._id} 
+                        href={`/view-details?id=${product._id}`}
+                        className="group relative bg-white hover:bg-[#111111] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                      >
+                        <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
+                          <Image
+                            src={firstImage}
+                            alt={product.name}
+                            fill
+                            className="object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
+                            loading="lazy"
+                          />
+                          <Image
+                            src={secondImage}
+                            alt={product.name}
+                            fill
+                            className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                            loading="lazy"
+                          />
+                        </div>
+                        <div className="p-4 space-y-2">
+                          {product.category && (
+                            <p className="text-xs font-medium text-gray-600 group-hover:text-white/70 uppercase tracking-wide transition-colors duration-300">
+                              {product.category}
+                            </p>
+                          )}
+                          <h3 className="font-semibold text-gray-900 group-hover:text-white line-clamp-2 transition-colors duration-300">
+                            {product.name}
+                          </h3>
+                          <div className="flex items-center gap-2">
+                            <span className="text-lg font-bold text-[#510c74] group-hover:text-[#C9A34E] transition-colors duration-300">
+                              ₹{product.price.toFixed(2)}
+                            </span>
+                            {product.originalPrice && product.originalPrice > product.price && (
+                              <span className="text-sm text-gray-500 group-hover:text-white/60 line-through transition-colors duration-300">
+                                ₹{product.originalPrice.toFixed(2)}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </Link>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </section>
 

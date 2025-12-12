@@ -18,7 +18,7 @@ export const uploadToCloudinary = async (file: Buffer, folder: string, resourceT
     const result = await new Promise((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         {
-          folder: `alankarika/${folder}`,
+          folder: `mariyae-com/${folder}`,
           resource_type: resourceType,
           allowed_formats: resourceType === 'image' 
             ? ['jpg', 'jpeg', 'png', 'webp'] 
@@ -69,9 +69,9 @@ export const deleteFromCloudinary = async (publicId: string, resourceType: 'imag
 // Helper function to get organized folder structure
 export const getCloudinaryFolder = (type: 'products' | 'banners' | 'thumbnails' | 'categories', category?: string) => {
   if (type === 'categories' && category) {
-    return `alankarika/categories/${category.toLowerCase()}`
+    return `mariyae-com/categories/${category.toLowerCase()}`
   }
-  return `alankarika/${type}`
+  return `mariyae-com/${type}`
 }
 
 // Enhanced upload function with better error handling and progress tracking
@@ -103,4 +103,33 @@ export const deleteMultipleFiles = async (
   )
   
   await Promise.all(deletePromises)
+}
+
+// Upload image from URL to Cloudinary
+export const uploadImageFromUrl = async (imageUrl: string, folder: string) => {
+  try {
+    console.log('Uploading image from URL:', imageUrl)
+    
+    const result = await cloudinary.uploader.upload(imageUrl, {
+      folder: `mariyae-com/${folder}`,
+      resource_type: 'image',
+      allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+      transformation: [
+        { width: 800, height: 800, crop: 'limit' },
+        { quality: 'auto' },
+        { fetch_format: 'auto' }
+      ],
+      secure: true,
+      use_filename: true,
+      unique_filename: true
+    })
+
+    return {
+      url: result.secure_url,
+      publicId: result.public_id
+    }
+  } catch (error) {
+    console.error('Error uploading image from URL:', error)
+    throw new Error(`Failed to upload image from URL: ${imageUrl}`)
+  }
 }

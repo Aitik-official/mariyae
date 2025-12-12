@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import connectDB from '@/lib/mongodb'
 import Product from '@/lib/models/Product'
+import { uploadImageFromUrl, getCloudinaryFolder } from '@/lib/cloudinary'
 
 export async function GET(
   request: NextRequest,
@@ -53,6 +54,10 @@ export async function PUT(
     const sizeConstraints = formData.get('sizeConstraints') as string
     const quantity = parseInt(formData.get('quantity') as string)
     const category = formData.get('category') as string
+    const mainCategory = formData.get('mainCategory') as string | null
+    const subCategory = formData.get('subCategory') as string | null
+    const imageUrlsRaw = formData.get('imageUrls') as string | null
+    const imageUrls = imageUrlsRaw ? JSON.parse(imageUrlsRaw) : []
     
     // Validate required fields
     if (!name || !description || !keyFeatures.length || !price || !quantity || !category) {
@@ -71,10 +76,26 @@ export async function PUT(
         const bytes = await imageFile.arrayBuffer()
         const buffer = Buffer.from(bytes)
         
-        const { uploadToCloudinary, getCloudinaryFolder } = await import('@/lib/cloudinary')
+        const { uploadToCloudinary } = await import('@/lib/cloudinary')
         const folder = getCloudinaryFolder('products')
         const result = await uploadToCloudinary(buffer, folder, 'image')
         uploadedImages.push(result)
+      }
+    }
+
+    // Handle image URLs - fetch and upload to Cloudinary
+    if (imageUrls && imageUrls.length > 0) {
+      const folder = getCloudinaryFolder('products')
+      for (const imageUrl of imageUrls) {
+        if (imageUrl && imageUrl.trim() !== '') {
+          try {
+            const result = await uploadImageFromUrl(imageUrl.trim(), folder)
+            uploadedImages.push(result)
+          } catch (error) {
+            console.error(`Failed to upload image from URL ${imageUrl}:`, error)
+            // Continue with other URLs even if one fails
+          }
+        }
       }
     }
     
@@ -135,6 +156,8 @@ export async function PUT(
         sizeConstraints: sizeConstraints || undefined,
         quantity,
         category,
+        mainCategory: mainCategory || undefined,
+        subCategory: subCategory || undefined,
         images: [...existingImages, ...uploadedImages],
         videos: [...existingVideos, ...uploadedVideos]
       },

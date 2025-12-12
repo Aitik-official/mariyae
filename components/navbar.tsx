@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { Search, Menu, X, User, ShoppingCart } from "lucide-react"
 import { useState } from "react"
 import { useCart } from "@/contexts/cart-context"
@@ -17,30 +18,44 @@ export default function Navbar() {
   const { state } = useCart()
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-none" style={{background: 'linear-gradient(90deg, #240334, #510c74, #670099)'}}>
+    <nav className="fixed top-0 left-0 w-full z-[100] backdrop-blur-none" style={{background: 'linear-gradient(90deg, #240334, #510c74, #670099)', zIndex: 100, position: 'fixed'}}>
               <div className="w-full px-2 md:px-4 lg:px-8 mx-auto">
         {/* Main navbar */}
-        <div className="flex items-center justify-center lg:justify-between py-4 md:py-6">
+        <div className="flex items-center justify-center lg:justify-between h-20 md:h-24">
           {/* Mobile Logo - Centered */}
-          <div className="lg:hidden flex items-center justify-center w-full">
-            <Link href="/" className="flex items-center space-x-0.5">
-              <span className="text-2xl md:text-3xl font-bold tracking-tight" style={{ color: '#FFFFFF' }}>Mariyae</span>
+          <div className="lg:hidden flex items-center justify-center w-full h-full">
+            <Link href="/" className="flex items-center p-0 h-full pt-4 -ml-4 md:-ml-6">
+              <Image
+                src="/MARIYAE_TETX_BG.png"
+                alt="Mariyae Logo"
+                width={350}
+                height={130}
+                className="h-full max-h-16 md:max-h-20 w-auto object-contain"
+                priority
+              />
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-20  ml-40">
             {/* Logo */}
-            <Link href="/" className="flex items-center space-x-0.5 flex-shrink-0">
-              <span className="text-3xl lg:text-4xl font-bold tracking-tight" style={{ color: '#FFFFFF' }}>Mariyae</span>
-            </Link>
+            <Link href="/" className="flex items-center flex-shrink-0 p-0 h-full pt-4 -ml-8 lg:-ml-20">
+  <Image
+                src="/MARIYAE_TETX_BG.png"
+                alt="Mariyae Logo"
+                width={320}
+                height={120}
+                className="h-full max-h-14 lg:max-h-16 xl:max-h-36 w-auto object-contain"
+                priority
+  />
+</Link>
             {/* Search Bar */}
             <form action="/search" method="GET" className="relative">
               <input
                 type="text"
                 name="q"
                 placeholder="Search for jewelry..."
-                className="w-80 xl:w-96 pl-6 pr-2 py-1 rounded-lg border border-white/30 text-[#240334] placeholder-gray-500 bg-[#eae0cc]/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#d1b2e0]/50 focus:border-[#d1b2e0]/50 text-sm"
+                className="w-80 xl:w-96 pl-6 pr-2 py-1 rounded-full border border-white/30 text-[#240334] placeholder-gray-500 bg-[#eae0cc]/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#d1b2e0]/50 focus:border-[#d1b2e0]/50 text-sm"
               />
               <button type="submit" className="absolute right-2 top-1.5">
                 <Search className="w-4 h-4 text-[#d1b2e0]" />
@@ -52,20 +67,17 @@ export default function Navbar() {
             <Link href="/" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
               Home
             </Link>
-            <Link href="/about" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
-              About
+            <Link href="/shop" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
+              Shop
             </Link>
             <Link href="/products" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
               Products
             </Link>
-            <Link href="/shop" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
-              Shop
+            <Link href="/about" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
+              About
             </Link>
             <Link href="/contact" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
               Contact
-            </Link>
-            <Link href="/account" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
-              Account
             </Link>
             <LoginIcon />
             <CartIcon />
@@ -94,7 +106,7 @@ export default function Navbar() {
                 type="text"
                 name="q"
                 placeholder="Search for jewelry..."
-                className="w-full px-3 md:px-4 py-2 rounded-lg border border-white/30 text-[#240334] placeholder-gray-500 bg-[#eae0cc]/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#d1b2e0]/50 focus:border-[#d1b2e0]/50 text-sm md:text-base"
+                className="w-full px-3 md:px-4 py-2 rounded-full border border-white/30 text-[#240334] placeholder-gray-500 bg-[#eae0cc]/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#d1b2e0]/50 focus:border-[#d1b2e0]/50 text-sm md:text-base"
               />
               <button type="submit" className="absolute right-3 top-2.5">
                 <Search className="w-4 h-4 md:w-5 md:h-5 text-[#d1b2e0]" />
@@ -111,20 +123,17 @@ export default function Navbar() {
                 <Link href="/" className="text-[#240334] hover:text-[#510c74] font-medium text-base md:text-lg">
                   Home
                 </Link>
-                <Link href="/about" className="text-[#240334] hover:text-[#510c74] font-medium text-base md:text-lg">
-                  About
+                <Link href="/shop" className="text-[#240334] hover:text-[#510c74] font-medium text-base md:text-lg">
+                  Shop
                 </Link>
                 <Link href="/products" className="text-[#240334] hover:text-[#510c74] font-medium text-base md:text-lg">
                   Products
                 </Link>
-                <Link href="/shop" className="text-[#240334] hover:text-[#510c74] font-medium text-base md:text-lg">
-                  Shop
+                <Link href="/about" className="text-[#240334] hover:text-[#510c74] font-medium text-base md:text-lg">
+                  About
                 </Link>
                 <Link href="/contact" className="text-[#240334] hover:text-[#510c74] font-medium text-base md:text-lg">
                   Contact
-                </Link>
-                <Link href="/account" className="text-[#240334] hover:text-[#510c74] font-medium text-base md:text-lg">
-                  Account
                 </Link>
                 <div className="flex items-center space-x-3 md:space-x-4 pt-3 md:pt-4 border-t border-gray-200">
                   <button 

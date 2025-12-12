@@ -46,8 +46,15 @@ const ProductSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    required: [true, 'Product category is required'],
-    enum: ['Rings', 'Necklaces', 'Earrings', 'Bracelets', 'Pendants', 'Anklets']
+    required: [true, 'Product category is required']
+  },
+  mainCategory: {
+    type: String,
+    default: ''
+  },
+  subCategory: {
+    type: String,
+    default: ''
   },
   images: [{
     url: {

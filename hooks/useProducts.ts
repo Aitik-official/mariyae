@@ -12,6 +12,8 @@ export interface Product {
   sizeConstraints?: string
   quantity: number
   category: string
+  mainCategory?: string
+  subCategory?: string
   images: Array<{ url: string; publicId: string }>
   videos: Array<{ url: string; publicId: string }>
   rating: number
@@ -31,8 +33,11 @@ export interface CreateProductData {
   sizeConstraints?: string
   quantity: number
   category: string
+  mainCategory?: string
+  subCategory?: string
   images: File[]
   videos: File[]
+  imageUrls?: string[]
 }
 
 export interface UpdateProductData extends Partial<CreateProductData> {
@@ -140,6 +145,11 @@ export const useProducts = () => {
       if (productData.sizeConstraints) formData.append('sizeConstraints', productData.sizeConstraints)
       if (productData.quantity) formData.append('quantity', productData.quantity.toString())
       if (productData.category) formData.append('category', productData.category)
+      if (productData.mainCategory) formData.append('mainCategory', productData.mainCategory)
+      if (productData.subCategory) formData.append('subCategory', productData.subCategory)
+      if (productData.imageUrls && productData.imageUrls.length > 0) {
+        formData.append('imageUrls', JSON.stringify(productData.imageUrls))
+      }
       
       // Add new image files
       if (productData.images) {

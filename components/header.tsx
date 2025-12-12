@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { Search, ChevronDown, Menu, X } from "lucide-react"
 import { useState } from "react"
 
@@ -16,8 +17,15 @@ export default function Header() {
         {/* Main header */}
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 -ml-32">
-            <span className="text-2xl font-bold tracking-tight" style={{ color: '#FFFFFF' }}>Imitation Jewellery</span>
+          <Link href="/" className="flex items-center -ml-32">
+            <Image
+              src="/mariyae_without bg.png"
+              alt="Mariyae Logo"
+              width={150}
+              height={50}
+              className="h-10 w-auto object-contain"
+              priority
+            />
           </Link>
 
           {/* Search Bar - Desktop */}

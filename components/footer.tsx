@@ -1,3 +1,4 @@
+
 "use client"
 
 import Link from "next/link"
@@ -14,21 +15,18 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Company Info */}
           <div className="space-y-6">
-            <div className="flex items-center space-x-2">
-              <div className="bg-white rounded-full">
+            <div className="flex items-center">
                 <Image
-                  src="/logoalan-removebg-preview.png"
-                  alt="Alankarika Logo"
-                  width={80}
-                  height={80}
-                  className="w-20 h-20"
-                />
-              </div>
-              <span className="text-2xl font-bold">Iitaon Jewellery</span>
+                src="/MARIYAE_TETX_BG.png"
+                alt="Mariyae Logo"
+                width={350}
+                height={130}
+                className="h-28 md:h-32 lg:h-36 w-auto object-contain"
+              />
             </div>
             <p className="text-white leading-relaxed opacity-90">
               Crafting timeless jewelry pieces that celebrate life's most precious moments. Quality, elegance, and
-              craftsmanship in every design at Iitaon Jewellery.
+              craftsmanship in every design at Mariyae.
             </p>
             <div className="flex space-x-4">
               <a
@@ -109,7 +107,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-[#d1b2e0]" />
-                <span className="text-white opacity-90">info@iitaonjewellery.com</span>
+                <span className="text-white opacity-90">info@mariyae.com</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Clock className="w-5 h-5 text-[#d1b2e0]" />
@@ -198,7 +196,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/20 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center space-x-4 mb-4 md:mb-0">
-            <p className="text-white opacity-90 text-sm">© 2024 Iitaon Jewellery. All rights reserved.</p>
+            <p className="text-white opacity-90 text-sm">© 2024 Mariyae. All rights reserved.</p>
             <div className="flex items-center space-x-2">
               <Star className="w-4 h-4 text-[#d1b2e0]" />
               <span className="text-white opacity-90 text-sm">Premium Quality Since 1998</span>

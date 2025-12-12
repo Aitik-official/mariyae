@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { LayoutDashboard, Package, Plus, Edit, Trash2, Eye, Search, Filter, MoreHorizontal, Lock, User } from "lucide-react"
+import { LayoutDashboard, Package, Plus, Edit, Trash2, Eye, Search, Filter, MoreHorizontal, Lock, User, Image as ImageIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -10,11 +10,13 @@ import { useProducts } from "@/hooks/useProducts"
 import { useOrders } from "@/hooks/useOrders"
 import ProductForm from "@/components/ProductForm"
 import OrderDetailModal from "@/components/OrderDetailModal"
+import CategoryManagement from "@/components/category-management"
+import BannerManagement from "@/components/banner-management"
 
 export default function DashboardPage() {
   const { products, loading, error, createProduct, updateProduct, deleteProduct } = useProducts()
   const { orders, loading: ordersLoading, error: ordersError, fetchOrders, updateOrder } = useOrders()
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'orders'>('dashboard')
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'orders' | 'categories' | 'banners'>('dashboard')
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingProduct, setEditingProduct] = useState<any>(null)
   const [orderFilters, setOrderFilters] = useState({
@@ -84,17 +86,17 @@ export default function DashboardPage() {
   // If not authenticated, show login form
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#eae0cc' }}>
         {/* Top spacing to prevent navbar overlap */}
         <div className="h-20 absolute top-0 left-0 right-0"></div>
         <div className="max-w-md w-full space-y-8">
-          <div className="bg-white py-8 px-6 shadow-lg rounded-lg">
+          <div className="bg-white py-8 px-6 shadow-xl rounded-xl" style={{ borderColor: '#d1b2e0', borderWidth: '1px' }}>
             <div className="text-center">
-              <div className="mx-auto h-12 w-12 bg-[#C4A484] rounded-full flex items-center justify-center">
-                <Lock className="h-6 w-6 text-white" />
+              <div className="mx-auto h-12 w-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }}>
+                <Lock className="h-6 w-6" style={{ color: '#C9A34E' }} />
               </div>
-              <h2 className="mt-6 text-3xl font-bold text-gray-900">Admin Login</h2>
-              <p className="mt-2 text-sm text-gray-600">
+              <h2 className="mt-6 text-3xl font-bold gradient-text">Admin Login</h2>
+              <p className="mt-2 text-sm" style={{ color: '#240334', opacity: 0.8 }}>
                 Enter your credentials to access the dashboard
               </p>
             </div>
@@ -102,36 +104,38 @@ export default function DashboardPage() {
             <form className="mt-8 space-y-6" onSubmit={handleLogin}>
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="username" className="block text-sm font-medium mb-1" style={{ color: '#240334' }}>
                     Email
                   </label>
                   <div className="mt-1 relative">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5" style={{ color: '#240334', opacity: 0.5 }} />
                     <Input
                       id="username"
                       type="email"
                       required
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      className="pl-10"
+                      className="pl-10 rounded-lg"
+                      style={{ borderColor: '#d1b2e0', backgroundColor: '#eae0cc' }}
                       placeholder="Enter email"
                     />
                   </div>
                 </div>
                 
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="password" className="block text-sm font-medium mb-1" style={{ color: '#240334' }}>
                     Password
                   </label>
                   <div className="mt-1 relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5" style={{ color: '#240334', opacity: 0.5 }} />
                     <Input
                       id="password"
                       type="password"
                       required
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="pl-10"
+                      className="pl-10 rounded-lg"
+                      style={{ borderColor: '#d1b2e0', backgroundColor: '#eae0cc' }}
                       placeholder="Enter password"
                     />
                   </div>
@@ -139,24 +143,25 @@ export default function DashboardPage() {
               </div>
 
               {loginError && (
-                <div className="text-red-600 text-sm text-center bg-red-50 p-3 rounded-md">
+                <div className="text-sm text-center p-3 rounded-md" style={{ backgroundColor: '#d1b2e0', color: '#240334' }}>
                   {loginError}
                 </div>
               )}
 
               <Button
                 type="submit"
-                className="w-full bg-[#C4A484] hover:bg-[#B39474] text-white"
+                className="w-full text-white rounded-lg"
+                style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
               >
                 Sign In
               </Button>
             </form>
 
             <div className="mt-6 text-center">
-              <p className="text-xs text-gray-500">
+              <p className="text-xs" style={{ color: '#240334', opacity: 0.7 }}>
                 Demo Credentials:<br />
-                Email: <span className="font-mono bg-gray-100 px-1 rounded">admin@iitaonjewellery.com</span><br />
-                Password: <span className="font-mono bg-gray-100 px-1 rounded">admin123</span>
+                Email: <span className="font-mono px-1 rounded" style={{ backgroundColor: '#d1b2e0' }}>admin@iitaonjewellery.com</span><br />
+                Password: <span className="font-mono px-1 rounded" style={{ backgroundColor: '#d1b2e0' }}>admin123</span>
               </p>
             </div>
           </div>
@@ -228,8 +233,12 @@ export default function DashboardPage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <Button onClick={() => setShowAddForm(true)} className="bg-[#C4A484] hover:bg-[#B39474]">
+        <h1 className="text-3xl font-bold gradient-text">Dashboard</h1>
+        <Button 
+          onClick={() => setShowAddForm(true)} 
+          className="text-white rounded-lg"
+          style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
+        >
           <Plus className="w-5 h-5 mr-2" />
           Add Product
         </Button>
@@ -237,54 +246,54 @@ export default function DashboardPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-xl shadow-md" style={{ borderColor: '#d1b2e0', borderWidth: '1px' }}>
           <div className="flex items-center">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <Package className="w-6 h-6 text-blue-600" />
+            <div className="p-2 rounded-lg" style={{ backgroundColor: '#d1b2e0' }}>
+              <Package className="w-6 h-6" style={{ color: '#240334' }} />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Total Products</p>
-              <p className="text-2xl font-bold text-gray-900">{products.length}</p>
+              <p className="text-sm font-medium" style={{ color: '#240334', opacity: 0.7 }}>Total Products</p>
+              <p className="text-2xl font-bold" style={{ color: '#240334' }}>{products.length}</p>
             </div>
           </div>
         </div>
         
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-xl shadow-md" style={{ borderColor: '#d1b2e0', borderWidth: '1px' }}>
           <div className="flex items-center">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <Package className="w-6 h-6 text-green-600" />
+            <div className="p-2 rounded-lg" style={{ backgroundColor: '#d1b2e0' }}>
+              <Package className="w-6 h-6" style={{ color: '#240334' }} />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">Active Products</p>
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-sm font-medium" style={{ color: '#240334', opacity: 0.7 }}>Active Products</p>
+              <p className="text-2xl font-bold" style={{ color: '#240334' }}>
                 {products.filter(p => p.isActive !== false).length}
               </p>
             </div>
           </div>
         </div>
         
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-xl shadow-md" style={{ borderColor: '#d1b2e0', borderWidth: '1px' }}>
           <div className="flex items-center">
-            <div className="p-2 bg-yellow-100 rounded-lg">
-              <Package className="w-6 h-6 text-yellow-600" />
+            <div className="p-2 rounded-lg" style={{ backgroundColor: '#d1b2e0' }}>
+              <Package className="w-6 h-6" style={{ color: '#240334' }} />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">New Products</p>
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-sm font-medium" style={{ color: '#240334', opacity: 0.7 }}>New Products</p>
+              <p className="text-2xl font-bold" style={{ color: '#240334' }}>
                 {products.filter(p => p.isNew).length}
               </p>
             </div>
           </div>
         </div>
         
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-xl shadow-md" style={{ borderColor: '#d1b2e0', borderWidth: '1px' }}>
           <div className="flex items-center">
-            <div className="p-2 bg-red-100 rounded-lg">
-              <Package className="w-6 h-6 text-red-600" />
+            <div className="p-2 rounded-lg" style={{ backgroundColor: '#d1b2e0' }}>
+              <Package className="w-6 h-6" style={{ color: '#240334' }} />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-600">On Sale</p>
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-sm font-medium" style={{ color: '#240334', opacity: 0.7 }}>On Sale</p>
+              <p className="text-2xl font-bold" style={{ color: '#240334' }}>
                 {products.filter(p => p.isOnSale).length}
               </p>
             </div>
@@ -321,25 +330,25 @@ export default function DashboardPage() {
             <tbody className="bg-white divide-y divide-gray-200">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                  <td colSpan={5} className="px-6 py-4 text-center" style={{ color: '#240334', opacity: 0.7 }}>
                     Loading products...
                   </td>
                 </tr>
               ) : error ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-4 text-center text-red-500">
+                  <td colSpan={5} className="px-6 py-4 text-center" style={{ color: '#240334' }}>
                     Error: {error}
                   </td>
                 </tr>
               ) : products.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
+                  <td colSpan={5} className="px-6 py-4 text-center" style={{ color: '#240334', opacity: 0.7 }}>
                     No products found
                   </td>
                 </tr>
               ) : (
                 products.slice(0, 10).map((product) => (
-                  <tr key={product._id} className="hover:bg-gray-50">
+                  <tr key={product._id} style={{ borderColor: '#d1b2e0' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#d1b2e0' }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent' }}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="h-10 w-10 flex-shrink-0">
@@ -350,33 +359,33 @@ export default function DashboardPage() {
                           />
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{product.name}</div>
-                          <div className="text-sm text-gray-500">ID: {product._id.slice(-8)}</div>
+                          <div className="text-sm font-medium" style={{ color: '#240334' }}>{product.name}</div>
+                          <div className="text-sm" style={{ color: '#240334', opacity: 0.6 }}>ID: {product._id.slice(-8)}</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                      <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full" style={{ backgroundColor: '#d1b2e0', color: '#240334' }}>
                         {product.category}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm" style={{ color: '#C9A34E', fontWeight: 'bold' }}>
                       ₹{product.price.toFixed(2)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex flex-col space-y-1">
                         {product.isNew && (
-                          <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                          <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full" style={{ backgroundColor: '#d1b2e0', color: '#240334' }}>
                             NEW
                           </span>
                         )}
                         {product.isOnSale && (
-                          <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                          <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full" style={{ backgroundColor: '#d1b2e0', color: '#240334' }}>
                             SALE
                           </span>
                         )}
                         {product.isActive === false && (
-                          <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
+                          <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full" style={{ backgroundColor: '#d1b2e0', color: '#240334', opacity: 0.5 }}>
                             INACTIVE
                           </span>
                         )}
@@ -386,13 +395,19 @@ export default function DashboardPage() {
                       <div className="flex space-x-2">
                         <button
                           onClick={() => handleEditProduct(product)}
-                          className="text-indigo-600 hover:text-indigo-900 p-1 rounded hover:bg-indigo-50"
+                          className="p-1 rounded transition-colors"
+                          style={{ color: '#240334' }}
+                          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#d1b2e0' }}
+                          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent' }}
                         >
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleDeleteProduct(product._id)}
-                          className="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50"
+                          className="p-1 rounded transition-colors"
+                          style={{ color: '#240334' }}
+                          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#d1b2e0' }}
+                          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent' }}
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -400,7 +415,10 @@ export default function DashboardPage() {
                           href={`/view-details?id=${product._id}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-900 p-1 rounded hover:bg-blue-50"
+                          className="p-1 rounded transition-colors"
+                          style={{ color: '#240334' }}
+                          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#d1b2e0' }}
+                          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent' }}
                         >
                           <Eye className="w-4 h-4" />
                         </a>
@@ -678,17 +696,17 @@ export default function DashboardPage() {
   )
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ backgroundColor: '#eae0cc' }}>
       {/* Top spacing to prevent navbar overlap */}
       <div className="h-20"></div>
       {/* Top Navigation Bar */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
+      <div className="shadow-sm" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', borderBottom: '1px solid rgba(209, 178, 224, 0.3)' }}>
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-gray-900">Admin Panel</h1>
+            <h1 className="text-2xl font-bold text-white">Admin Panel</h1>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">Welcome, Admin</span>
-              <Button variant="outline" size="sm" onClick={handleLogout}>
+              <span className="text-sm text-white opacity-90">Welcome, Admin</span>
+              <Button variant="outline" size="sm" onClick={handleLogout} className="border-white/30 text-white hover:bg-white/20">
                 Logout
               </Button>
             </div>
@@ -698,16 +716,17 @@ export default function DashboardPage() {
 
       <div className="flex">
         {/* Sidebar */}
-        <div className="w-64 bg-white shadow-sm border-r border-gray-200 min-h-screen">
+        <div className="w-64 shadow-lg min-h-screen" style={{ background: 'linear-gradient(180deg, #240334, #510c74, #670099)' }}>
           <div className="p-6">
             <nav className="space-y-2">
               <button
                 onClick={() => setActiveTab('dashboard')}
-                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
                   activeTab === 'dashboard'
-                    ? 'bg-[#C4A484] text-white'
-                    : 'text-gray-700 hover:bg-gray-100'
+                    ? 'text-white shadow-md'
+                    : 'text-white/70 hover:text-white hover:bg-white/10'
                 }`}
+                style={activeTab === 'dashboard' ? { background: 'rgba(209, 178, 224, 0.2)', borderLeft: '3px solid #C9A34E' } : {}}
               >
                 <LayoutDashboard className="w-5 h-5 mr-3" />
                 Dashboard
@@ -715,14 +734,41 @@ export default function DashboardPage() {
               
               <button
                 onClick={() => setActiveTab('orders')}
-                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
                   activeTab === 'orders'
-                    ? 'bg-[#C4A484] text-white'
-                    : 'text-gray-700 hover:bg-gray-100'
+                    ? 'text-white shadow-md'
+                    : 'text-white/70 hover:text-white hover:bg-white/10'
                 }`}
+                style={activeTab === 'orders' ? { background: 'rgba(209, 178, 224, 0.2)', borderLeft: '3px solid #C9A34E' } : {}}
               >
                 <Package className="w-5 h-5 mr-3" />
                 Orders & Inventory
+              </button>
+              
+              <button
+                onClick={() => setActiveTab('categories')}
+                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'categories'
+                    ? 'text-white shadow-md'
+                    : 'text-white/70 hover:text-white hover:bg-white/10'
+                }`}
+                style={activeTab === 'categories' ? { background: 'rgba(209, 178, 224, 0.2)', borderLeft: '3px solid #C9A34E' } : {}}
+              >
+                <Package className="w-5 h-5 mr-3" />
+                Categories
+              </button>
+              
+              <button
+                onClick={() => setActiveTab('banners')}
+                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
+                  activeTab === 'banners'
+                    ? 'text-white shadow-md'
+                    : 'text-white/70 hover:text-white hover:bg-white/10'
+                }`}
+                style={activeTab === 'banners' ? { background: 'rgba(209, 178, 224, 0.2)', borderLeft: '3px solid #C9A34E' } : {}}
+              >
+                <ImageIcon className="w-5 h-5 mr-3" />
+                Banners
               </button>
             </nav>
           </div>
@@ -730,16 +776,19 @@ export default function DashboardPage() {
 
         {/* Main Content */}
         <div className="flex-1 p-8">
-          {activeTab === 'dashboard' ? <DashboardContent /> : <OrdersInventoryContent />}
+          {activeTab === 'dashboard' ? <DashboardContent /> : 
+           activeTab === 'orders' ? <OrdersInventoryContent /> : 
+           activeTab === 'categories' ? <CategoryManagement /> : 
+           <BannerManagement />}
         </div>
       </div>
 
       {/* Add/Edit Product Modal */}
       {showAddForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-xl p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl" style={{ borderColor: '#d1b2e0', borderWidth: '1px' }}>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="text-2xl font-bold gradient-text">
                 {editingProduct ? 'Edit Product' : 'Add New Product'}
               </h2>
               <Button
@@ -748,6 +797,8 @@ export default function DashboardPage() {
                   setShowAddForm(false)
                   setEditingProduct(null)
                 }}
+                className="rounded-lg"
+                style={{ borderColor: '#d1b2e0', color: '#240334' }}
               >
                 ✕
               </Button>

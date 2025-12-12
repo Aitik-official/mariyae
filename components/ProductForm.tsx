@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { X, Plus, Upload, Trash2, Image as ImageIcon, Video } from 'lucide-react'
 import { CreateProductData, UpdateProductData, Product } from '@/hooks/useProducts'
 
@@ -21,11 +21,14 @@ export default function ProductForm({ isOpen, onClose, onSubmit, product, mode }
     originalPrice: String(product?.originalPrice || ''),
     sizeConstraints: String(product?.sizeConstraints || ''),
     quantity: String(product?.quantity || ''),
-    category: String(product?.category || 'Rings')
+    category: String(product?.category || ''),
+    mainCategory: String(product?.mainCategory || ''),
+    subCategory: String(product?.subCategory || '')
   })
 
   const [images, setImages] = useState<File[]>([])
   const [videos, setVideos] = useState<File[]>([])
+  const [imageUrls, setImageUrls] = useState<string[]>([''])
   const [existingImages, setExistingImages] = useState(product?.images || [])
   const [existingVideos, setExistingVideos] = useState(product?.videos || [])
   const [imagesToDelete, setImagesToDelete] = useState<string[]>([])
@@ -34,7 +37,73 @@ export default function ProductForm({ isOpen, onClose, onSubmit, product, mode }
   const imageInputRef = useRef<HTMLInputElement>(null)
   const videoInputRef = useRef<HTMLInputElement>(null)
 
-  const categories = ['Rings', 'Necklaces', 'Earrings', 'Bracelets', 'Pendants', 'Anklets']
+  // Fetch categories from API
+  const [mainCategories, setMainCategories] = useState<Array<{_id: string, name: string}>>([])
+  const [subCategories, setSubCategories] = useState<Array<{_id: string, name: string, mainCategory: string}>>([])
+  const [filteredSubCategories, setFilteredSubCategories] = useState<Array<{_id: string, name: string}>>([])
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const [mainRes, subRes] = await Promise.all([
+          fetch('/api/categories/main'),
+          fetch('/api/categories/sub')
+        ])
+        
+        const mainData = await mainRes.json()
+        const subData = await subRes.json()
+        
+        if (mainData.success) {
+          setMainCategories(mainData.categories || [])
+        }
+        if (subData.success) {
+          setSubCategories(subData.subCategories || [])
+        }
+      } catch (error) {
+        console.error('Error fetching categories:', error)
+      }
+    }
+
+    fetchCategories()
+  }, [])
+
+  // Update form data when product prop changes (for editing)
+  useEffect(() => {
+    if (product) {
+      setFormData({
+        name: String(product.name || ''),
+        description: String(product.description || ''),
+        keyFeatures: product.keyFeatures || [''],
+        price: String(product.price || ''),
+        originalPrice: String(product.originalPrice || ''),
+        sizeConstraints: String(product.sizeConstraints || ''),
+        quantity: String(product.quantity || ''),
+        category: String(product.category || ''),
+        mainCategory: String(product.mainCategory || ''),
+        subCategory: String(product.subCategory || '')
+      })
+      setExistingImages(product.images || [])
+      setExistingVideos(product.videos || [])
+    }
+  }, [product])
+
+  // Filter sub categories based on selected main category
+  useEffect(() => {
+    if (formData.mainCategory) {
+      const filtered = subCategories
+        .filter(sub => sub.mainCategory === formData.mainCategory)
+        .map(sub => ({ _id: sub._id, name: sub.name }))
+      setFilteredSubCategories(filtered)
+      
+      // Reset sub category if it's not in the filtered list
+      if (formData.subCategory && !filtered.some(sub => sub.name === formData.subCategory)) {
+        setFormData(prev => ({ ...prev, subCategory: '' }))
+      }
+    } else {
+      setFilteredSubCategories([])
+      setFormData(prev => ({ ...prev, subCategory: '' }))
+    }
+  }, [formData.mainCategory, subCategories])
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -75,6 +144,22 @@ export default function ProductForm({ isOpen, onClose, onSubmit, product, mode }
     setVideos(prev => prev.filter((_, i) => i !== index))
   }
 
+  const handleImageUrlChange = (index: number, value: string) => {
+    const newUrls = [...imageUrls]
+    newUrls[index] = value
+    setImageUrls(newUrls)
+  }
+
+  const addImageUrlField = () => {
+    setImageUrls(prev => [...prev, ''])
+  }
+
+  const removeImageUrlField = (index: number) => {
+    if (imageUrls.length > 1) {
+      setImageUrls(prev => prev.filter((_, i) => i !== index))
+    }
+  }
+
   const removeExistingImage = (publicId: string) => {
     setImagesToDelete(prev => [...prev, publicId])
     setExistingImages(prev => prev.filter(img => img.publicId !== publicId))
@@ -95,6 +180,9 @@ export default function ProductForm({ isOpen, onClose, onSubmit, product, mode }
       return
     }
 
+    // Filter out empty image URLs
+    const validImageUrls = imageUrls.filter(url => url.trim() !== '')
+
     if (mode === 'create') {
       const createData: CreateProductData = {
         name: formData.name.trim(),
@@ -104,9 +192,12 @@ export default function ProductForm({ isOpen, onClose, onSubmit, product, mode }
         originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : undefined,
         sizeConstraints: formData.sizeConstraints.trim() || undefined,
         quantity: parseInt(formData.quantity),
-        category: formData.category,
+        category: formData.subCategory || formData.mainCategory || formData.category || '',
+        mainCategory: formData.mainCategory || undefined,
+        subCategory: formData.subCategory || undefined,
         images,
-        videos
+        videos,
+        imageUrls: validImageUrls.length > 0 ? validImageUrls : undefined
       }
       await onSubmit(createData)
     } else {
@@ -118,9 +209,12 @@ export default function ProductForm({ isOpen, onClose, onSubmit, product, mode }
         originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : undefined,
         sizeConstraints: formData.sizeConstraints.trim() || undefined,
         quantity: parseInt(formData.quantity),
-        category: formData.category,
+        category: formData.subCategory || formData.mainCategory || formData.category || '',
+        mainCategory: formData.mainCategory || undefined,
+        subCategory: formData.subCategory || undefined,
         images: images.length > 0 ? images : undefined,
         videos: videos.length > 0 ? videos : undefined,
+        imageUrls: validImageUrls.length > 0 ? validImageUrls : undefined,
         imagesToDelete: imagesToDelete.length > 0 ? imagesToDelete : undefined,
         videosToDelete: videosToDelete.length > 0 ? videosToDelete : undefined
       }
@@ -137,10 +231,13 @@ export default function ProductForm({ isOpen, onClose, onSubmit, product, mode }
       originalPrice: '',
       sizeConstraints: '',
       quantity: '',
-      category: 'Rings'
+      category: '',
+      mainCategory: '',
+      subCategory: ''
     })
     setImages([])
     setVideos([])
+    setImageUrls([''])
     setExistingImages([])
     setExistingVideos([])
     setImagesToDelete([])
@@ -183,18 +280,56 @@ export default function ProductForm({ isOpen, onClose, onSubmit, product, mode }
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Category *
+                Main Category
               </label>
               <select
+                value={formData.mainCategory}
+                onChange={(e) => handleInputChange('mainCategory', e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="">Select main category (optional)</option>
+                {mainCategories.map(cat => (
+                  <option key={cat._id} value={cat.name}>{cat.name}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Category Selection */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Sub Category
+              </label>
+              <select
+                value={formData.subCategory}
+                onChange={(e) => handleInputChange('subCategory', e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                disabled={!formData.mainCategory}
+              >
+                <option value="">
+                  {formData.mainCategory ? 'Select sub category (optional)' : 'Select main category first'}
+                </option>
+                {filteredSubCategories.map(cat => (
+                  <option key={cat._id} value={cat.name}>{cat.name}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Category (Optional fallback)
+              </label>
+              <input
+                type="text"
                 value={formData.category}
                 onChange={(e) => handleInputChange('category', e.target.value)}
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                required
-              >
-                {categories.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
-                ))}
-              </select>
+                placeholder="If no main/sub, you can still set a category"
+              />
+              <p className="mt-1 text-xs text-gray-500">
+                Products will prefer sub category, then main category; this is only used if both are empty.
+              </p>
             </div>
           </div>
 
@@ -321,6 +456,46 @@ export default function ProductForm({ isOpen, onClose, onSubmit, product, mode }
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Product Images
               </label>
+
+              {/* Image URLs */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Add Images from URLs
+                </label>
+                <div className="space-y-2">
+                  {imageUrls.map((url, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <input
+                        type="url"
+                        value={url}
+                        onChange={(e) => handleImageUrlChange(index, e.target.value)}
+                        className="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="https://example.com/image.jpg"
+                      />
+                      {imageUrls.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeImageUrlField(index)}
+                          className="text-red-600 hover:text-red-800 p-2"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={addImageUrlField}
+                    className="flex items-center space-x-2 text-blue-600 hover:text-blue-800 text-sm"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>Add Another URL</span>
+                  </button>
+                </div>
+                <p className="mt-1 text-xs text-gray-500">
+                  Enter image URLs to automatically upload to Cloudinary
+                </p>
+              </div>
               
               {/* Existing Images */}
               {existingImages.length > 0 && (
