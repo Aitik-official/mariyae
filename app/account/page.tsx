@@ -9,12 +9,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
-import { 
-  User, 
-  Package, 
-  MapPin, 
-  Phone, 
-  Mail, 
+import {
+  User,
+  Package,
+  MapPin,
+  Phone,
+  Mail,
   Edit,
   CheckCircle,
   Clock,
@@ -70,7 +70,7 @@ export default function AccountPage() {
               state: data.data.address?.state || "",
               zipCode: data.data.address?.zipCode || ""
             })
-            
+
             // Fetch user orders
             await fetchUserOrders(data.data._id)
           }
@@ -145,7 +145,7 @@ export default function AccountPage() {
         credentials: 'include',
         body: JSON.stringify(profileData)
       })
-      
+
       if (response.ok) {
         setIsEditing(false)
         toast({
@@ -171,12 +171,12 @@ export default function AccountPage() {
   // Show loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-white">
         <Navbar />
         <div className="h-20"></div>
         <div className="flex items-center justify-center min-h-[calc(100vh-120px)]">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8B7355] mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#510c74] mx-auto mb-4"></div>
             <p className="text-gray-600">Loading your account...</p>
           </div>
         </div>
@@ -188,7 +188,7 @@ export default function AccountPage() {
   // Show login form if not authenticated
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-white">
         <Navbar />
         <div className="h-20"></div>
         <div className="flex items-center justify-center min-h-[calc(100vh-120px)]">
@@ -198,15 +198,15 @@ export default function AccountPage() {
               <CardDescription>Please log in to view your account</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Button 
-                onClick={() => router.push('/checkout')} 
-                className="w-full bg-[#8B7355] hover:bg-[#D4AF37] text-white"
+              <Button
+                onClick={() => router.push('/checkout')}
+                className="w-full bg-[#510c74] hover:bg-[#240334] text-white"
               >
                 Login / Register
               </Button>
-              <Button 
-                variant="outline" 
-                onClick={() => router.push('/')} 
+              <Button
+                variant="outline"
+                onClick={() => router.push('/')}
                 className="w-full"
               >
                 Continue Shopping
@@ -259,249 +259,249 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Navbar />
       {/* Top spacing to prevent navbar overlap */}
       <div className="h-20"></div>
       <div className="py-8 md:py-12">
         <div className="max-w-6xl mx-auto px-4 lg:px-8">
-        {/* Header */}
-        <div className="mb-6 md:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-light text-gray-900">Welcome, {user?.firstName}</h1>
-            <p className="text-gray-600 mt-2 text-sm md:text-base">Manage your profile, orders, and preferences</p>
+          {/* Header */}
+          <div className="mb-6 md:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-light text-gray-900">Welcome, {user?.firstName}</h1>
+              <p className="text-gray-600 mt-2 text-sm md:text-base">Manage your profile, orders, and preferences</p>
+            </div>
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              className="flex items-center space-x-2 text-sm md:text-base"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Logout</span>
+            </Button>
           </div>
-          <Button 
-            onClick={handleLogout}
-            variant="outline"
-            className="flex items-center space-x-2 text-sm md:text-base"
-          >
-            <LogOut className="w-4 h-4" />
-            <span>Logout</span>
-          </Button>
-        </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 md:space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="profile" className="flex items-center space-x-1 md:space-x-2 text-xs md:text-sm">
-              <User className="w-3 h-3 md:w-4 md:h-4" />
-              <span>Profile</span>
-            </TabsTrigger>
-            <TabsTrigger value="orders" className="flex items-center space-x-1 md:space-x-2 text-xs md:text-sm">
-              <Package className="w-3 h-3 md:w-4 md:h-4" />
-              <span>Orders</span>
-            </TabsTrigger>
-          </TabsList>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 md:space-y-6">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="profile" className="flex items-center space-x-1 md:space-x-2 text-xs md:text-sm">
+                <User className="w-3 h-3 md:w-4 md:h-4" />
+                <span>Profile</span>
+              </TabsTrigger>
+              <TabsTrigger value="orders" className="flex items-center space-x-1 md:space-x-2 text-xs md:text-sm">
+                <Package className="w-3 h-3 md:w-4 md:h-4" />
+                <span>Orders</span>
+              </TabsTrigger>
+            </TabsList>
 
-          {/* Profile Tab */}
-          <TabsContent value="profile" className="space-y-4 md:space-y-6">
-            <Card>
-              <CardHeader className="p-4 md:p-6">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                  <div>
-                    <CardTitle className="text-lg md:text-xl">Personal Information</CardTitle>
-                    <CardDescription className="text-sm md:text-base">Update your personal details and contact information</CardDescription>
-                  </div>
-                  <Button
-                    variant="outline"
-                    onClick={() => setIsEditing(!isEditing)}
-                    className="flex items-center space-x-2 text-sm md:text-base"
-                  >
-                    <Edit className="w-4 h-4" />
-                    <span>{isEditing ? 'Cancel' : 'Edit'}</span>
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent className="p-4 md:p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                  <div>
-                    <Label htmlFor="firstName">First Name</Label>
-                    <Input
-                      id="firstName"
-                      value={profileData.firstName}
-                      onChange={(e) => setProfileData({...profileData, firstName: e.target.value})}
-                      disabled={!isEditing}
-                      className="mt-2"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="lastName">Last Name</Label>
-                    <Input
-                      id="lastName"
-                      value={profileData.lastName}
-                      onChange={(e) => setProfileData({...profileData, lastName: e.target.value})}
-                      disabled={!isEditing}
-                      className="mt-2"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={profileData.email}
-                      onChange={(e) => setProfileData({...profileData, email: e.target.value})}
-                      disabled={!isEditing}
-                      className="mt-2"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="phone">Phone</Label>
-                    <Input
-                      id="phone"
-                      value={profileData.phone}
-                      onChange={(e) => setProfileData({...profileData, phone: e.target.value})}
-                      disabled={!isEditing}
-                      className="mt-2"
-                    />
-                  </div>
-                  <div className="md:col-span-2">
-                    <Label htmlFor="address">Address</Label>
-                    <Input
-                      id="address"
-                      value={profileData.address}
-                      onChange={(e) => setProfileData({...profileData, address: e.target.value})}
-                      disabled={!isEditing}
-                      className="mt-2"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="city">City</Label>
-                    <Input
-                      id="city"
-                      value={profileData.city}
-                      onChange={(e) => setProfileData({...profileData, city: e.target.value})}
-                      disabled={!isEditing}
-                      className="mt-2"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="state">State</Label>
-                    <Input
-                      id="state"
-                      value={profileData.state}
-                      onChange={(e) => setProfileData({...profileData, state: e.target.value})}
-                      disabled={!isEditing}
-                      className="mt-2"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="zipCode">ZIP Code</Label>
-                    <Input
-                      id="zipCode"
-                      value={profileData.zipCode}
-                      onChange={(e) => setProfileData({...profileData, zipCode: e.target.value})}
-                      disabled={!isEditing}
-                      className="mt-2"
-                    />
-                  </div>
-                </div>
-                
-                {isEditing && (
-                  <div className="flex justify-end space-x-3 mt-6 pt-6 border-t">
-                    <Button variant="outline" onClick={() => setIsEditing(false)}>
-                      Cancel
-                    </Button>
-                    <Button onClick={handleProfileUpdate} className="bg-[#8B7355] hover:bg-[#D4AF37] text-white">
-                      Save Changes
-                    </Button>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Orders Tab */}
-          <TabsContent value="orders" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Order History</CardTitle>
-                <CardDescription>Track your orders and view order details</CardDescription>
-              </CardHeader>
-              <CardContent>
-                {ordersLoading ? (
-                  <div className="text-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#8B7355] mx-auto mb-4"></div>
-                    <p className="text-gray-600">Loading your orders...</p>
-                  </div>
-                ) : orders.length === 0 ? (
-                  <div className="text-center py-8">
-                    <Package className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">No orders yet</h3>
-                    <p className="text-gray-600 mb-4">Start shopping to see your orders here</p>
-                    <Button 
-                      onClick={() => router.push('/shop')}
-                      className="bg-[#8B7355] hover:bg-[#D4AF37] text-white"
+            {/* Profile Tab */}
+            <TabsContent value="profile" className="space-y-4 md:space-y-6">
+              <Card>
+                <CardHeader className="p-4 md:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                      <CardTitle className="text-lg md:text-xl">Personal Information</CardTitle>
+                      <CardDescription className="text-sm md:text-base">Update your personal details and contact information</CardDescription>
+                    </div>
+                    <Button
+                      variant="outline"
+                      onClick={() => setIsEditing(!isEditing)}
+                      className="flex items-center space-x-2 text-sm md:text-base"
                     >
-                      Start Shopping
+                      <Edit className="w-4 h-4" />
+                      <span>{isEditing ? 'Cancel' : 'Edit'}</span>
                     </Button>
                   </div>
-                ) : (
-                  <div className="space-y-4">
-                    {orders.map((order) => (
-                      <div key={order._id} className="border border-gray-200 rounded-lg p-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <div>
-                            <h3 className="font-semibold text-gray-900">Order #{order.orderNumber}</h3>
-                            <p className="text-sm text-gray-500">
-                              Placed on {new Date(order.createdAt).toLocaleDateString()}
-                            </p>
-                          </div>
-                          <Badge className={getStatusColor(order.orderStatus)}>
-                            <div className="flex items-center space-x-1">
-                              {getStatusIcon(order.orderStatus)}
-                              <span className="capitalize">{order.orderStatus}</span>
-                            </div>
-                          </Badge>
-                        </div>
-                        
-                        <div className="space-y-2">
-                          {order.items.map((item, index) => (
-                            <div key={index} className="flex items-center justify-between text-sm">
-                              <div className="flex items-center space-x-3">
-                                <img 
-                                  src={item.image} 
-                                  alt={item.name}
-                                  className="w-8 h-8 rounded object-cover"
-                                />
-                                <span>{item.name} × {item.quantity}</span>
-                              </div>
-                              <span>₹{(item.price * item.quantity).toFixed(2)}</span>
-                            </div>
-                          ))}
-                        </div>
-                        
-                        <div className="border-t pt-3 mt-3 flex justify-between items-center">
-                          <div>
-                            <span className="font-semibold">Total: ₹{order.total.toFixed(2)}</span>
-                            <p className="text-xs text-gray-500 capitalize">
-                              Payment: {order.paymentMethod} ({order.paymentStatus})
-                            </p>
-                          </div>
-                          <Button 
-                            variant="outline" 
-                            size="sm"
-                            onClick={() => {
-                              // You can implement order details modal here
-                              toast({
-                                title: "Order Details",
-                                description: `Order #${order.orderNumber} details`,
-                              })
-                            }}
-                          >
-                            <Eye className="w-4 h-4 mr-1" />
-                            View Details
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
+                </CardHeader>
+                <CardContent className="p-4 md:p-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <div>
+                      <Label htmlFor="firstName">First Name</Label>
+                      <Input
+                        id="firstName"
+                        value={profileData.firstName}
+                        onChange={(e) => setProfileData({ ...profileData, firstName: e.target.value })}
+                        disabled={!isEditing}
+                        className="mt-2"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="lastName">Last Name</Label>
+                      <Input
+                        id="lastName"
+                        value={profileData.lastName}
+                        onChange={(e) => setProfileData({ ...profileData, lastName: e.target.value })}
+                        disabled={!isEditing}
+                        className="mt-2"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="email">Email</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={profileData.email}
+                        onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
+                        disabled={!isEditing}
+                        className="mt-2"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="phone">Phone</Label>
+                      <Input
+                        id="phone"
+                        value={profileData.phone}
+                        onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
+                        disabled={!isEditing}
+                        className="mt-2"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <Label htmlFor="address">Address</Label>
+                      <Input
+                        id="address"
+                        value={profileData.address}
+                        onChange={(e) => setProfileData({ ...profileData, address: e.target.value })}
+                        disabled={!isEditing}
+                        className="mt-2"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="city">City</Label>
+                      <Input
+                        id="city"
+                        value={profileData.city}
+                        onChange={(e) => setProfileData({ ...profileData, city: e.target.value })}
+                        disabled={!isEditing}
+                        className="mt-2"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="state">State</Label>
+                      <Input
+                        id="state"
+                        value={profileData.state}
+                        onChange={(e) => setProfileData({ ...profileData, state: e.target.value })}
+                        disabled={!isEditing}
+                        className="mt-2"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="zipCode">ZIP Code</Label>
+                      <Input
+                        id="zipCode"
+                        value={profileData.zipCode}
+                        onChange={(e) => setProfileData({ ...profileData, zipCode: e.target.value })}
+                        disabled={!isEditing}
+                        className="mt-2"
+                      />
+                    </div>
                   </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
 
-        </Tabs>
+                  {isEditing && (
+                    <div className="flex justify-end space-x-3 mt-6 pt-6 border-t">
+                      <Button variant="outline" onClick={() => setIsEditing(false)}>
+                        Cancel
+                      </Button>
+                      <Button onClick={handleProfileUpdate} className="bg-[#510c74] hover:bg-[#240334] text-white">
+                        Save Changes
+                      </Button>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Orders Tab */}
+            <TabsContent value="orders" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Order History</CardTitle>
+                  <CardDescription>Track your orders and view order details</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {ordersLoading ? (
+                    <div className="text-center py-8">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#510c74] mx-auto mb-4"></div>
+                      <p className="text-gray-600">Loading your orders...</p>
+                    </div>
+                  ) : orders.length === 0 ? (
+                    <div className="text-center py-8">
+                      <Package className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">No orders yet</h3>
+                      <p className="text-gray-600 mb-4">Start shopping to see your orders here</p>
+                      <Button
+                        onClick={() => router.push('/shop')}
+                        className="bg-[#510c74] hover:bg-[#240334] text-white"
+                      >
+                        Start Shopping
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {orders.map((order) => (
+                        <div key={order._id} className="border border-gray-200 rounded-lg p-4">
+                          <div className="flex items-center justify-between mb-3">
+                            <div>
+                              <h3 className="font-semibold text-gray-900">Order #{order.orderNumber}</h3>
+                              <p className="text-sm text-gray-500">
+                                Placed on {new Date(order.createdAt).toLocaleDateString()}
+                              </p>
+                            </div>
+                            <Badge className={getStatusColor(order.orderStatus)}>
+                              <div className="flex items-center space-x-1">
+                                {getStatusIcon(order.orderStatus)}
+                                <span className="capitalize">{order.orderStatus}</span>
+                              </div>
+                            </Badge>
+                          </div>
+
+                          <div className="space-y-2">
+                            {order.items.map((item, index) => (
+                              <div key={index} className="flex items-center justify-between text-sm">
+                                <div className="flex items-center space-x-3">
+                                  <img
+                                    src={item.image}
+                                    alt={item.name}
+                                    className="w-8 h-8 rounded object-cover"
+                                  />
+                                  <span>{item.name} × {item.quantity}</span>
+                                </div>
+                                <span>₹{(item.price * item.quantity).toFixed(2)}</span>
+                              </div>
+                            ))}
+                          </div>
+
+                          <div className="border-t pt-3 mt-3 flex justify-between items-center">
+                            <div>
+                              <span className="font-semibold">Total: ₹{order.total.toFixed(2)}</span>
+                              <p className="text-xs text-gray-500 capitalize">
+                                Payment: {order.paymentMethod} ({order.paymentStatus})
+                              </p>
+                            </div>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => {
+                                // You can implement order details modal here
+                                toast({
+                                  title: "Order Details",
+                                  description: `Order #${order.orderNumber} details`,
+                                })
+                              }}
+                            >
+                              <Eye className="w-4 h-4 mr-1" />
+                              View Details
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+          </Tabs>
         </div>
       </div>
       <Footer />

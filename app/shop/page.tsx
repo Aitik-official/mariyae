@@ -14,11 +14,11 @@ export default function ShopPage() {
   const [activeCard, setActiveCard] = useState<string | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedMainCategoryId, setSelectedMainCategoryId] = useState<string | null>(null)
-  const [subCategories, setSubCategories] = useState<Array<{id: string, name: string, count: number, image: string, mainCategory: string}>>([])
+  const [subCategories, setSubCategories] = useState<Array<{ id: string, name: string, count: number, image: string, mainCategory: string }>>([])
   const [isViewingSubCategories, setIsViewingSubCategories] = useState(false)
   const { products, loading } = useProducts()
   const { addItem } = useCart()
-  const [categories, setCategories] = useState<Array<{id: string, name: string, count: number, image: string}>>([])
+  const [categories, setCategories] = useState<Array<{ id: string, name: string, count: number, image: string }>>([])
 
   // Fetch main categories from database (same logic as home page)
   useEffect(() => {
@@ -26,16 +26,16 @@ export default function ShopPage() {
       try {
         const response = await fetch('/api/categories/main')
         const data = await response.json()
-        
+
         if (data.success && data.categories) {
           // Count products per main category
           const categoriesWithCounts = data.categories.map((mainCat: any) => {
             // Count products that match this main category name
-            const count = products.filter(p => 
-              p.category === mainCat.name || 
+            const count = products.filter(p =>
+              p.category === mainCat.name ||
               p.mainCategory === mainCat.name
             ).length
-            
+
             return {
               id: mainCat._id,
               name: mainCat.name,
@@ -52,16 +52,16 @@ export default function ShopPage() {
         // Fallback to product-based categories if API fails
         if (products.length > 0) {
           const categoryMap = new Map<string, { count: number, image: string }>()
-          
+
           products.forEach((product) => {
             if (product.category) {
               const categoryName = product.category
               if (!categoryMap.has(categoryName)) {
                 const categoryProduct = products.find(p => p.category === categoryName)
-                const categoryImage = categoryProduct?.images && categoryProduct.images.length > 0 
-                  ? categoryProduct.images[0].url 
+                const categoryImage = categoryProduct?.images && categoryProduct.images.length > 0
+                  ? categoryProduct.images[0].url
                   : "/placeholder.svg"
-                
+
                 categoryMap.set(categoryName, {
                   count: 1,
                   image: categoryImage
@@ -94,26 +94,26 @@ export default function ShopPage() {
   const handleCardClick = async (e: React.MouseEvent, categoryName: string, categoryId: string) => {
     e.preventDefault()
     setActiveCard(categoryName)
-    
+
     // Auto-scroll to top after animation completes
     setTimeout(async () => {
       window.scrollTo({ top: 0, behavior: 'smooth' })
       setSelectedCategory(categoryName)
       setSelectedMainCategoryId(categoryId)
-      
+
       // Fetch subcategories for this main category
       try {
         const response = await fetch(`/api/categories/sub?mainCategory=${encodeURIComponent(categoryName)}`)
         const data = await response.json()
-        
+
         if (data.success && data.subCategories && data.subCategories.length > 0) {
           // Count products per subcategory
           const subCategoriesWithCounts = data.subCategories.map((subCat: any) => {
-            const count = products.filter(p => 
-              p.subCategory === subCat.name || 
+            const count = products.filter(p =>
+              p.subCategory === subCat.name ||
               p.category === subCat.name
             ).length
-            
+
             return {
               id: subCat._id,
               name: subCat.name,
@@ -122,7 +122,7 @@ export default function ShopPage() {
               mainCategory: subCat.mainCategory
             }
           })
-          
+
           setSubCategories(subCategoriesWithCounts)
           setIsViewingSubCategories(true)
         } else {
@@ -142,7 +142,7 @@ export default function ShopPage() {
   const handleSubCategoryClick = (e: React.MouseEvent, subCategoryName: string) => {
     e.preventDefault()
     setActiveCard(subCategoryName)
-    
+
     // Auto-scroll to top after animation completes
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -169,19 +169,19 @@ export default function ShopPage() {
   // Filter products by selected category
   const getFilteredProducts = () => {
     if (!selectedCategory) return []
-    
+
     return products.filter(product => {
       const productCategory = product.category?.toLowerCase() || ''
       const productSubCategory = product.subCategory?.toLowerCase() || ''
       const selected = selectedCategory.toLowerCase()
-      
+
       // Match exact category/subcategory or if category contains the selected category name
-      return productCategory === selected || 
-             productSubCategory === selected ||
-             productCategory.includes(selected) ||
-             productSubCategory.includes(selected) ||
-             selected.includes(productCategory) ||
-             selected.includes(productSubCategory)
+      return productCategory === selected ||
+        productSubCategory === selected ||
+        productCategory.includes(selected) ||
+        productSubCategory.includes(selected) ||
+        selected.includes(productCategory) ||
+        selected.includes(productSubCategory)
     })
   }
 
@@ -190,11 +190,11 @@ export default function ShopPage() {
   // Show categories grid if no category is selected
   if (!selectedCategory && !isViewingSubCategories) {
     return (
-      <div className="min-h-screen" style={{ background: '#eae0cc' }}>
+      <div className="min-h-screen bg-white">
         <Navbar />
         {/* Top spacing to prevent navbar overlap */}
         <div className="h-20"></div>
-        
+
         <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
           {/* Page Title */}
           <div className="text-center mb-12 sm:mb-16">
@@ -212,90 +212,90 @@ export default function ShopPage() {
               <p className="text-gray-600">No categories available</p>
             </div>
           ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-10 lg:gap-12 xl:gap-16">
-            {categories.map((category, index) => {
-              const isHovered = hoveredCard === category.name
-              const isActive = activeCard === category.name
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-10 lg:gap-12 xl:gap-16">
+              {categories.map((category, index) => {
+                const isHovered = hoveredCard === category.name
+                const isActive = activeCard === category.name
 
-              return (
-                <article
-                  key={category.id}
-                  className="group collection-card-wrapper relative aspect-[4/3.5] overflow-visible rounded-lg shadow-lg transition-transform duration-500 hover:-translate-y-1 cursor-pointer"
-                  onMouseEnter={() => setHoveredCard(category.name)}
-                  onMouseLeave={() => setHoveredCard(null)}
-                  onClick={(e) => handleCardClick(e, category.name, category.id)}
-                >
-                  {/* Main Container */}
-                  <div className="block h-full w-full relative">
-                    {/* Image Container */}
-                    <div className="relative h-full w-full rounded-lg overflow-hidden">
-                      <Image
-                        src={category.image || "/placeholder.svg"}
-                        alt={category.name}
-                        fill
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        loading={index < 3 ? "eager" : "lazy"}
-                        sizes="(max-width: 1024px) 100vw, 33vw"
-                      />
-                      
-                      {/* Text Overlay - Bottom Positioned */}
-                      <div className="absolute inset-0 flex items-end justify-center pb-8 sm:pb-10">
-                        <h3 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-white uppercase tracking-wide">
-                          {category.name}
-                        </h3>
+                return (
+                  <article
+                    key={category.id}
+                    className="group collection-card-wrapper relative aspect-[4/3.5] overflow-visible rounded-lg shadow-lg transition-transform duration-500 hover:-translate-y-1 cursor-pointer"
+                    onMouseEnter={() => setHoveredCard(category.name)}
+                    onMouseLeave={() => setHoveredCard(null)}
+                    onClick={(e) => handleCardClick(e, category.name, category.id)}
+                  >
+                    {/* Main Container */}
+                    <div className="block h-full w-full relative">
+                      {/* Image Container */}
+                      <div className="relative h-full w-full rounded-lg overflow-hidden">
+                        <Image
+                          src={category.image || "/placeholder.svg"}
+                          alt={category.name}
+                          fill
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          loading={index < 3 ? "eager" : "lazy"}
+                          sizes="(max-width: 1024px) 100vw, 33vw"
+                        />
+
+                        {/* Text Overlay - Bottom Positioned */}
+                        <div className="absolute inset-0 flex items-end justify-center pb-8 sm:pb-10">
+                          <h3 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-white uppercase tracking-wide">
+                            {category.name}
+                          </h3>
+                        </div>
                       </div>
+
+                      {/* Animated Border System */}
+
+                      {/* Bottom Border - Expands from center */}
+                      <div
+                        className="absolute bottom-0 left-1/2 h-0.5"
+                        style={{
+                          backgroundColor: '#510c74',
+                          transform: 'translateX(-50%)',
+                          width: isActive || isHovered ? '100%' : '0%',
+                          transition: isHovered
+                            ? 'width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s'
+                            : 'width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.6s'
+                        }}
+                      />
+
+                      {/* Left Border - Extends upward */}
+                      <div
+                        className="absolute bottom-0 left-0 w-0.5"
+                        style={{
+                          backgroundColor: '#510c74',
+                          height: isActive || isHovered ? '100%' : '0%',
+                          transition: 'height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s'
+                        }}
+                      />
+
+                      {/* Right Border - Extends upward */}
+                      <div
+                        className="absolute bottom-0 right-0 w-0.5"
+                        style={{
+                          backgroundColor: '#510c74',
+                          height: isActive || isHovered ? '100%' : '0%',
+                          transition: 'height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s'
+                        }}
+                      />
+
+                      {/* Top Border - Expands from center (only on click) */}
+                      <div
+                        className="absolute top-0 left-1/2 h-0.5"
+                        style={{
+                          backgroundColor: '#510c74',
+                          transform: 'translateX(-50%)',
+                          width: isActive ? '100%' : '0%',
+                          transition: 'width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s'
+                        }}
+                      />
                     </div>
-                    
-                    {/* Animated Border System */}
-                    
-                    {/* Bottom Border - Expands from center */}
-                    <div
-                      className="absolute bottom-0 left-1/2 h-0.5"
-                      style={{
-                        backgroundColor: '#C9A34E',
-                        transform: 'translateX(-50%)',
-                        width: isActive || isHovered ? '100%' : '0%',
-                        transition: isHovered
-                          ? 'width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s'
-                          : 'width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.6s'
-                      }}
-                    />
-                    
-                    {/* Left Border - Extends upward */}
-                    <div
-                      className="absolute bottom-0 left-0 w-0.5"
-                      style={{
-                        backgroundColor: '#C9A34E',
-                        height: isActive || isHovered ? '100%' : '0%',
-                        transition: 'height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s'
-                      }}
-                    />
-                    
-                    {/* Right Border - Extends upward */}
-                    <div
-                      className="absolute bottom-0 right-0 w-0.5"
-                      style={{
-                        backgroundColor: '#C9A34E',
-                        height: isActive || isHovered ? '100%' : '0%',
-                        transition: 'height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s'
-                      }}
-                    />
-                    
-                    {/* Top Border - Expands from center (only on click) */}
-                    <div
-                      className="absolute top-0 left-1/2 h-0.5"
-                      style={{
-                        backgroundColor: '#C9A34E',
-                        transform: 'translateX(-50%)',
-                        width: isActive ? '100%' : '0%',
-                        transition: 'width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s'
-                      }}
-                    />
-                  </div>
-                </article>
-              )
-            })}
-          </div>
+                  </article>
+                )
+              })}
+            </div>
           )}
         </div>
       </div>
@@ -305,11 +305,11 @@ export default function ShopPage() {
   // Show subcategories if viewing subcategories
   if (isViewingSubCategories && subCategories.length > 0) {
     return (
-      <div className="min-h-screen" style={{ background: '#eae0cc' }}>
+      <div className="min-h-screen bg-white">
         <Navbar />
         {/* Top spacing to prevent navbar overlap */}
         <div className="h-20"></div>
-        
+
         <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
           {/* Back Button and Category Title */}
           <div className="mb-8 sm:mb-12 flex items-center gap-4">
@@ -317,9 +317,9 @@ export default function ShopPage() {
               onClick={handleBackToCategories}
               variant="outline"
               className="flex items-center gap-2"
-              style={{ 
-                borderColor: '#C9A34E',
-                color: '#C9A34E'
+              style={{
+                borderColor: '#510c74',
+                color: '#510c74'
               }}
             >
               <ArrowLeft className="w-4 h-4" />
@@ -356,7 +356,7 @@ export default function ShopPage() {
                         loading={index < 3 ? "eager" : "lazy"}
                         sizes="(max-width: 1024px) 100vw, 33vw"
                       />
-                      
+
                       {/* Text Overlay - Bottom Positioned */}
                       <div className="absolute inset-0 flex items-end justify-center pb-8 sm:pb-10">
                         <h3 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-white uppercase tracking-wide">
@@ -364,13 +364,13 @@ export default function ShopPage() {
                         </h3>
                       </div>
                     </div>
-                    
+
                     {/* Animated Border System - Same as main categories */}
                     {/* Bottom Border - Expands from center */}
                     <div
                       className="absolute bottom-0 left-1/2 h-0.5"
                       style={{
-                        backgroundColor: '#C9A34E',
+                        backgroundColor: '#510c74',
                         transform: 'translateX(-50%)',
                         width: isActive || isHovered ? '100%' : '0%',
                         transition: isHovered
@@ -378,32 +378,32 @@ export default function ShopPage() {
                           : 'width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.6s'
                       }}
                     />
-                    
+
                     {/* Left Border - Extends upward */}
                     <div
                       className="absolute bottom-0 left-0 w-0.5"
                       style={{
-                        backgroundColor: '#C9A34E',
+                        backgroundColor: '#510c74',
                         height: isActive || isHovered ? '100%' : '0%',
                         transition: 'height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s'
                       }}
                     />
-                    
+
                     {/* Right Border - Extends upward */}
                     <div
                       className="absolute bottom-0 right-0 w-0.5"
                       style={{
-                        backgroundColor: '#C9A34E',
+                        backgroundColor: '#510c74',
                         height: isActive || isHovered ? '100%' : '0%',
                         transition: 'height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s'
                       }}
                     />
-                    
+
                     {/* Top Border - Expands from center (only on click) */}
                     <div
                       className="absolute top-0 left-1/2 h-0.5"
                       style={{
-                        backgroundColor: '#C9A34E',
+                        backgroundColor: '#510c74',
                         transform: 'translateX(-50%)',
                         width: isActive ? '100%' : '0%',
                         transition: 'width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s'
@@ -421,11 +421,11 @@ export default function ShopPage() {
 
   // Show products for selected category
   return (
-    <div className="min-h-screen" style={{ background: '#eae0cc' }}>
+    <div className="min-h-screen bg-white">
       <Navbar />
       {/* Top spacing to prevent navbar overlap */}
       <div className="h-20"></div>
-      
+
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-12">
         {/* Back Button and Category Title */}
         <div className="mb-8 flex items-center gap-4">
@@ -433,9 +433,9 @@ export default function ShopPage() {
             onClick={isViewingSubCategories ? handleBackToSubCategories : handleBackToCategories}
             variant="outline"
             className="flex items-center gap-2"
-            style={{ 
-              borderColor: '#C9A34E',
-              color: '#C9A34E'
+            style={{
+              borderColor: '#510c74',
+              color: '#510c74'
             }}
           >
             <ArrowLeft className="w-4 h-4" />
@@ -444,30 +444,30 @@ export default function ShopPage() {
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold gradient-text">
             {selectedCategory}
           </h1>
-            </div>
-            
+        </div>
+
         {/* Products Grid */}
         {loading ? (
-              <div className="text-center py-16">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#C9A34E] mx-auto"></div>
-                <p className="mt-4 text-gray-600">Loading products...</p>
-              </div>
+          <div className="text-center py-16">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#510c74] mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading products...</p>
+          </div>
         ) : filteredProducts.length === 0 ? (
-              <div className="text-center py-16">
+          <div className="text-center py-16">
             <p className="text-gray-600 text-lg mb-4">
               No products found in {selectedCategory} category.
             </p>
-                <Button 
+            <Button
               onClick={handleBackToCategories}
-              style={{ 
-                backgroundColor: '#C9A34E',
+              style={{
+                backgroundColor: '#510c74',
                 color: '#fff'
               }}
             >
               Back to Categories
-                </Button>
-              </div>
-            ) : (
+            </Button>
+          </div>
+        ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProducts.map((product) => (
               <div
@@ -486,20 +486,20 @@ export default function ShopPage() {
                   {/* Badges */}
                   <div className="absolute top-4 left-4 flex flex-col space-y-2">
                     {product.isNew && (
-                      <span className="bg-green-500 text-white px-3 py-1 text-xs font-bold rounded-full">NEW</span>
+                      <span className="bg-[#fff4df] text-[#510c74] border border-[#510c74]/20 px-3 py-1 text-xs font-bold rounded-full">NEW</span>
                     )}
                     {product.isOnSale && (
-                      <span className="bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-full">SALE</span>
+                      <span className="bg-[#510c74] text-white px-3 py-1 text-xs font-bold rounded-full">SALE</span>
                     )}
                   </div>
 
                   {/* Action buttons */}
                   <div className="absolute top-4 right-4 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-[#C9A34E] hover:text-white transition-colors">
+                    <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-[#510c74] hover:text-white transition-colors">
                       <Heart className="w-5 h-5" />
                     </button>
                     <Link href={`/view-details?id=${product._id}`}>
-                      <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-[#C9A34E] hover:text-white transition-colors">
+                      <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-[#510c74] hover:text-white transition-colors">
                         <Eye className="w-5 h-5" />
                       </button>
                     </Link>
@@ -514,9 +514,8 @@ export default function ShopPage() {
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className={`w-4 h-4 ${
-                            i < Math.floor(product.rating || 0) ? "text-yellow-400 fill-current" : "text-gray-300"
-                          }`}
+                          className={`w-4 h-4 ${i < Math.floor(product.rating || 0) ? "text-yellow-400 fill-current" : "text-gray-300"
+                            }`}
                         />
                       ))}
                     </div>
@@ -524,7 +523,7 @@ export default function ShopPage() {
                   </div>
 
                   <Link href={`/view-details?id=${product._id}`}>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3 hover:text-[#C9A34E] transition-colors">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-3 hover:text-[#510c74] transition-colors">
                       {product.name}
                     </h3>
                   </Link>
@@ -533,7 +532,7 @@ export default function ShopPage() {
 
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-2">
-                      <span className="text-xl font-bold" style={{ color: '#C9A34E' }}>
+                      <span className="text-xl font-bold" style={{ color: '#510c74' }}>
                         ₹{product.price}
                       </span>
                       {product.originalPrice && product.originalPrice > product.price && (
@@ -549,8 +548,8 @@ export default function ShopPage() {
 
                   {/* Action Buttons */}
                   <div className="flex space-x-3">
-                    <Button 
-                      className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                    <Button
+                      className="flex-1 bg-[#510c74] hover:bg-[#240334] text-white"
                       onClick={() => addItem({
                         id: product._id,
                         name: product.name,
@@ -568,7 +567,7 @@ export default function ShopPage() {
                 </div>
               </div>
             ))}
-        </div>
+          </div>
         )}
       </div>
     </div>

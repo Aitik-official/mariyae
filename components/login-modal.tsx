@@ -149,11 +149,11 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginMod
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
-      <div 
+      <div
         className="absolute inset-0 bg-black bg-opacity-50"
         onClick={onClose}
       />
-      
+
       {/* Modal */}
       <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6 md:p-8">
         {/* Close Button */}
@@ -280,7 +280,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginMod
 
           <Button
             type="submit"
-            className="w-full bg-[#8B7355] hover:bg-[#D4AF37] text-white font-medium py-2 md:py-3 rounded-lg transition-all duration-200 text-sm md:text-base"
+            className="w-full bg-[#510c74] hover:bg-[#240334] text-white font-medium py-2 md:py-3 rounded-lg transition-all duration-200 text-sm md:text-base"
             disabled={loading}
           >
             {loading ? "Please wait..." : (isLogin ? "Sign In" : "Create Account")}
@@ -293,7 +293,7 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginMod
             {isLogin ? "Don't have an account?" : "Already have an account?"}
             <button
               onClick={toggleMode}
-              className="ml-1 text-[#8B7355] hover:text-[#D4AF37] font-medium transition-colors"
+              className="ml-1 text-[#510c74] hover:text-[#240334] font-medium transition-colors"
             >
               {isLogin ? "Sign up" : "Sign in"}
             </button>

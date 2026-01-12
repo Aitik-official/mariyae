@@ -64,7 +64,7 @@ export default function JewelryLayout() {
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          
+
           {/* Hero Section - Left */}
           <div className="relative">
             <div className="relative overflow-hidden rounded-2xl shadow-2xl">
@@ -76,7 +76,7 @@ export default function JewelryLayout() {
                 className="w-full h-96 lg:h-[600px] object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-              
+
               {/* Text Overlay */}
               <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-8">
                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
@@ -86,9 +86,9 @@ export default function JewelryLayout() {
                   <p className="text-white/90 text-lg mb-8">
                     Necklaces At Best Price
                   </p>
-                  <Button 
-                    size="lg" 
-                    className="bg-black text-white hover:bg-gray-800 px-8 py-3 text-lg font-medium"
+                  <Button
+                    size="lg"
+                    className="bg-[#510c74] text-white hover:bg-[#240334] px-8 py-3 text-lg font-medium"
                   >
                     SHOP NOW
                   </Button>

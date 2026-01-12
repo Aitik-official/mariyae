@@ -18,8 +18,8 @@ export default function Navbar() {
   const { state } = useCart()
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-[100] backdrop-blur-none" style={{background: 'linear-gradient(90deg, #240334, #510c74, #670099)', zIndex: 100, position: 'fixed'}}>
-              <div className="w-full px-2 md:px-4 lg:px-8 mx-auto">
+    <nav className="fixed top-0 left-0 w-full z-[100] backdrop-blur-none border-b border-[#510c74]/10" style={{ backgroundColor: '#fff4df', zIndex: 100, position: 'fixed' }}>
+      <div className="w-full px-2 md:px-4 lg:px-8 mx-auto">
         {/* Main navbar */}
         <div className="flex items-center justify-center lg:justify-between h-20 md:h-24">
           {/* Mobile Logo - Centered */}
@@ -40,47 +40,47 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center space-x-20  ml-40">
             {/* Logo */}
             <Link href="/" className="flex items-center flex-shrink-0 p-0 h-full pt-4 -ml-8 lg:-ml-20">
-  <Image
+              <Image
                 src="/MARIYAE_TETX_BG.png"
                 alt="Mariyae Logo"
                 width={320}
                 height={120}
                 className="h-full max-h-14 lg:max-h-16 xl:max-h-36 w-auto object-contain"
                 priority
-  />
-</Link>
+              />
+            </Link>
             {/* Search Bar */}
             <form action="/search" method="GET" className="relative">
               <input
                 type="text"
                 name="q"
                 placeholder="Search for jewelry..."
-                className="w-80 xl:w-96 pl-6 pr-2 py-1 rounded-full border border-white/30 text-[#240334] placeholder-gray-500 bg-[#eae0cc]/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#d1b2e0]/50 focus:border-[#d1b2e0]/50 text-sm"
+                className="w-80 xl:w-96 pl-6 pr-2 py-1 rounded-full border border-[#510c74]/30 text-[#240334] placeholder-gray-500 bg-white/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#510c74]/50 focus:border-[#510c74]/50 text-sm"
               />
               <button type="submit" className="absolute right-2 top-1.5">
-                <Search className="w-4 h-4 text-[#d1b2e0]" />
+                <Search className="w-4 h-4 text-[#510c74]" />
               </button>
             </form>
 
             {/* Desktop Navigation */}
             <div className="flex items-center space-x-6">
-            <Link href="/" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
-              Home
-            </Link>
-            <Link href="/shop" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
-              Shop
-            </Link>
-            <Link href="/products" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
-              Products
-            </Link>
-            <Link href="/about" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
-              About
-            </Link>
-            <Link href="/contact" className="text-white hover:text-[#d1b2e0] transition-colors font-medium text-sm">
-              Contact
-            </Link>
-            <LoginIcon />
-            <CartIcon />
+              <Link href="/" className="text-[#510c74] hover:text-[#240334] transition-colors font-medium text-sm">
+                Home
+              </Link>
+              <Link href="/shop" className="text-[#510c74] hover:text-[#240334] transition-colors font-medium text-sm">
+                Shop
+              </Link>
+              <Link href="/products" className="text-[#510c74] hover:text-[#240334] transition-colors font-medium text-sm">
+                Products
+              </Link>
+              <Link href="/about" className="text-[#510c74] hover:text-[#240334] transition-colors font-medium text-sm">
+                About
+              </Link>
+              <Link href="/contact" className="text-[#510c74] hover:text-[#240334] transition-colors font-medium text-sm">
+                Contact
+              </Link>
+              <LoginIcon />
+              <CartIcon />
             </div>
           </div>
 
@@ -88,11 +88,11 @@ export default function Navbar() {
           <div className="lg:hidden flex items-center space-x-2 md:space-x-3 absolute right-4">
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="text-white hover:text-[#d1b2e0] transition-colors p-1"
+              className="text-[#510c74] hover:text-[#240334] transition-colors p-1"
             >
               <Search className="w-4 h-4 md:w-5 md:h-5" />
             </button>
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white p-1">
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-[#510c74] p-1">
               {isMenuOpen ? <X className="w-5 h-5 md:w-6 md:h-6" /> : <Menu className="w-5 h-5 md:w-6 md:h-6" />}
             </button>
           </div>
@@ -106,10 +106,10 @@ export default function Navbar() {
                 type="text"
                 name="q"
                 placeholder="Search for jewelry..."
-                className="w-full px-3 md:px-4 py-2 rounded-full border border-white/30 text-[#240334] placeholder-gray-500 bg-[#eae0cc]/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#d1b2e0]/50 focus:border-[#d1b2e0]/50 text-sm md:text-base"
+                className="w-full px-3 md:px-4 py-2 rounded-full border border-[#510c74]/30 text-[#240334] placeholder-gray-500 bg-white/90 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-[#510c74]/50 focus:border-[#510c74]/50 text-sm md:text-base"
               />
               <button type="submit" className="absolute right-3 top-2.5">
-                <Search className="w-4 h-4 md:w-5 md:h-5 text-[#d1b2e0]" />
+                <Search className="w-4 h-4 md:w-5 md:h-5 text-[#510c74]" />
               </button>
             </form>
           </div>
@@ -118,7 +118,7 @@ export default function Navbar() {
         {/* Mobile menu */}
         {isMenuOpen && (
           <div className="lg:hidden pb-4 px-2 md:px-0">
-            <div className="bg-[#eae0cc]/95 backdrop-blur-sm rounded-lg p-4 shadow-lg">
+            <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 shadow-lg border border-[#510c74]/10">
               <div className="flex flex-col space-y-4 md:space-y-6">
                 <Link href="/" className="text-[#240334] hover:text-[#510c74] font-medium text-base md:text-lg">
                   Home
@@ -136,7 +136,7 @@ export default function Navbar() {
                   Contact
                 </Link>
                 <div className="flex items-center space-x-3 md:space-x-4 pt-3 md:pt-4 border-t border-gray-200">
-                  <button 
+                  <button
                     onClick={() => {
                       setIsLoginModalOpen(true)
                       setIsMenuOpen(false)
@@ -146,7 +146,7 @@ export default function Navbar() {
                     <User className="w-5 h-5 text-gray-900" />
                     <span className="text-gray-900 font-medium text-sm">Login</span>
                   </button>
-                  <button 
+                  <button
                     onClick={() => {
                       setIsCartOpen(true)
                       setIsMenuOpen(false)

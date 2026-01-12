@@ -50,8 +50,8 @@ export default function ContactForm() {
   if (isSubmitted) {
     return (
       <div className="text-center py-8">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-8 h-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="w-16 h-16 bg-[#fff4df] rounded-full flex items-center justify-center mx-auto mb-4 border border-[#510c74]/20">
+          <svg className="w-8 h-8 text-[#510c74]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
@@ -144,7 +144,7 @@ export default function ContactForm() {
         />
       </div>
 
-      <Button type="submit" className="w-full bg-[#C4A484] hover:bg-[#B8956F] text-white py-3" disabled={isSubmitting}>
+      <Button type="submit" className="w-full bg-[#510c74] hover:bg-[#240334] text-white py-3" disabled={isSubmitting}>
         {isSubmitting ? "Sending..." : "Send Message"}
       </Button>
     </form>

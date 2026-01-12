@@ -134,17 +134,17 @@ export default function LoginIcon() {
                 className="fixed w-72 rounded-xl shadow-2xl border overflow-hidden"
                 onMouseEnter={handleUserDropdownEnter}
                 onMouseLeave={handleUserDropdownLeave}
-                style={{ 
-                  zIndex: 99999, 
+                style={{
+                  zIndex: 99999,
                   position: 'fixed',
                   top: `${dropdownPosition.top}px`,
                   right: `${dropdownPosition.right}px`,
-                  background: '#eae0cc',
-                  borderColor: '#d1b2e0'
+                  background: '#fff4df',
+                  borderColor: '#510c74'
                 }}
               >
                 {/* User Info Header */}
-                <div className="p-5" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }}>
+                <div className="p-5" style={{ background: 'linear-gradient(90deg, #510c74, #240334)' }}>
                   <div className="flex items-center space-x-4">
                     {/* Avatar Icon */}
                     <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-full border-2 border-white/30 shadow-lg flex items-center justify-center flex-shrink-0">
@@ -159,7 +159,7 @@ export default function LoginIcon() {
                         {user.email || ''}
                       </p>
                     </div>
-            </div>
+                  </div>
                 </div>
 
                 {/* Menu Items */}
@@ -168,33 +168,33 @@ export default function LoginIcon() {
                   <Link
                     href="/account"
                     onClick={() => setIsUserDropdownOpen(false)}
-                    className="flex items-center px-4 py-3 rounded-lg transition-all duration-200 group hover:bg-[#d1b2e0]"
+                    className="flex items-center px-4 py-3 rounded-lg transition-all duration-200 group hover:bg-[#fff4df]"
                   >
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center mr-3 transition-colors bg-[#d1b2e0] group-hover:bg-[#C9A34E]">
-                      <User className="h-4 w-4" style={{ color: '#240334' }} />
+                    <div className="w-9 h-9 rounded-lg flex items-center justify-center mr-3 transition-colors bg-[#510c74]/10 group-hover:bg-[#510c74]">
+                      <User className="h-4 w-4" style={{ color: '#510c74' }} />
                     </div>
-                    <span className="text-sm font-medium" style={{ color: '#240334' }}>
+                    <span className="text-sm font-medium" style={{ color: '#510c74' }}>
                       Accounts
                     </span>
                   </Link>
 
                   {/* Separator */}
-                  <div className="my-2" style={{ borderTop: '1px solid #d1b2e0' }}></div>
+                  <div className="my-2" style={{ borderTop: '1px solid rgba(81, 12, 116, 0.2)' }}></div>
 
                   {/* Logout Button */}
-                <button
-                  onClick={handleLogout}
-                    className="w-full flex items-center px-4 py-3 rounded-lg transition-all duration-200 group hover:bg-[#d1b2e0]"
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center px-4 py-3 rounded-lg transition-all duration-200 group hover:bg-[#fff4df]"
                   >
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center mr-3 transition-colors bg-[#d1b2e0] group-hover:bg-[#C9A34E]">
-                      <LogOut className="h-4 w-4" style={{ color: '#240334' }} />
+                    <div className="w-9 h-9 rounded-lg flex items-center justify-center mr-3 transition-colors bg-[#510c74]/10 group-hover:bg-[#510c74]">
+                      <LogOut className="h-4 w-4" style={{ color: '#510c74' }} />
                     </div>
-                    <span className="text-sm font-medium" style={{ color: '#240334' }}>
+                    <span className="text-sm font-medium" style={{ color: '#510c74' }}>
                       Logout
                     </span>
-                </button>
+                  </button>
+                </div>
               </div>
-            </div>
             )}
           </div>
         ) : (

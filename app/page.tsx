@@ -38,122 +38,122 @@ const renderBannerSlide = (banner: any, index: number): JSX.Element => {
 
   return (
     <div className="relative min-h-[500px] sm:min-h-[550px] md:min-h-[620px] w-full">
-        {/* Background Layer */}
-        <div className="absolute inset-0">
-          {banner.backgroundImage ? (
-            <Image
-              src={banner.backgroundImage}
-              alt={banner.headline || 'Banner'}
-              fill
-              className="h-full w-full object-cover"
-              priority={index === 0}
-              sizes="100vw"
-            />
-          ) : (
-            <Image
-              src="/2.jpg"
-              alt={banner.headline || 'Banner'}
-              fill
-              className="h-full w-full object-cover"
-              priority={index === 0}
-              sizes="100vw"
-            />
-          )}
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(103, 0, 153, 0.95), rgba(81, 12, 116, 0.85), rgba(36, 3, 52, 0.60))' }} />
-        </div>
+      {/* Background Layer */}
+      <div className="absolute inset-0">
+        {banner.backgroundImage ? (
+          <Image
+            src={banner.backgroundImage}
+            alt={banner.headline || 'Banner'}
+            fill
+            className="h-full w-full object-cover"
+            priority={index === 0}
+            sizes="100vw"
+          />
+        ) : (
+          <Image
+            src="/2.jpg"
+            alt={banner.headline || 'Banner'}
+            fill
+            className="h-full w-full object-cover"
+            priority={index === 0}
+            sizes="100vw"
+          />
+        )}
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(103, 0, 153, 0.95), rgba(81, 12, 116, 0.85), rgba(36, 3, 52, 0.60))' }} />
+      </div>
 
-        {/* Content Layer */}
-        <div className="relative z-10 flex h-full w-full items-stretch">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className={`grid gap-6 sm:gap-8 lg:gap-12 ${gridCols}`}>
-              {/* Text Content Column */}
-              <div className={`flex flex-col justify-center items-center text-center py-6 sm:py-8 md:py-12 lg:py-16 pt-12 sm:pt-16 md:pt-20 lg:pt-24 ${textOrder}`}>
-                {/* Decorative Lines */}
-                <div className="mb-4 sm:mb-6 flex items-center justify-center gap-2">
-                  <span className="h-1 w-8 sm:w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                  <span className="h-1 w-3 sm:w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                  <span className="h-1 w-2" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
-                </div>
-                
-                {/* Eyebrow Text */}
-                {banner.eyebrowText && (
-                  <span className="mb-2 sm:mb-4 text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
-                    {banner.eyebrowText}
-                  </span>
-                )}
-                
-                {/* Main Headline */}
-                {banner.headline && (
-                  <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-tight">
-                    {banner.headline}
-                  </h1>
-                )}
-                
-                {/* Description */}
-                {banner.description && (
-                  <p className="mt-3 sm:mt-4 md:mt-6 max-w-2xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed text-white/85">
-                    {banner.description}
-                  </p>
-                )}
-                
-                {/* CTA Buttons */}
-                <div className="mt-4 sm:mt-6 md:mt-8 lg:mt-10 flex flex-row items-center justify-center gap-3 sm:gap-4">
-                  {banner.button1Text && (
-                    <Link 
-                      href={banner.button1Link || '/products'} 
-                      className="inline-flex items-center justify-center rounded-md px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition whitespace-nowrap"
-                      style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
-                      onMouseEnter={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #510c74, #240334)'; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #670099, #510c74, #240334)'; }}
-                    >
-                      {banner.button1Text}
-                    </Link>
-                  )}
-                  {banner.button2Text && (
-                    <Link 
-                      href={banner.button2Link || '/products'} 
-                      className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f] whitespace-nowrap"
-                      style={{ color: '#C9A34E' }}
-                    >
-                      {banner.button2Text}
-                    </Link>
-                  )}
-                </div>
+      {/* Content Layer */}
+      <div className="relative z-10 flex h-full w-full items-stretch">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className={`grid gap-6 sm:gap-8 lg:gap-12 ${gridCols}`}>
+            {/* Text Content Column */}
+            <div className={`flex flex-col justify-center items-center text-center py-6 sm:py-8 md:py-12 lg:py-16 pt-12 sm:pt-16 md:pt-20 lg:pt-24 ${textOrder}`}>
+              {/* Decorative Lines */}
+              <div className="mb-4 sm:mb-6 flex items-center justify-center gap-2">
+                <span className="h-1 w-8 sm:w-12" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                <span className="h-1 w-3 sm:w-4" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
+                <span className="h-1 w-2" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }} />
               </div>
 
-              {/* Decorative Graphics Column */}
-              <div className={`relative min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[400px] items-center justify-center ${imagePosition} flex mt-4 lg:mt-0 ${imageOrder}`}>
-                {/* Decorative Elements */}
-                <div className={`absolute inset-y-16 ${decorativePosition} w-3 lg:w-4 rounded hidden lg:block`} style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
-                <div className={`absolute bottom-12 lg:bottom-20 ${decorativePosition} h-8 lg:h-12 w-3 lg:w-4 rounded hidden lg:block`} style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
-                <div className={`absolute top-8 lg:top-16 ${decorativePosition} h-16 w-16 lg:h-24 lg:w-24 hidden lg:block`} style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
-                <div className={`absolute ${gradientPosition} top-0 h-full w-full ${gradientCalc}`} style={{ background: `linear-gradient(${gradientDirection}, transparent, rgba(201, 163, 78, 0.15), transparent)` }} />
-                
-                {/* Image Container */}
-                <div className="relative h-[85%] w-[85%] max-h-[350px] max-w-[450px] overflow-hidden rounded-lg lg:rounded-none mx-auto">
-                  {banner.decorativeImage ? (
-                    <Image
-                      src={banner.decorativeImage}
-                      alt={banner.headline || 'Banner'}
-                      fill
-                      className="h-full w-full object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                    />
-                  ) : (
-                    <Image
-                      src="/2.jpg"
-                      alt={banner.headline || 'Banner'}
-                      fill
-                      className="h-full w-full object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                    />
-                  )}
-                </div>
+              {/* Eyebrow Text */}
+              {banner.eyebrowText && (
+                <span className="mb-2 sm:mb-4 text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
+                  {banner.eyebrowText}
+                </span>
+              )}
+
+              {/* Main Headline */}
+              {banner.headline && (
+                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-tight">
+                  {banner.headline}
+                </h1>
+              )}
+
+              {/* Description */}
+              {banner.description && (
+                <p className="mt-3 sm:mt-4 md:mt-6 max-w-2xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed text-white/85">
+                  {banner.description}
+                </p>
+              )}
+
+              {/* CTA Buttons */}
+              <div className="mt-4 sm:mt-6 md:mt-8 lg:mt-10 flex flex-row items-center justify-center gap-3 sm:gap-4">
+                {banner.button1Text && (
+                  <Link
+                    href={banner.button1Link || '/products'}
+                    className="inline-flex items-center justify-center rounded-md px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition whitespace-nowrap"
+                    style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #510c74, #240334)'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'linear-gradient(90deg, #670099, #510c74, #240334)'; }}
+                  >
+                    {banner.button1Text}
+                  </Link>
+                )}
+                {banner.button2Text && (
+                  <Link
+                    href={banner.button2Link || '/products'}
+                    className="inline-flex items-center justify-center rounded-md bg-[#3f3f3f] px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-xs sm:text-sm md:text-base font-semibold uppercase tracking-wide shadow-md transition hover:bg-[#1f1f1f] whitespace-nowrap"
+                    style={{ color: '#C9A34E' }}
+                  >
+                    {banner.button2Text}
+                  </Link>
+                )}
+              </div>
+            </div>
+
+            {/* Decorative Graphics Column */}
+            <div className={`relative min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[400px] items-center justify-center ${imagePosition} flex mt-4 lg:mt-0 ${imageOrder}`}>
+              {/* Decorative Elements */}
+              <div className={`absolute inset-y-16 ${decorativePosition} w-3 lg:w-4 rounded hidden lg:block`} style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+              <div className={`absolute bottom-12 lg:bottom-20 ${decorativePosition} h-8 lg:h-12 w-3 lg:w-4 rounded hidden lg:block`} style={{ backgroundColor: '#C9A34E', opacity: 0.8 }} />
+              <div className={`absolute top-8 lg:top-16 ${decorativePosition} h-16 w-16 lg:h-24 lg:w-24 hidden lg:block`} style={{ backgroundColor: '#C9A34E', opacity: 0.4 }} />
+              <div className={`absolute ${gradientPosition} top-0 h-full w-full ${gradientCalc}`} style={{ background: `linear-gradient(${gradientDirection}, transparent, rgba(201, 163, 78, 0.15), transparent)` }} />
+
+              {/* Image Container */}
+              <div className="relative h-[85%] w-[85%] max-h-[350px] max-w-[450px] overflow-hidden rounded-lg lg:rounded-none mx-auto">
+                {banner.decorativeImage ? (
+                  <Image
+                    src={banner.decorativeImage}
+                    alt={banner.headline || 'Banner'}
+                    fill
+                    className="h-full w-full object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+                  />
+                ) : (
+                  <Image
+                    src="/2.jpg"
+                    alt={banner.headline || 'Banner'}
+                    fill
+                    className="h-full w-full object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+                  />
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
   )
 }
 
@@ -165,14 +165,14 @@ export default function Home() {
   const [currentGemsSlide, setCurrentGemsSlide] = useState(0)
   const [currentFeaturedSlide, setCurrentFeaturedSlide] = useState(0)
   const [favorites, setFavorites] = useState<Set<string>>(new Set())
-  const [categories, setCategories] = useState<Array<{id: string, name: string, count: number, image: string}>>([])
-  const [subCategories, setSubCategories] = useState<Array<{id: string, name: string, count: number, image: string, mainCategory: string}>>([])
+  const [categories, setCategories] = useState<Array<{ id: string, name: string, count: number, image: string }>>([])
+  const [subCategories, setSubCategories] = useState<Array<{ id: string, name: string, count: number, image: string, mainCategory: string }>>([])
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [selectedMainCategoryId, setSelectedMainCategoryId] = useState<string | null>(null)
   const [isViewingSubCategories, setIsViewingSubCategories] = useState(false)
   const [activeCard, setActiveCard] = useState<string | null>(null)
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
-  
+
   // Hero carousel state
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
@@ -192,7 +192,7 @@ export default function Home() {
     isActive: boolean
   }>>([])
   const [bannersLoading, setBannersLoading] = useState(true)
-  
+
   // Get real products from database
   const featuredProducts = products.slice(0, 4)
   const newArrivals = products.slice(0, 12)
@@ -204,16 +204,16 @@ export default function Home() {
       try {
         const response = await fetch('/api/categories/main')
         const data = await response.json()
-        
+
         if (data.success && data.categories) {
           // Count products per main category
           const categoriesWithCounts = data.categories.map((mainCat: any) => {
             // Count products that match this main category name
-            const count = products.filter(p => 
-              p.category === mainCat.name || 
+            const count = products.filter(p =>
+              p.category === mainCat.name ||
               p.mainCategory === mainCat.name
             ).length
-            
+
             return {
               id: mainCat._id,
               name: mainCat.name,
@@ -230,16 +230,16 @@ export default function Home() {
         // Fallback to product-based categories if API fails
         if (products.length > 0) {
           const categoryMap = new Map<string, { count: number, image: string }>()
-          
+
           products.forEach((product) => {
             if (product.category) {
               const categoryName = product.category
               if (!categoryMap.has(categoryName)) {
                 const categoryProduct = products.find(p => p.category === categoryName)
-                const categoryImage = categoryProduct?.images && categoryProduct.images.length > 0 
-                  ? categoryProduct.images[0].url 
+                const categoryImage = categoryProduct?.images && categoryProduct.images.length > 0
+                  ? categoryProduct.images[0].url
                   : "/placeholder.svg"
-                
+
                 categoryMap.set(categoryName, {
                   count: 1,
                   image: categoryImage
@@ -273,18 +273,18 @@ export default function Home() {
     setActiveCard(categoryName)
     setSelectedCategory(categoryName)
     setSelectedMainCategoryId(categoryId)
-    
+
     try {
       const response = await fetch(`/api/categories/sub?mainCategory=${encodeURIComponent(categoryName)}`)
       const data = await response.json()
-      
+
       if (data.success && data.subCategories && data.subCategories.length > 0) {
         const subCategoriesWithCounts = data.subCategories.map((subCat: any) => {
-          const count = products.filter(p => 
-            p.subCategory === subCat.name || 
+          const count = products.filter(p =>
+            p.subCategory === subCat.name ||
             p.category === subCat.name
           ).length
-          
+
           return {
             id: subCat._id,
             name: subCat.name,
@@ -328,18 +328,18 @@ export default function Home() {
 
   const getFilteredProducts = () => {
     if (!selectedCategory) return []
-    
+
     return products.filter(product => {
       const productCategory = product.category?.toLowerCase() || ''
       const productSubCategory = product.subCategory?.toLowerCase() || ''
       const selected = selectedCategory.toLowerCase()
-      
-      return productCategory === selected || 
-             productSubCategory === selected ||
-             productCategory.includes(selected) ||
-             productSubCategory.includes(selected) ||
-             selected.includes(productCategory) ||
-             selected.includes(productSubCategory)
+
+      return productCategory === selected ||
+        productSubCategory === selected ||
+        productCategory.includes(selected) ||
+        productSubCategory.includes(selected) ||
+        selected.includes(productCategory) ||
+        selected.includes(productSubCategory)
     })
   }
 
@@ -352,7 +352,7 @@ export default function Home() {
         setBannersLoading(true)
         const response = await fetch('/api/banners')
         const data = await response.json()
-        
+
         if (data.success && data.banners) {
           // Filter only active banners and sort by order
           const activeBanners = data.banners
@@ -385,7 +385,7 @@ export default function Home() {
       return newFavorites
     })
   }
-  
+
   // Hero carousel slide tracking
   useEffect(() => {
     if (!api) {
@@ -398,7 +398,7 @@ export default function Home() {
       setCurrent(api.selectedScrollSnap())
     })
   }, [api])
-  
+
   // Hero carousel auto-play with seamless looping
   useEffect(() => {
     if (!api) {
@@ -408,7 +408,7 @@ export default function Home() {
     const interval = setInterval(() => {
       const selectedIndex = api.selectedScrollSnap()
       const slideCount = api.slideNodes().length
-      
+
       // If we're at the last slide, jump to first slide without animation
       if (selectedIndex === slideCount - 1) {
         api.scrollTo(0, false) // false = no animation, instant jump
@@ -420,7 +420,7 @@ export default function Home() {
     return () => clearInterval(interval)
   }, [api])
 
-  
+
   // Show loading state if products are still loading
   if (loading && products.length === 0) {
     return (
@@ -447,8 +447,8 @@ export default function Home() {
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
             <p className="text-lg" style={{ color: '#510c74' }}>Error loading products: {error}</p>
-            <Button 
-              onClick={() => window.location.reload()} 
+            <Button
+              onClick={() => window.location.reload()}
               className="mt-4"
               style={{ background: 'linear-gradient(90deg, #670099, #510c74)', color: '#ffffff' }}
             >
@@ -460,46 +460,46 @@ export default function Home() {
       </div>
     )
   }
-  
+
   const handlePrevSlide = () => {
     setCurrentSlide((prev: number) => prev === 0 ? newArrivals.length - 1 : prev - 1)
   }
-  
+
   const handleNextSlide = () => {
     setCurrentSlide((prev: number) => prev === newArrivals.length - 1 ? 0 : prev + 1)
   }
-  
+
   const handlePrevGemsSlide = () => {
     setCurrentGemsSlide((prev: number) => prev === 0 ? latestGems.length - 1 : prev - 1)
   }
-  
+
   const handleNextGemsSlide = () => {
     setCurrentGemsSlide((prev: number) => prev === latestGems.length - 1 ? 0 : prev + 1)
   }
-  
+
   const handlePrevFeaturedSlide = () => {
     setCurrentFeaturedSlide((prev: number) => prev === 0 ? featuredProducts.length - 1 : prev - 1)
   }
-  
+
   const handleNextFeaturedSlide = () => {
     setCurrentFeaturedSlide((prev: number) => prev === featuredProducts.length - 1 ? 0 : prev + 1)
   }
 
 
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(180deg, #240334 0%, #510c74 50%, #670099 100%)' }}>
+    <div className="min-h-screen bg-white">
       {/* Navbar - Always visible */}
       <Navbar />
-      
+
       {/* Top Section - Increased height */}
-      <section className="h-16 md:h-20" style={{backgroundColor: '#0F4F3F'}}>
+      <section className="h-16 md:h-20" style={{ backgroundColor: '#0F4F3F' }}>
         <div className="h-full flex items-center justify-center px-4">
           <p className="text-[#F3EDE4] text-xs md:text-sm font-medium text-center">Welcome to Imitation Jewellery - Exquisite Jewelry Collection</p>
         </div>
       </section>
 
       {/* Hero Section */}
-      <section className="relative w-full min-h-[500px] sm:min-h-[550px] md:min-h-[620px] overflow-hidden" style={{ background: 'linear-gradient(180deg, #240334 0%, #510c74 50%, #670099 100%)', zIndex: 1 }}>
+      <section className="relative w-full min-h-[500px] sm:min-h-[550px] md:min-h-[620px] overflow-hidden bg-white" style={{ zIndex: 1 }}>
         <Carousel
           setApi={setApi}
           opts={{
@@ -521,31 +521,30 @@ export default function Home() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          
+
           {/* Navigation Arrows */}
-          <CarouselPrevious 
+          <CarouselPrevious
             className="left-2 md:left-4 lg:left-8 h-10 w-10 md:h-12 md:w-12 bg-white/80 backdrop-blur-sm border-white/50 hover:bg-white/90 hover:border-white z-30"
           />
-          <CarouselNext 
+          <CarouselNext
             className="right-2 md:right-4 lg:right-8 h-10 w-10 md:h-12 md:w-12 backdrop-blur-sm z-30"
-            style={{ backgroundColor: '#d1b2e0', borderColor: '#510c74', color: '#240334' }}
-            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#510c74'; e.currentTarget.style.borderColor = '#d1b2e0'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#d1b2e0'; e.currentTarget.style.borderColor = '#510c74'; }}
+            style={{ backgroundColor: '#fff4df', borderColor: '#510c74', color: '#240334' }}
+            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#510c74'; e.currentTarget.style.borderColor = '#fff4df'; e.currentTarget.style.color = '#fff4df'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#fff4df'; e.currentTarget.style.borderColor = '#510c74'; e.currentTarget.style.color = '#240334'; }}
           />
         </Carousel>
-        
+
         {/* Slide Indicators */}
         <div className="absolute bottom-20 sm:bottom-24 lg:bottom-28 left-1/2 transform -translate-x-1/2 z-30 flex items-center space-x-2">
           {Array.from({ length: banners.length }).map((_, index) => (
             <button
               key={index}
               onClick={() => api?.scrollTo(index)}
-              className={`transition-all duration-300 rounded-full ${
-                current === index
-                  ? "w-8 h-2"
-                  : "w-2 h-2"
-              }`}
-              style={current === index ? { backgroundColor: '#d1b2e0' } : { backgroundColor: '#d1b2e0', opacity: 0.4 }}
+              className={`transition-all duration-300 rounded-full ${current === index
+                ? "w-8 h-2"
+                : "w-2 h-2"
+                }`}
+              style={current === index ? { backgroundColor: '#510c74' } : { backgroundColor: '#510c74', opacity: 0.4 }}
               onMouseEnter={(e) => { if (current !== index) e.currentTarget.style.opacity = '0.6'; }}
               onMouseLeave={(e) => { if (current !== index) e.currentTarget.style.opacity = '0.4'; }}
               aria-label={`Go to slide ${index + 1}`}
@@ -554,8 +553,8 @@ export default function Home() {
         </div>
       </section>
 
-        {/* About Section */}
-        <section className="py-12 md:py-20" style={{ backgroundColor: '#eae0cc' }}>
+      {/* About Section */}
+      <section className="py-12 md:py-20" style={{ backgroundColor: '#ffffff' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="space-y-6 md:space-y-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
@@ -573,7 +572,7 @@ export default function Home() {
                 </p>
                 <div className="text-center lg:text-left">
                   <Link href="/about">
-                    <Button size="lg" className="px-6 md:px-8 py-3 text-base md:text-lg animate-fade-in-up transition-all duration-300 hover:scale-105 shadow-lg" style={{ background: 'linear-gradient(90deg, #670099, #510c74)', color: '#C9A34E', animationDelay: '1s' }}>
+                    <Button size="lg" className="px-6 md:px-8 py-3 text-base md:text-lg animate-fade-in-up transition-all duration-300 hover:scale-105 shadow-lg" style={{ backgroundColor: '#fff4df', color: '#510c74', border: '1px solid #510c74', animationDelay: '1s' }}>
                       Learn More About Us
                     </Button>
                   </Link>
@@ -590,10 +589,10 @@ export default function Home() {
                 className="rounded-2xl shadow-lg object-contain animate-fade-in-up transition-all duration-300 hover:scale-105 w-full max-w-md mx-auto lg:max-w-full"
                 style={{ animationDelay: '0.5s' }}
               />
-              <div className="absolute -bottom-3 -right-3 lg:-bottom-6 lg:-right-6 p-3 lg:p-6 rounded-xl lg:rounded-2xl shadow-lg animate-fade-in-up" style={{ backgroundColor: '#d1b2e0', animationDelay: '0.7s' }}>
+              <div className="absolute -bottom-3 -right-3 lg:-bottom-6 lg:-right-6 p-3 lg:p-6 rounded-xl lg:rounded-2xl shadow-lg animate-fade-in-up" style={{ backgroundColor: '#fff4df', border: '1px solid rgba(81, 12, 116, 0.1)', animationDelay: '0.7s' }}>
                 <div className="flex items-center space-x-2 lg:space-x-4">
-                  <div className="w-8 h-8 lg:w-12 lg:h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)' }}>
-                    <Star className="w-4 h-4 lg:w-6 lg:h-6" style={{ color: '#C9A34E' }} />
+                  <div className="w-8 h-8 lg:w-12 lg:h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(90deg, #510c74, #240334)' }}>
+                    <Star className="w-4 h-4 lg:w-6 lg:h-6" style={{ color: '#fff4df' }} />
                   </div>
                   <div>
                     <p className="font-semibold text-xs lg:text-sm" style={{ color: '#240334' }}>Premium Quality</p>
@@ -606,8 +605,8 @@ export default function Home() {
         </div>
       </section>
 
-       {/* New Arrivals Section */}
-       <section className="py-12 md:py-20" style={{ backgroundColor: '#eae0cc' }}>
+      {/* New Arrivals Section */}
+      <section className="py-12 md:py-20" style={{ backgroundColor: '#ffffff' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between mb-8 md:mb-16 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <div className="text-center flex-1">
@@ -616,11 +615,11 @@ export default function Home() {
                 Discover our latest collection of exquisite jewelry pieces, crafted with precision and designed to make you shine.
               </p>
             </div>
-           
+
           </div>
 
           {/* Products Grid */}
-              {loading ? (
+          {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {Array.from({ length: 8 }).map((_, index) => (
                 <div key={`loading-${index}`} className="bg-white rounded-lg overflow-hidden shadow-md animate-pulse">
@@ -629,39 +628,39 @@ export default function Home() {
                     <div className="h-4 bg-gray-200 rounded"></div>
                     <div className="h-6 bg-gray-200 rounded"></div>
                     <div className="h-5 bg-gray-200 rounded"></div>
-                    </div>
-                      </div>
-              ))}
-                    </div>
-              ) : newArrivals.length === 0 ? (
-                <div className="text-center py-16">
-              <p style={{ color: '#240334', opacity: 0.7 }}>No products available</p>
+                  </div>
                 </div>
-              ) : (
+              ))}
+            </div>
+          ) : newArrivals.length === 0 ? (
+            <div className="text-center py-16">
+              <p style={{ color: '#240334', opacity: 0.7 }}>No products available</p>
+            </div>
+          ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {newArrivals.map((product) => {
                 const isFavorite = favorites.has(product._id)
                 const productImages = product.images && product.images.length > 0 ? product.images : []
                 const firstImage = productImages[0]?.url || "/placeholder.svg"
                 const secondImage = productImages[1]?.url || productImages[0]?.url || "/placeholder.svg"
-                
+
                 return (
-                  <Link 
-                    key={product._id} 
+                  <Link
+                    key={product._id}
                     href={`/view-details?id=${product._id}`}
                     className="group relative bg-white hover:bg-[#111111] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
                   >
                     {/* Product Image */}
                     <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
                       {/* First Image - Always visible */}
-                         <Image
+                      <Image
                         src={firstImage}
-                           alt={product.name}
+                        alt={product.name}
                         fill
                         className="object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
                         loading="lazy"
                       />
-                      
+
                       {/* Second Image - Fades in on hover */}
                       <Image
                         src={secondImage}
@@ -670,17 +669,16 @@ export default function Home() {
                         className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                         loading="lazy"
                       />
-                      
+
                       {/* Heart Icon - Top Right */}
                       <button
                         onClick={(e) => toggleFavorite(product._id, e)}
                         className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white transition-colors duration-200"
                         aria-label="Add to favorites"
                       >
-                        <Heart 
-                          className={`h-5 w-5 transition-colors duration-200 ${
-                            isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-600'
-                          }`}
+                        <Heart
+                          className={`h-5 w-5 transition-colors duration-200 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-600'
+                            }`}
                         />
                       </button>
 
@@ -689,155 +687,16 @@ export default function Home() {
                         <div className="absolute top-3 left-3">
                           <div className="px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ backgroundColor: '#CD7F32' }}>
                             {product.offerPercentage}% OFF
-                             </div>
-                           </div>
-                         )}
-
-                      {/* New Badge */}
-                      {product.isNew && (
-                        <div className="absolute top-3 left-3" style={{ top: product.isOnSale ? '3.5rem' : '0.75rem' }}>
-                          <div className="bg-white px-3 py-1 rounded-full text-xs font-semibold text-gray-900">
-                            New
-                             </div>
-                           </div>
-                         )}
-                       </div>
-
-                    {/* Product Info */}
-                    <div className="p-4 space-y-2">
-                      {/* Category/Brand */}
-                      {product.category && (
-                        <p className="text-xs font-medium text-gray-600 group-hover:text-white/70 uppercase tracking-wide transition-colors duration-300">
-                          {product.category}
-                        </p>
+                          </div>
+                        </div>
                       )}
 
-                      {/* Product Name */}
-                      <h3 className="font-semibold text-gray-900 group-hover:text-white line-clamp-2 transition-colors duration-300">
-                        {product.name}
-                      </h3>
-
-                      {/* Price */}
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg font-bold text-[#510c74] group-hover:text-[#C9A34E] transition-colors duration-300">
-                          ₹{product.price.toFixed(2)}
-                        </span>
-                        {product.originalPrice && product.originalPrice > product.price && (
-                          <span className="text-sm text-gray-500 group-hover:text-white/60 line-through transition-colors duration-300">
-                            ₹{product.originalPrice.toFixed(2)}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                        </Link>
-                )
-              })}
-                      </div>
-          )}
-          
-          {/* View All Button */}
-          <div className="text-center mt-8 md:mt-12 animate-fade-in-up" style={{ animationDelay: '1s' }}>
-            <Link href="/products">
-              <Button size="lg" className="px-6 md:px-8 py-3 text-base md:text-lg transition-all duration-300 hover:scale-105 rounded-full" style={{ background: 'linear-gradient(90deg, #670099, #510c74)', color: '#C9A34E', border: '1px solid rgba(103, 0, 153, 0.3)' }}>
-                View All New Arrivals
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-       {/* Latest Gems Section */}
-       <section className="py-12 md:py-20" style={{ backgroundColor: '#eae0cc' }}>
-        <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="flex items-center justify-between mb-8 md:mb-16 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <div className="text-center flex-1">
-              <h2 className="font-light-300 text-3xl md:text-4xl lg:text-5xl mb-3 md:mb-4 animate-fade-in-up gradient-text" style={{ animationDelay: '0.4s' }}>Latest Gems</h2>
-              <p className="max-w-2xl mx-auto text-sm md:text-base lg:text-lg animate-fade-in-up px-4" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.6s' }}>
-                Discover our most precious and exclusive gemstone jewelry collection, featuring rare stones and premium craftsmanship.
-              </p>
-            </div>
-          </div>
-
-          {/* Products Grid */}
-              {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {Array.from({ length: 8 }).map((_, index) => (
-                <div key={`loading-${index}`} className="bg-white rounded-2xl overflow-hidden shadow-md animate-pulse">
-                  <div className="aspect-[3/4] bg-gray-200"></div>
-                  <div className="p-4 space-y-2">
-                    <div className="h-4 bg-gray-200 rounded"></div>
-                    <div className="h-6 bg-gray-200 rounded"></div>
-                    <div className="h-5 bg-gray-200 rounded"></div>
-                    </div>
-                      </div>
-              ))}
-                    </div>
-              ) : latestGems.length === 0 ? (
-                <div className="text-center py-16">
-              <p style={{ color: '#240334', opacity: 0.7 }}>No products available</p>
-                </div>
-              ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {latestGems.map((product) => {
-                const isFavorite = favorites.has(product._id)
-                const productImages = product.images && product.images.length > 0 ? product.images : []
-                const firstImage = productImages[0]?.url || "/placeholder.svg"
-                const secondImage = productImages[1]?.url || productImages[0]?.url || "/placeholder.svg"
-                
-                return (
-                  <Link 
-                    key={product._id} 
-                    href={`/view-details?id=${product._id}`}
-                    className="group relative bg-white hover:bg-[#111111] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                  >
-                    {/* Product Image */}
-                    <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
-                      {/* First Image - Always visible */}
-                        <Image
-                        src={firstImage}
-                          alt={product.name}
-                        fill
-                        className="object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
-                        loading="lazy"
-                      />
-                      
-                      {/* Second Image - Fades in on hover */}
-                      <Image
-                        src={secondImage}
-                        alt={product.name}
-                        fill
-                        className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                        loading="lazy"
-                      />
-                      
-                      {/* Heart Icon - Top Right */}
-                      <button
-                        onClick={(e) => toggleFavorite(product._id, e)}
-                        className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white transition-colors duration-200"
-                        aria-label="Add to favorites"
-                      >
-                        <Heart 
-                          className={`h-5 w-5 transition-colors duration-200 ${
-                            isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-600'
-                          }`}
-                        />
-                      </button>
-
-                      {/* Sale Badge */}
-                        {product.isOnSale && (
-                        <div className="absolute top-3 left-3">
-                          <div className="px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ backgroundColor: '#CD7F32' }}>
-                              {product.offerPercentage}% OFF
-                            </div>
-                          </div>
-                        )}
-
                       {/* New Badge */}
                       {product.isNew && (
                         <div className="absolute top-3 left-3" style={{ top: product.isOnSale ? '3.5rem' : '0.75rem' }}>
                           <div className="bg-white px-3 py-1 rounded-full text-xs font-semibold text-gray-900">
                             New
-                      </div>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -868,16 +727,154 @@ export default function Home() {
                         )}
                       </div>
                     </div>
-                        </Link>
+                  </Link>
                 )
               })}
-                      </div>
+            </div>
           )}
-          
+
+          {/* View All Button */}
+          <div className="text-center mt-8 md:mt-12 animate-fade-in-up" style={{ animationDelay: '1s' }}>
+            <Link href="/products">
+              <Button size="lg" className="px-6 md:px-8 py-3 text-base md:text-lg transition-all duration-300 hover:scale-105 rounded-full" style={{ backgroundColor: '#fff4df', color: '#510c74', border: '1px solid #510c74' }}>
+                View All New Arrivals
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Latest Gems Section */}
+      <section className="py-12 md:py-20" style={{ backgroundColor: '#ffffff' }}>
+        <div className="max-w-7xl mx-auto px-4 lg:px-8">
+          <div className="flex items-center justify-between mb-8 md:mb-16 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="text-center flex-1">
+              <h2 className="font-light-300 text-3xl md:text-4xl lg:text-5xl mb-3 md:mb-4 animate-fade-in-up gradient-text" style={{ animationDelay: '0.4s' }}>Latest Gems</h2>
+              <p className="max-w-2xl mx-auto text-sm md:text-base lg:text-lg animate-fade-in-up px-4" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.6s' }}>
+                Discover our most precious and exclusive gemstone jewelry collection, featuring rare stones and premium craftsmanship.
+              </p>
+            </div>
+          </div>
+
+          {/* Products Grid */}
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {Array.from({ length: 8 }).map((_, index) => (
+                <div key={`loading-${index}`} className="bg-white rounded-2xl overflow-hidden shadow-md animate-pulse">
+                  <div className="aspect-[3/4] bg-gray-200"></div>
+                  <div className="p-4 space-y-2">
+                    <div className="h-4 bg-gray-200 rounded"></div>
+                    <div className="h-6 bg-gray-200 rounded"></div>
+                    <div className="h-5 bg-gray-200 rounded"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : latestGems.length === 0 ? (
+            <div className="text-center py-16">
+              <p style={{ color: '#240334', opacity: 0.7 }}>No products available</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {latestGems.map((product) => {
+                const isFavorite = favorites.has(product._id)
+                const productImages = product.images && product.images.length > 0 ? product.images : []
+                const firstImage = productImages[0]?.url || "/placeholder.svg"
+                const secondImage = productImages[1]?.url || productImages[0]?.url || "/placeholder.svg"
+
+                return (
+                  <Link
+                    key={product._id}
+                    href={`/view-details?id=${product._id}`}
+                    className="group relative bg-white hover:bg-[#111111] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                  >
+                    {/* Product Image */}
+                    <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
+                      {/* First Image - Always visible */}
+                      <Image
+                        src={firstImage}
+                        alt={product.name}
+                        fill
+                        className="object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
+                        loading="lazy"
+                      />
+
+                      {/* Second Image - Fades in on hover */}
+                      <Image
+                        src={secondImage}
+                        alt={product.name}
+                        fill
+                        className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                        loading="lazy"
+                      />
+
+                      {/* Heart Icon - Top Right */}
+                      <button
+                        onClick={(e) => toggleFavorite(product._id, e)}
+                        className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white transition-colors duration-200"
+                        aria-label="Add to favorites"
+                      >
+                        <Heart
+                          className={`h-5 w-5 transition-colors duration-200 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-600'
+                            }`}
+                        />
+                      </button>
+
+                      {/* Sale Badge */}
+                      {product.isOnSale && (
+                        <div className="absolute top-3 left-3">
+                          <div className="px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ backgroundColor: '#CD7F32' }}>
+                            {product.offerPercentage}% OFF
+                          </div>
+                        </div>
+                      )}
+
+                      {/* New Badge */}
+                      {product.isNew && (
+                        <div className="absolute top-3 left-3" style={{ top: product.isOnSale ? '3.5rem' : '0.75rem' }}>
+                          <div className="bg-white px-3 py-1 rounded-full text-xs font-semibold text-gray-900">
+                            New
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Product Info */}
+                    <div className="p-4 space-y-2">
+                      {/* Category/Brand */}
+                      {product.category && (
+                        <p className="text-xs font-medium text-gray-600 group-hover:text-white/70 uppercase tracking-wide transition-colors duration-300">
+                          {product.category}
+                        </p>
+                      )}
+
+                      {/* Product Name */}
+                      <h3 className="font-semibold text-gray-900 group-hover:text-white line-clamp-2 transition-colors duration-300">
+                        {product.name}
+                      </h3>
+
+                      {/* Price */}
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg font-bold text-[#510c74] group-hover:text-[#C9A34E] transition-colors duration-300">
+                          ₹{product.price.toFixed(2)}
+                        </span>
+                        {product.originalPrice && product.originalPrice > product.price && (
+                          <span className="text-sm text-gray-500 group-hover:text-white/60 line-through transition-colors duration-300">
+                            ₹{product.originalPrice.toFixed(2)}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          )}
+
           {/* View All Button */}
           <div className="text-center mt-12 animate-fade-in-up" style={{ animationDelay: '1s' }}>
             <Link href="/products">
-              <Button size="lg" className="px-8 py-3 text-lg transition-all duration-300 hover:scale-105 rounded-full" style={{ background: 'linear-gradient(90deg, #670099, #510c74)', color: '#C9A34E', border: '1px solid rgba(103, 0, 153, 0.3)' }}>
+              <Button size="lg" className="px-8 py-3 text-lg transition-all duration-300 hover:scale-105 rounded-full" style={{ backgroundColor: '#fff4df', color: '#510c74', border: '1px solid #510c74' }}>
                 View All Latest Gems
               </Button>
             </Link>
@@ -903,7 +900,7 @@ export default function Home() {
                 const isActive = activeCard === category.name
 
                 return (
-                  <article 
+                  <article
                     key={category.id}
                     className="group relative aspect-[4/3.5] overflow-hidden rounded-2xl bg-gray-50 shadow-lg transition-transform duration-500 hover:-translate-y-1 cursor-pointer animate-fade-in-up"
                     style={{ animationDelay: `${0.8 + index * 0.1}s` }}
@@ -921,7 +918,7 @@ export default function Home() {
                         loading="lazy"
                       />
                     </div>
-                    
+
                     {/* Hover Overlay with Text */}
                     <div className="absolute inset-0 flex items-start p-4 sm:p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-black/30">
                       <div>
@@ -1092,7 +1089,7 @@ export default function Home() {
               {filteredProducts.length === 0 ? (
                 <div className="text-center py-16">
                   <p className="text-gray-600 text-lg mb-4">No products found in {selectedCategory}.</p>
-                  <Button 
+                  <Button
                     onClick={handleBackToCategories}
                     style={{ backgroundColor: '#C9A34E', color: '#fff' }}
                   >
@@ -1106,8 +1103,8 @@ export default function Home() {
                     const firstImage = productImages[0]?.url || "/placeholder.svg"
                     const secondImage = productImages[1]?.url || productImages[0]?.url || "/placeholder.svg"
                     return (
-                      <Link 
-                        key={product._id} 
+                      <Link
+                        key={product._id}
                         href={`/view-details?id=${product._id}`}
                         className="group relative bg-white hover:bg-[#111111] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
                       >
@@ -1158,7 +1155,7 @@ export default function Home() {
       </section>
 
       {/* Featured Products */}
-      <section className="py-20" style={{ backgroundColor: '#eae0cc' }}>
+      <section className="py-20" style={{ backgroundColor: '#ffffff' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="text-center mb-16 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <h2 className="font-light-300 text-5xl mb-4 animate-fade-in-up gradient-text" style={{ animationDelay: '0.4s' }}>Featured Products</h2>
@@ -1168,7 +1165,7 @@ export default function Home() {
           </div>
 
           {/* Products Grid */}
-              {loading ? (
+          {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {Array.from({ length: 8 }).map((_, index) => (
                 <div key={`loading-${index}`} className="bg-white rounded-2xl overflow-hidden shadow-md animate-pulse">
@@ -1177,39 +1174,39 @@ export default function Home() {
                     <div className="h-4 bg-gray-200 rounded"></div>
                     <div className="h-6 bg-gray-200 rounded"></div>
                     <div className="h-5 bg-gray-200 rounded"></div>
-                    </div>
-                      </div>
-              ))}
-                    </div>
-              ) : featuredProducts.length === 0 ? (
-                <div className="text-center py-16">
-              <p style={{ color: '#240334', opacity: 0.7 }}>No products available</p>
+                  </div>
                 </div>
-              ) : (
+              ))}
+            </div>
+          ) : featuredProducts.length === 0 ? (
+            <div className="text-center py-16">
+              <p style={{ color: '#240334', opacity: 0.7 }}>No products available</p>
+            </div>
+          ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {featuredProducts.map((product) => {
                 const isFavorite = favorites.has(product._id)
                 const productImages = product.images && product.images.length > 0 ? product.images : []
                 const firstImage = productImages[0]?.url || "/placeholder.svg"
                 const secondImage = productImages[1]?.url || productImages[0]?.url || "/placeholder.svg"
-                
+
                 return (
-                  <Link 
-                    key={product._id} 
+                  <Link
+                    key={product._id}
                     href={`/view-details?id=${product._id}`}
                     className="group relative bg-white hover:bg-[#111111] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
                   >
                     {/* Product Image */}
                     <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
                       {/* First Image - Always visible */}
-                          <Image
+                      <Image
                         src={firstImage}
-                            alt={product.name}
+                        alt={product.name}
                         fill
                         className="object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
                         loading="lazy"
                       />
-                      
+
                       {/* Second Image - Fades in on hover */}
                       <Image
                         src={secondImage}
@@ -1218,22 +1215,21 @@ export default function Home() {
                         className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                         loading="lazy"
                       />
-                      
+
                       {/* Heart Icon - Top Right */}
                       <button
                         onClick={(e) => toggleFavorite(product._id, e)}
                         className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white transition-colors duration-200"
                         aria-label="Add to favorites"
                       >
-                        <Heart 
-                          className={`h-5 w-5 transition-colors duration-200 ${
-                            isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-600'
-                          }`}
+                        <Heart
+                          className={`h-5 w-5 transition-colors duration-200 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-600'
+                            }`}
                         />
                       </button>
 
                       {/* Sale Badge */}
-                            {product.isOnSale && (
+                      {product.isOnSale && (
                         <div className="absolute top-3 left-3">
                           <div className="px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ backgroundColor: '#CD7F32' }}>
                             {product.offerPercentage}% OFF
@@ -1254,9 +1250,9 @@ export default function Home() {
                       <div className="absolute top-3 left-3" style={{ top: (product.isOnSale && product.isNew) ? '5.5rem' : (product.isOnSale || product.isNew) ? '3.5rem' : '0.75rem' }}>
                         <div className="px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ background: 'linear-gradient(90deg, #670099, #510c74)' }}>
                           FEATURED
-                          </div>
-                      </div>
                         </div>
+                      </div>
+                    </div>
 
                     {/* Product Info */}
                     <div className="p-4 space-y-2">
@@ -1269,25 +1265,25 @@ export default function Home() {
 
                       {/* Product Name */}
                       <h3 className="font-semibold text-gray-900 group-hover:text-white line-clamp-2 transition-colors duration-300">
-                          {product.name}
-                        </h3>
+                        {product.name}
+                      </h3>
 
                       {/* Price */}
                       <div className="flex items-center gap-2">
                         <span className="text-lg font-bold text-[#510c74] group-hover:text-[#C9A34E] transition-colors duration-300">
                           ₹{product.price.toFixed(2)}
                         </span>
-                            {product.originalPrice && product.originalPrice > product.price && (
+                        {product.originalPrice && product.originalPrice > product.price && (
                           <span className="text-sm text-gray-500 group-hover:text-white/60 line-through transition-colors duration-300">
                             ₹{product.originalPrice.toFixed(2)}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                          </Link>
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
                 )
               })}
-                        </div>
+            </div>
           )}
 
           <div className="text-center mt-12 animate-fade-in-up" style={{ animationDelay: '1s' }}>
@@ -1308,7 +1304,7 @@ export default function Home() {
 
 
 
-     
+
 
       <Footer />
     </div>

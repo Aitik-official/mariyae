@@ -41,15 +41,15 @@ export default function ProductDetail() {
     const fetchProduct = async () => {
       try {
         setLoading(true)
-        
+
         // Get product ID from URL params or use a default
         const productId = searchParams.get('id') || searchParams.get('productId')
-        
+
         if (productId) {
           // Fetch specific product by ID
           const response = await fetch(`/api/products/${productId}`)
           const data = await response.json()
-          
+
           if (data.success) {
             setProduct(data.data)
           } else {
@@ -59,7 +59,7 @@ export default function ProductDetail() {
           // If no product ID, fetch the first available product or show a message
           const response = await fetch('/api/products')
           const data = await response.json()
-          
+
           if (data.success && data.data.length > 0) {
             setProduct(data.data[0]) // Show first product as default
           } else {
@@ -160,9 +160,8 @@ export default function ProductDetail() {
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`aspect-square overflow-hidden rounded-lg border-2 ${
-                      selectedImage === index ? "border-[#8B7355]" : "border-gray-200"
-                    }`}
+                    className={`aspect-square overflow-hidden rounded-lg border-2 ${selectedImage === index ? "border-[#510c74]" : "border-gray-200"
+                      }`}
                   >
                     <Image
                       src={image.url}
@@ -187,9 +186,8 @@ export default function ProductDetail() {
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-5 h-5 ${
-                        i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"
-                      }`}
+                      className={`w-5 h-5 ${i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"
+                        }`}
                     />
                   ))}
                 </div>
@@ -197,12 +195,12 @@ export default function ProductDetail() {
               </div>
 
               <div className="flex items-center space-x-4 mb-6">
-                <span className="text-3xl font-bold text-[#8B7355]">₹{product.price.toFixed(2)}</span>
+                <span className="text-3xl font-bold text-[#510c74]">₹{product.price.toFixed(2)}</span>
                 {product.originalPrice && product.originalPrice > product.price && (
                   <span className="text-xl text-gray-500 line-through">₹{product.originalPrice.toFixed(2)}</span>
                 )}
                 {product.isOnSale && product.offerPercentage && (
-                  <span className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">
+                  <span className="bg-[#510c74] text-white px-3 py-1 rounded-full text-sm font-medium">
                     {product.offerPercentage}% OFF
                   </span>
                 )}
@@ -217,7 +215,7 @@ export default function ProductDetail() {
                   <ul className="space-y-2">
                     {product.keyFeatures.map((feature, index) => (
                       <li key={index} className="flex items-center text-gray-700">
-                        <span className="w-2 h-2 bg-[#8B7355] rounded-full mr-3"></span>
+                        <span className="w-2 h-2 bg-[#510c74] rounded-full mr-3"></span>
                         {feature}
                       </li>
                     ))}
@@ -234,11 +232,10 @@ export default function ProductDetail() {
                       <button
                         key={size}
                         onClick={() => setSelectedSize(size.trim())}
-                        className={`px-4 py-2 border rounded-lg transition-colors ${
-                          selectedSize === size.trim()
-                            ? "border-[#8B7355] bg-[#8B7355] text-white"
-                            : "border-gray-300 hover:border-[#8B7355]"
-                        }`}
+                        className={`px-4 py-2 border rounded-lg transition-colors ${selectedSize === size.trim()
+                          ? "border-[#510c74] bg-[#510c74] text-white"
+                          : "border-gray-300 hover:border-[#510c74]"
+                          }`}
                       >
                         {size.trim()}
                       </button>
@@ -276,13 +273,13 @@ export default function ProductDetail() {
               <div className="flex space-x-4">
                 <Button
                   onClick={handleAddToCart}
-                  className="flex-1 bg-[#8B7355] hover:bg-[#D4AF37] text-white py-3 text-lg"
+                  className="flex-1 bg-[#510c74] hover:bg-[#240334] text-white py-3 text-lg"
                 >
                   <ShoppingCart className="w-5 h-5 mr-2" />
                   Add to Cart
                 </Button>
                 <Link href={`/checkout?product=${product._id}&quantity=${quantity}`}>
-                  <Button className="flex-1 bg-[#D4AF37] hover:bg-[#8B7355] text-white py-3 text-lg">
+                  <Button className="flex-1 bg-[#fff4df] hover:bg-[#ffedc2] text-[#510c74] py-3 text-lg border border-[#510c74]/20">
                     Buy Now
                   </Button>
                 </Link>

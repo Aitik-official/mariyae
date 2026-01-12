@@ -139,13 +139,13 @@ export default function ProductsPage() {
       <Navbar />
       {/* Top spacing to prevent navbar overlap */}
       <div className="h-20"></div>
-      <div className="bg-gray-50 py-6 md:py-8">
+      <div className="bg-white py-6 md:py-8">
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           {/* Breadcrumb Navigation */}
           {filters.categories.length > 0 && (
             <div className="mb-4 md:mb-6">
               <nav className="flex items-center space-x-2 text-xs md:text-sm text-gray-600">
-                <a href="/products" className="hover:text-[#C4A484] transition-colors">
+                <a href="/products" className="hover:text-[#510c74] transition-colors">
                   All Products
                 </a>
                 <span>/</span>
@@ -156,13 +156,13 @@ export default function ProductsPage() {
 
           <div className="text-center mb-6 md:mb-8">
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-light text-gray-900 mb-3 md:mb-4">
-              {filters.categories.length > 0 
-                ? `${filters.categories[0]} Collection` 
+              {filters.categories.length > 0
+                ? `${filters.categories[0]} Collection`
                 : 'All Products'
               }
             </h1>
             <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-base px-4">
-              {filters.categories.length > 0 
+              {filters.categories.length > 0
                 ? `Discover our exclusive collection of ${filters.categories[0].toLowerCase()} pieces, each designed to make you shine bright.`
                 : 'Discover our complete collection of handcrafted jewelry pieces, each designed to make you shine bright.'
               }
@@ -172,7 +172,7 @@ export default function ProductsPage() {
           <div className="flex flex-col lg:flex-row gap-4 md:gap-6 lg:gap-8">
             {/* Filters Sidebar - Desktop */}
             <aside className="hidden lg:block lg:w-1/4">
-              <ProductFilters 
+              <ProductFilters
                 filters={filters}
                 onFiltersChange={setFilters}
               />
@@ -192,7 +192,7 @@ export default function ProductsPage() {
                         <X className="w-6 h-6" />
                       </button>
                     </div>
-                    <ProductFilters 
+                    <ProductFilters
                       filters={filters}
                       onFiltersChange={setFilters}
                     />
@@ -213,7 +213,7 @@ export default function ProductsPage() {
                   <Filter className="w-4 h-4" />
                   {showFilters ? 'Hide Filters' : 'Show Filters'}
                   {activeFiltersCount > 0 && (
-                    <span className="bg-[#C4A484] text-white text-xs px-2 py-1 rounded-full">
+                    <span className="bg-[#510c74] text-white text-xs px-2 py-1 rounded-full">
                       {activeFiltersCount}
                     </span>
                   )}
@@ -260,7 +260,7 @@ export default function ProductsPage() {
               {/* Products Grid */}
               {loading ? (
                 <div className="text-center py-12 md:py-16">
-                  <div className="animate-spin rounded-full h-16 w-16 md:h-32 md:w-32 border-b-2 border-[#C4A484] mx-auto"></div>
+                  <div className="animate-spin rounded-full h-16 w-16 md:h-32 md:w-32 border-b-2 border-[#510c74] mx-auto"></div>
                   <p className="mt-4 text-gray-600 text-sm md:text-base">Loading products...</p>
                 </div>
               ) : sortedProducts.length === 0 ? (
@@ -270,7 +270,7 @@ export default function ProductsPage() {
                   <p className="text-gray-600 mb-6 text-sm md:text-base">
                     Try adjusting your filters or clearing all filters to see more products.
                   </p>
-                  <Button onClick={clearAllFilters} className="bg-[#C4A484] hover:bg-[#B39474] text-sm md:text-base">
+                  <Button onClick={clearAllFilters} className="bg-[#510c74] hover:bg-[#240334] text-sm md:text-base text-white">
                     Clear All Filters
                   </Button>
                 </div>
@@ -303,20 +303,20 @@ export default function ProductsPage() {
                         </div>
                       </Link>
                       <div className="mt-4 p-4">
-                        <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-[#8B7355] transition-colors">
+                        <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-[#510c74] transition-colors">
                           {product.name}
                         </h3>
                         <p className="text-gray-600 text-sm mb-3">JEWELS BY LAHARI</p>
                         <div className="mb-4">
-                          <span className="text-2xl font-bold text-[#8B7355]">₹{product.price.toFixed(2)}</span>
+                          <span className="text-2xl font-bold text-[#510c74]">₹{product.price.toFixed(2)}</span>
                           {product.originalPrice && product.originalPrice > product.price && (
                             <span className="text-sm text-gray-500 line-through ml-2">₹{product.originalPrice.toFixed(2)}</span>
                           )}
                         </div>
                         {/* Action Buttons - Horizontal Layout Below Price */}
                         <div className="flex space-x-3">
-                          <Button 
-                            className="flex-1 bg-[#8B7355] hover:bg-[#D4AF37] text-white"
+                          <Button
+                            className="flex-1 bg-[#510c74] hover:bg-[#240334] text-white"
                             onClick={() => addItem({
                               id: product._id,
                               name: product.name,
@@ -330,7 +330,7 @@ export default function ProductsPage() {
                             Add to Cart
                           </Button>
                           <Link href={`/checkout?product=${product._id}&quantity=1`}>
-                            <Button className="flex-1 bg-[#D4AF37] hover:bg-[#8B7355] text-white">
+                            <Button className="flex-1 bg-[#fff4df] hover:bg-[#ffedc2] text-[#510c74] border border-[#510c74]/20">
                               Buy Now
                             </Button>
                           </Link>

@@ -9,7 +9,7 @@ export default function ContactPage() {
       <Navbar />
       {/* Top spacing to prevent navbar overlap */}
       <div className="h-20"></div>
-      <div className="bg-gray-50 py-16">
+      <div className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-light text-gray-900 mb-4">Contact Us</h1>
@@ -26,7 +26,7 @@ export default function ContactPage() {
                 <h2 className="text-2xl font-semibold text-gray-900 mb-6">Get In Touch</h2>
                 <div className="space-y-6">
                   <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-[#C4A484] rounded-full flex items-center justify-center">
+                    <div className="w-12 h-12 bg-[#510c74] rounded-full flex items-center justify-center">
                       <MapPin className="w-6 h-6 text-white" />
                     </div>
                     <div>
@@ -36,7 +36,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-[#C4A484] rounded-full flex items-center justify-center">
+                    <div className="w-12 h-12 bg-[#510c74] rounded-full flex items-center justify-center">
                       <Phone className="w-6 h-6 text-white" />
                     </div>
                     <div>
@@ -46,7 +46,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-[#C4A484] rounded-full flex items-center justify-center">
+                    <div className="w-12 h-12 bg-[#510c74] rounded-full flex items-center justify-center">
                       <Mail className="w-6 h-6 text-white" />
                     </div>
                     <div>
@@ -56,7 +56,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-[#C4A484] rounded-full flex items-center justify-center">
+                    <div className="w-12 h-12 bg-[#510c74] rounded-full flex items-center justify-center">
                       <Clock className="w-6 h-6 text-white" />
                     </div>
                     <div>

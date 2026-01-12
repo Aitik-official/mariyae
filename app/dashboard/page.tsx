@@ -25,7 +25,7 @@ export default function DashboardPage() {
   })
   const [selectedOrder, setSelectedOrder] = useState<any>(null)
   const [showOrderModal, setShowOrderModal] = useState(false)
-  
+
   // Authentication state
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [username, setUsername] = useState('')
@@ -36,7 +36,7 @@ export default function DashboardPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoginError('')
-    
+
     try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -86,7 +86,7 @@ export default function DashboardPage() {
   // If not authenticated, show login form
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#eae0cc' }}>
+      <div className="min-h-screen flex items-center justify-center bg-white">
         {/* Top spacing to prevent navbar overlap */}
         <div className="h-20 absolute top-0 left-0 right-0"></div>
         <div className="max-w-md w-full space-y-8">
@@ -100,7 +100,7 @@ export default function DashboardPage() {
                 Enter your credentials to access the dashboard
               </p>
             </div>
-            
+
             <form className="mt-8 space-y-6" onSubmit={handleLogin}>
               <div className="space-y-4">
                 <div>
@@ -121,7 +121,7 @@ export default function DashboardPage() {
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <label htmlFor="password" className="block text-sm font-medium mb-1" style={{ color: '#240334' }}>
                     Password
@@ -135,7 +135,7 @@ export default function DashboardPage() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       className="pl-10 rounded-lg"
-                      style={{ borderColor: '#d1b2e0', backgroundColor: '#eae0cc' }}
+                      style={{ borderColor: '#510c74/30', backgroundColor: '#fff4df' }}
                       placeholder="Enter password"
                     />
                   </div>
@@ -143,7 +143,7 @@ export default function DashboardPage() {
               </div>
 
               {loginError && (
-                <div className="text-sm text-center p-3 rounded-md" style={{ backgroundColor: '#d1b2e0', color: '#240334' }}>
+                <div className="text-sm text-center p-3 rounded-md" style={{ backgroundColor: '#fff4df', color: '#510c74' }}>
                   {loginError}
                 </div>
               )}
@@ -151,7 +151,7 @@ export default function DashboardPage() {
               <Button
                 type="submit"
                 className="w-full text-white rounded-lg"
-                style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
+                style={{ background: 'linear-gradient(90deg, #510c74, #240334)', color: '#fff4df' }}
               >
                 Sign In
               </Button>
@@ -206,10 +206,10 @@ export default function DashboardPage() {
     const newStatus = prompt(
       `Current status: ${order.orderStatus}\nEnter new status (pending/confirmed/processing/shipped/delivered/cancelled):`
     )
-    
+
     if (newStatus && ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'].includes(newStatus)) {
       try {
-        await updateOrder(order._id, { 
+        await updateOrder(order._id, {
           orderStatus: newStatus as 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled'
         })
         alert('Order status updated successfully!')
@@ -234,10 +234,10 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold gradient-text">Dashboard</h1>
-        <Button 
-          onClick={() => setShowAddForm(true)} 
+        <Button
+          onClick={() => setShowAddForm(true)}
           className="text-white rounded-lg"
-          style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', color: '#C9A34E' }}
+          style={{ background: 'linear-gradient(90deg, #510c74, #240334)', color: '#fff4df' }}
         >
           <Plus className="w-5 h-5 mr-2" />
           Add Product
@@ -246,7 +246,7 @@ export default function DashboardPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow-md" style={{ borderColor: '#d1b2e0', borderWidth: '1px' }}>
+        <div className="bg-white p-6 rounded-xl shadow-md" style={{ borderColor: '#510c74/10', borderWidth: '1px' }}>
           <div className="flex items-center">
             <div className="p-2 rounded-lg" style={{ backgroundColor: '#d1b2e0' }}>
               <Package className="w-6 h-6" style={{ color: '#240334' }} />
@@ -257,8 +257,8 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-        
-        <div className="bg-white p-6 rounded-xl shadow-md" style={{ borderColor: '#d1b2e0', borderWidth: '1px' }}>
+
+        <div className="bg-white p-6 rounded-xl shadow-md" style={{ borderColor: '#510c74/10', borderWidth: '1px' }}>
           <div className="flex items-center">
             <div className="p-2 rounded-lg" style={{ backgroundColor: '#d1b2e0' }}>
               <Package className="w-6 h-6" style={{ color: '#240334' }} />
@@ -271,8 +271,8 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-        
-        <div className="bg-white p-6 rounded-xl shadow-md" style={{ borderColor: '#d1b2e0', borderWidth: '1px' }}>
+
+        <div className="bg-white p-6 rounded-xl shadow-md" style={{ borderColor: '#510c74/10', borderWidth: '1px' }}>
           <div className="flex items-center">
             <div className="p-2 rounded-lg" style={{ backgroundColor: '#d1b2e0' }}>
               <Package className="w-6 h-6" style={{ color: '#240334' }} />
@@ -285,10 +285,10 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-        
-        <div className="bg-white p-6 rounded-xl shadow-md" style={{ borderColor: '#d1b2e0', borderWidth: '1px' }}>
+
+        <div className="bg-white p-6 rounded-xl shadow-md" style={{ borderColor: '#510c74/10', borderWidth: '1px' }}>
           <div className="flex items-center">
-            <div className="p-2 rounded-lg" style={{ backgroundColor: '#d1b2e0' }}>
+            <div className="p-2 rounded-lg" style={{ backgroundColor: '#fff4df' }}>
               <Package className="w-6 h-6" style={{ color: '#240334' }} />
             </div>
             <div className="ml-4">
@@ -453,7 +453,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <div className="flex items-center">
             <div className="p-2 bg-yellow-100 rounded-lg">
@@ -467,7 +467,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <div className="flex items-center">
             <div className="p-2 bg-green-100 rounded-lg">
@@ -481,7 +481,7 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <div className="flex items-center">
             <div className="p-2 bg-purple-100 rounded-lg">
@@ -640,9 +640,9 @@ export default function DashboardPage() {
                       <Badge
                         variant={
                           order.orderStatus === 'delivered' ? 'default' :
-                          order.orderStatus === 'cancelled' ? 'destructive' :
-                          order.orderStatus === 'pending' ? 'secondary' :
-                          'outline'
+                            order.orderStatus === 'cancelled' ? 'destructive' :
+                              order.orderStatus === 'pending' ? 'secondary' :
+                                'outline'
                         }
                         className="capitalize"
                       >
@@ -656,8 +656,8 @@ export default function DashboardPage() {
                       <Badge
                         variant={
                           order.paymentStatus === 'completed' ? 'default' :
-                          order.paymentStatus === 'failed' ? 'destructive' :
-                          'secondary'
+                            order.paymentStatus === 'failed' ? 'destructive' :
+                              'secondary'
                         }
                         className="text-xs"
                       >
@@ -696,11 +696,11 @@ export default function DashboardPage() {
   )
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#eae0cc' }}>
+    <div className="min-h-screen bg-white">
       {/* Top spacing to prevent navbar overlap */}
       <div className="h-20"></div>
       {/* Top Navigation Bar */}
-      <div className="shadow-sm" style={{ background: 'linear-gradient(90deg, #670099, #510c74, #240334)', borderBottom: '1px solid rgba(209, 178, 224, 0.3)' }}>
+      <div className="shadow-sm border-b border-[#510c74]/10" style={{ background: '#fff4df' }}>
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold text-white">Admin Panel</h1>
@@ -721,50 +721,46 @@ export default function DashboardPage() {
             <nav className="space-y-2">
               <button
                 onClick={() => setActiveTab('dashboard')}
-                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
-                  activeTab === 'dashboard'
+                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${activeTab === 'dashboard'
                     ? 'text-white shadow-md'
                     : 'text-white/70 hover:text-white hover:bg-white/10'
-                }`}
+                  }`}
                 style={activeTab === 'dashboard' ? { background: 'rgba(209, 178, 224, 0.2)', borderLeft: '3px solid #C9A34E' } : {}}
               >
                 <LayoutDashboard className="w-5 h-5 mr-3" />
                 Dashboard
               </button>
-              
+
               <button
                 onClick={() => setActiveTab('orders')}
-                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
-                  activeTab === 'orders'
+                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${activeTab === 'orders'
                     ? 'text-white shadow-md'
                     : 'text-white/70 hover:text-white hover:bg-white/10'
-                }`}
+                  }`}
                 style={activeTab === 'orders' ? { background: 'rgba(209, 178, 224, 0.2)', borderLeft: '3px solid #C9A34E' } : {}}
               >
                 <Package className="w-5 h-5 mr-3" />
                 Orders & Inventory
               </button>
-              
+
               <button
                 onClick={() => setActiveTab('categories')}
-                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
-                  activeTab === 'categories'
+                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${activeTab === 'categories'
                     ? 'text-white shadow-md'
                     : 'text-white/70 hover:text-white hover:bg-white/10'
-                }`}
+                  }`}
                 style={activeTab === 'categories' ? { background: 'rgba(209, 178, 224, 0.2)', borderLeft: '3px solid #C9A34E' } : {}}
               >
                 <Package className="w-5 h-5 mr-3" />
                 Categories
               </button>
-              
+
               <button
                 onClick={() => setActiveTab('banners')}
-                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
-                  activeTab === 'banners'
+                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${activeTab === 'banners'
                     ? 'text-white shadow-md'
                     : 'text-white/70 hover:text-white hover:bg-white/10'
-                }`}
+                  }`}
                 style={activeTab === 'banners' ? { background: 'rgba(209, 178, 224, 0.2)', borderLeft: '3px solid #C9A34E' } : {}}
               >
                 <ImageIcon className="w-5 h-5 mr-3" />
@@ -776,10 +772,10 @@ export default function DashboardPage() {
 
         {/* Main Content */}
         <div className="flex-1 p-8">
-          {activeTab === 'dashboard' ? <DashboardContent /> : 
-           activeTab === 'orders' ? <OrdersInventoryContent /> : 
-           activeTab === 'categories' ? <CategoryManagement /> : 
-           <BannerManagement />}
+          {activeTab === 'dashboard' ? <DashboardContent /> :
+            activeTab === 'orders' ? <OrdersInventoryContent /> :
+              activeTab === 'categories' ? <CategoryManagement /> :
+                <BannerManagement />}
         </div>
       </div>
 
@@ -803,7 +799,7 @@ export default function DashboardPage() {
                 ✕
               </Button>
             </div>
-            
+
             <ProductForm
               isOpen={showAddForm}
               onClose={() => {

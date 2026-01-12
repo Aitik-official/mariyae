@@ -21,7 +21,7 @@ export default function RelatedProducts() {
   }
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-light text-gray-900 mb-4">You Might Also Like</h2>
@@ -44,14 +44,14 @@ export default function RelatedProducts() {
                 />
 
                 <div className="absolute top-4 right-4 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-[#C4A484] hover:text-white transition-colors">
+                  <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-[#510c74] hover:text-white transition-colors">
                     <Heart className="w-5 h-5" />
                   </button>
                 </div>
 
                 <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Button 
-                    className="w-full bg-[#C4A484] hover:bg-[#B8956F] text-white"
+                  <Button
+                    className="w-full bg-[#510c74] hover:bg-[#240334] text-white"
                     onClick={() => addItem({
                       id: product._id,
                       name: product.name,
@@ -74,9 +74,8 @@ export default function RelatedProducts() {
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-4 h-4 ${
-                          i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"
-                        }`}
+                        className={`w-4 h-4 ${i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"
+                          }`}
                       />
                     ))}
                   </div>
@@ -84,14 +83,14 @@ export default function RelatedProducts() {
                 </div>
 
                 <Link href={`/view-details?id=${product._id}`}>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3 hover:text-[#C4A484] transition-colors">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3 hover:text-[#510c74] transition-colors">
                     {product.name}
                   </h3>
                 </Link>
 
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <span className="text-xl font-bold text-[#C4A484]">₹{product.price.toFixed(2)}</span>
+                    <span className="text-xl font-bold text-[#510c74]">₹{product.price.toFixed(2)}</span>
                     {product.originalPrice && product.originalPrice > product.price && (
                       <span className="text-sm text-gray-500 line-through">₹{product.originalPrice.toFixed(2)}</span>
                     )}

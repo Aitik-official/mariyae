@@ -9,25 +9,25 @@ export default function CollectionsSection() {
       icon: Truck,
       title: "Free Delivery",
       description: "Orders from all item",
-      color: "text-orange-500",
+      color: "text-[#510c74]",
     },
     {
       icon: RotateCcw,
       title: "Return & Refund",
       description: "Money back guarantee",
-      color: "text-orange-500",
+      color: "text-[#510c74]",
     },
     {
       icon: Users,
       title: "Member Discount",
       description: "Onevery order over $140.00",
-      color: "text-orange-500",
+      color: "text-[#510c74]",
     },
     {
       icon: Headphones,
       title: "Support 24/7",
       description: "Contact us 24 hours a day",
-      color: "text-orange-500",
+      color: "text-[#510c74]",
     },
   ]
 
@@ -41,7 +41,7 @@ export default function CollectionsSection() {
               key={index}
               className="flex items-center space-x-4 group cursor-pointer hover:bg-gray-50 p-4 rounded-lg transition-all duration-300"
             >
-              <div className="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <div className="w-12 h-12 bg-[#fff4df] rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                 <feature.icon className={`w-6 h-6 ${feature.color}`} strokeWidth={1.5} />
               </div>
               <div className="group-hover:translate-x-1 transition-transform duration-300">
@@ -58,7 +58,7 @@ export default function CollectionsSection() {
           <div className="col-span-12 lg:col-span-8 row-span-1">
             <div className="bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 rounded-2xl p-8 h-full flex items-center justify-between overflow-hidden relative group hover:shadow-xl transition-all duration-300">
               <div className="z-10 flex-1">
-                <p className="text-blue-600 text-sm font-medium mb-3 tracking-wide uppercase">Collection</p>
+                <p className="text-[#510c74] text-sm font-medium mb-3 tracking-wide uppercase">Collection</p>
                 <h2 className="text-3xl lg:text-4xl font-light text-gray-900 mb-6 leading-tight">
                   Ardeco pearl
                   <br />
@@ -120,7 +120,7 @@ export default function CollectionsSection() {
           <div className="col-span-12 lg:col-span-4">
             <div className="bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 rounded-2xl p-6 h-full flex flex-col justify-between group hover:shadow-xl transition-all duration-300">
               <div>
-                <p className="text-green-600 text-sm font-medium mb-3 tracking-wide uppercase">Trending</p>
+                <p className="text-[#510c74] text-sm font-medium mb-3 tracking-wide uppercase">Trending</p>
                 <h3 className="text-xl lg:text-2xl font-light text-gray-900 mb-4">Tropical Set</h3>
               </div>
               <div className="flex justify-center mb-6">
@@ -137,9 +137,9 @@ export default function CollectionsSection() {
 
           {/* Gold Jewelry - Bottom Middle */}
           <div className="col-span-12 lg:col-span-4">
-            <div className="bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 rounded-2xl p-6 h-full flex flex-col justify-between group hover:shadow-xl transition-all duration-300">
+            <div className="bg-gradient-to-br from-[#fff4df] via-[#ffedc2] to-[#fff4df] rounded-2xl p-6 h-full flex flex-col justify-between group hover:shadow-xl transition-all duration-300">
               <div>
-                <p className="text-orange-600 text-sm font-medium mb-3 tracking-wide uppercase">New Arrival</p>
+                <p className="text-[#510c74] text-sm font-medium mb-3 tracking-wide uppercase">New Arrival</p>
                 <h3 className="text-xl lg:text-2xl font-light text-gray-900 mb-4">Gold Jewelry</h3>
               </div>
               <div className="flex justify-center mb-6">

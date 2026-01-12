@@ -6,13 +6,13 @@ import { useProducts } from "@/hooks/useProducts"
 
 export default function FeaturedProducts() {
   const { products, loading } = useProducts()
-  
+
   // Get first 4 products for featured section
   const featuredProducts = products.slice(0, 4)
 
   if (loading) {
     return (
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-light text-gray-900 mb-4">Featured Products</h2>
@@ -40,7 +40,7 @@ export default function FeaturedProducts() {
 
   if (featuredProducts.length === 0) {
     return (
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-light text-gray-900 mb-4">Featured Products</h2>
@@ -54,7 +54,7 @@ export default function FeaturedProducts() {
   }
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-light text-gray-900 mb-4">Featured Products</h2>
@@ -82,20 +82,20 @@ export default function FeaturedProducts() {
                 {/* Badges */}
                 <div className="absolute top-4 left-4 flex flex-col space-y-2">
                   {product.isNew && (
-                    <span className="bg-green-500 text-white px-3 py-1 text-xs font-bold rounded-full">NEW</span>
+                    <span className="bg-[#fff4df] text-[#510c74] border border-[#510c74]/20 px-3 py-1 text-xs font-bold rounded-full text-center">NEW</span>
                   )}
                   {product.isOnSale && (
-                    <span className="bg-red-500 text-white px-3 py-1 text-xs font-bold rounded-full">SALE</span>
+                    <span className="bg-[#510c74] text-white px-3 py-1 text-xs font-bold rounded-full text-center">SALE</span>
                   )}
                 </div>
 
                 {/* Action buttons */}
                 <div className="absolute top-4 right-4 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-[#C4A484] hover:text-white transition-colors">
+                  <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-[#510c74] hover:text-white transition-colors">
                     <Heart className="w-5 h-5" />
                   </button>
                   <Link href={`/view-details?id=${product._id}`}>
-                    <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-[#C4A484] hover:text-white transition-colors">
+                    <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-[#510c74] hover:text-white transition-colors">
                       <Eye className="w-5 h-5" />
                     </button>
                   </Link>
@@ -110,9 +110,8 @@ export default function FeaturedProducts() {
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-4 h-4 ${
-                          i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"
-                        }`}
+                        className={`w-4 h-4 ${i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"
+                          }`}
                       />
                     ))}
                   </div>
@@ -120,7 +119,7 @@ export default function FeaturedProducts() {
                 </div>
 
                 <Link href={`/view-details?id=${product._id}`}>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3 hover:text-[#C4A484] transition-colors">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3 hover:text-[#510c74] transition-colors">
                     {product.name}
                   </h3>
                 </Link>
@@ -129,7 +128,7 @@ export default function FeaturedProducts() {
 
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-2">
-                    <span className="text-xl font-bold text-[#C4A484]">₹{product.price}</span>
+                    <span className="text-xl font-bold text-[#510c74]">₹{product.price}</span>
                     {product.originalPrice && product.originalPrice > product.price && (
                       <span className="text-sm text-gray-500 line-through">₹{product.originalPrice}</span>
                     )}
@@ -144,7 +143,7 @@ export default function FeaturedProducts() {
                 {/* Action Buttons */}
                 <div className="flex space-x-3">
                   <Link href={`/view-details?id=${product._id}`} className="flex-1">
-                    <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                    <Button className="w-full bg-[#510c74] hover:bg-[#240334] text-white">
                       View Details
                     </Button>
                   </Link>

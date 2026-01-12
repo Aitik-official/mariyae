@@ -172,7 +172,7 @@ const InstagramCarousel = () => {
       >
         <ChevronLeft className="w-6 h-6 text-gray-700" />
       </button>
-      
+
       <button
         onClick={handleNext}
         className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-100 transition-colors"
@@ -181,7 +181,7 @@ const InstagramCarousel = () => {
       </button>
 
       {/* Triptych Layout */}
-      <div 
+      <div
         ref={carouselRef}
         className="flex items-center justify-center gap-4 cursor-grab active:cursor-grabbing"
         onMouseDown={handleMouseDown}
@@ -197,7 +197,7 @@ const InstagramCarousel = () => {
         }}
       >
         {/* Left Panel */}
-        <div className="relative w-64 h-80 rounded-lg overflow-hidden border-2 border-yellow-400 transition-all duration-300 hover:scale-105">
+        <div className="relative w-64 h-80 rounded-lg overflow-hidden border-2 border-[#510c74] transition-all duration-300 hover:scale-105">
           <Image
             src={prevProduct.image}
             alt={prevProduct.name}
@@ -212,11 +212,11 @@ const InstagramCarousel = () => {
         </div>
 
         {/* Central Instagram Post */}
-        <div className="relative w-80 bg-white rounded-2xl border-2 border-yellow-400 shadow-xl transition-all duration-300 hover:scale-105">
+        <div className="relative w-80 bg-white rounded-2xl border-2 border-[#510c74] shadow-xl transition-all duration-300 hover:scale-105">
           {/* Header */}
           <div className="flex items-center p-3 border-b border-gray-200">
             <div className="flex items-center">
-              <div className="w-10 h-10 rounded-full border-2 border-yellow-400 mr-3 overflow-hidden">
+              <div className="w-10 h-10 rounded-full border-2 border-[#510c74] mr-3 overflow-hidden">
                 <Image
                   src="/logoalan-removebg-preview.png"
                   alt="Iitaon Jewellery"
@@ -253,9 +253,8 @@ const InstagramCarousel = () => {
               <div className="flex items-center space-x-3">
                 <button
                   onClick={handleLike}
-                  className={`transition-colors ${
-                    isLiked ? "text-red-500" : "text-gray-700"
-                  }`}
+                  className={`transition-colors ${isLiked ? "text-red-500" : "text-gray-700"
+                    }`}
                 >
                   <Heart className={`w-6 h-6 ${isLiked ? "fill-current" : ""}`} />
                 </button>
@@ -274,7 +273,7 @@ const InstagramCarousel = () => {
         </div>
 
         {/* Right Panel */}
-        <div className="relative w-64 h-80 rounded-lg overflow-hidden border-2 border-yellow-400 transition-all duration-300 hover:scale-105">
+        <div className="relative w-64 h-80 rounded-lg overflow-hidden border-2 border-[#510c74] transition-all duration-300 hover:scale-105">
           <Image
             src={nextProduct.image}
             alt={nextProduct.name}
@@ -295,11 +294,10 @@ const InstagramCarousel = () => {
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`w-2 h-2 rounded-full transition-all ${
-              index === currentIndex
-                ? "bg-yellow-400 w-6"
+            className={`w-2 h-2 rounded-full transition-all ${index === currentIndex
+                ? "bg-[#510c74] w-6"
                 : "bg-gray-300 hover:bg-gray-400"
-            }`}
+              }`}
           />
         ))}
       </div>

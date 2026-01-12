@@ -31,7 +31,7 @@ export default function SearchPage() {
   const { products, loading, error } = useProducts()
   const { addItem } = useCart()
   const searchParams = useSearchParams()
-  
+
   const [query, setQuery] = useState('')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [sortBy, setSortBy] = useState('featured')
@@ -52,15 +52,15 @@ export default function SearchPage() {
   // Filter and sort products
   const filteredProducts = products.filter(product => {
     const searchTerm = query.toLowerCase()
-    const matchesQuery = !query || 
-                        product.name.toLowerCase().includes(searchTerm) ||
-                        product.category.toLowerCase().includes(searchTerm) ||
-                        product.description?.toLowerCase().includes(searchTerm) ||
-                        product.keyFeatures?.some(feature => feature.toLowerCase().includes(searchTerm))
-    
+    const matchesQuery = !query ||
+      product.name.toLowerCase().includes(searchTerm) ||
+      product.category.toLowerCase().includes(searchTerm) ||
+      product.description?.toLowerCase().includes(searchTerm) ||
+      product.keyFeatures?.some(feature => feature.toLowerCase().includes(searchTerm))
+
     const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.category)
     const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1]
-    
+
     return matchesQuery && matchesCategory && matchesPrice
   })
 
@@ -91,13 +91,13 @@ export default function SearchPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-white">
         <Navbar />
         {/* Top spacing to prevent navbar overlap */}
         <div className="h-20"></div>
         <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900 mx-auto"></div>
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#510c74] mx-auto"></div>
             <p className="mt-4 text-gray-600">Loading products...</p>
           </div>
         </div>
@@ -108,7 +108,7 @@ export default function SearchPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-white">
         <Navbar />
         {/* Top spacing to prevent navbar overlap */}
         <div className="h-20"></div>
@@ -123,11 +123,11 @@ export default function SearchPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Navbar />
       {/* Top spacing to prevent navbar overlap */}
       <div className="h-20"></div>
-      
+
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8">
         {/* Search Header */}
         <div className="mb-8">
@@ -139,7 +139,7 @@ export default function SearchPage() {
               Found {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} matching your search
             </p>
           )}
-          
+
           {/* Search Bar */}
           <div className="relative max-w-2xl">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -148,7 +148,7 @@ export default function SearchPage() {
               placeholder="Search for products..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#510c74] focus:border-[#510c74]"
             />
           </div>
         </div>
@@ -184,7 +184,7 @@ export default function SearchPage() {
                               setSelectedCategories(selectedCategories.filter(c => c !== category))
                             }
                           }}
-                          className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          className="rounded border-gray-300 text-[#510c74] focus:ring-[#510c74]"
                         />
                         <span className="ml-2 text-sm text-gray-700">{category}</span>
                       </label>
@@ -217,7 +217,7 @@ export default function SearchPage() {
                 <Button
                   onClick={clearFilters}
                   variant="outline"
-                  className="w-full"
+                  className="w-full border-[#510c74] text-[#510c74] hover:bg-[#fff4df]"
                 >
                   Clear All Filters
                 </Button>
@@ -247,13 +247,13 @@ export default function SearchPage() {
                   <div className="flex items-center border border-gray-300 rounded-lg">
                     <button
                       onClick={() => setViewMode('grid')}
-                      className={`p-2 ${viewMode === 'grid' ? 'bg-blue-100 text-blue-600' : 'text-gray-600'}`}
+                      className={`p-2 ${viewMode === 'grid' ? 'bg-[#fff4df] text-[#510c74]' : 'text-gray-600'}`}
                     >
                       <Grid className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => setViewMode('list')}
-                      className={`p-2 ${viewMode === 'list' ? 'bg-blue-100 text-blue-600' : 'text-gray-600'}`}
+                      className={`p-2 ${viewMode === 'list' ? 'bg-[#fff4df] text-[#510c74]' : 'text-gray-600'}`}
                     >
                       <List className="w-4 h-4" />
                     </button>
@@ -274,19 +274,18 @@ export default function SearchPage() {
                 <p className="text-gray-600 mb-6">
                   Try adjusting your search criteria or filters
                 </p>
-                <Button onClick={clearFilters}>Clear All Filters</Button>
+                <Button onClick={clearFilters} className="bg-[#510c74] hover:bg-[#240334] text-white">Clear All Filters</Button>
               </div>
             ) : (
-              <div className={viewMode === 'grid' 
+              <div className={viewMode === 'grid'
                 ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                 : "space-y-4"
               }>
                 {sortedProducts.map((product) => (
                   <div
                     key={product._id}
-                    className={`bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden group hover:shadow-md transition-all duration-300 ${
-                      viewMode === 'list' ? 'flex' : ''
-                    }`}
+                    className={`bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden group hover:shadow-md transition-all duration-300 ${viewMode === 'list' ? 'flex' : ''
+                      }`}
                   >
                     <div className={`relative overflow-hidden ${viewMode === 'list' ? 'w-48 h-48' : 'h-64'}`}>
                       <img
@@ -294,25 +293,25 @@ export default function SearchPage() {
                         alt={product.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
-                      
+
                       {/* Badges */}
                       <div className="absolute top-4 left-4 flex flex-col space-y-2">
                         {product.isNew && (
-                          <span className="bg-green-500 text-white px-2 py-1 text-xs font-bold rounded-full">NEW</span>
+                          <span className="bg-[#fff4df] text-[#510c74] border border-[#510c74]/20 px-2 py-1 text-xs font-bold rounded-full">NEW</span>
                         )}
                         {product.isOnSale && (
-                          <span className="bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-full">SALE</span>
+                          <span className="bg-[#510c74] text-white px-2 py-1 text-xs font-bold rounded-full">SALE</span>
                         )}
                       </div>
 
                       {/* Action buttons */}
                       <div className="absolute top-4 right-4 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-gray-100">
-                          <Heart className="w-4 h-4 text-gray-600" />
+                        <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-[#fff4df]">
+                          <Heart className="w-4 h-4 text-[#510c74]" />
                         </button>
                         <Link href={`/view-details?id=${product._id}`}>
-                          <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-gray-100">
-                            <Eye className="w-4 h-4 text-gray-600" />
+                          <button className="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-[#fff4df]">
+                            <Eye className="w-4 h-4 text-[#510c74]" />
                           </button>
                         </Link>
                       </div>
@@ -323,7 +322,7 @@ export default function SearchPage() {
                         <p className="text-sm text-gray-500">{product.category}</p>
                       </div>
 
-                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-[#510c74] transition-colors">
                         {product.name}
                       </h3>
 
@@ -333,9 +332,8 @@ export default function SearchPage() {
                           {[...Array(5)].map((_, i) => (
                             <Star
                               key={i}
-                              className={`w-4 h-4 ${
-                                i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"
-                              }`}
+                              className={`w-4 h-4 ${i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"
+                                }`}
                             />
                           ))}
                         </div>
@@ -345,7 +343,7 @@ export default function SearchPage() {
                       {/* Price */}
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center space-x-2">
-                          <span className="text-xl font-bold text-blue-600">₹{product.price.toFixed(2)}</span>
+                          <span className="text-xl font-bold text-[#510c74]">₹{product.price.toFixed(2)}</span>
                           {product.originalPrice && product.originalPrice > product.price && (
                             <span className="text-sm text-gray-500 line-through">₹{product.originalPrice.toFixed(2)}</span>
                           )}
@@ -358,8 +356,8 @@ export default function SearchPage() {
                       </div>
 
                       {/* Add to Cart Button */}
-                      <Button 
-                        className="w-full bg-green-600 hover:bg-green-700"
+                      <Button
+                        className="w-full bg-[#510c74] hover:bg-[#240334] text-white"
                         onClick={() => addItem({
                           id: product._id,
                           name: product.name,
@@ -373,10 +371,10 @@ export default function SearchPage() {
                         <ShoppingCart className="w-4 h-4 mr-2" />
                         Add to Cart
                       </Button>
-                      
+
                       {/* View Details Button */}
                       <Link href={`/view-details?id=${product._id}`} className="w-full">
-                        <Button variant="outline" className="w-full">
+                        <Button variant="outline" className="w-full border-[#510c74] text-[#510c74] hover:bg-[#fff4df]">
                           View Details
                         </Button>
                       </Link>
@@ -388,7 +386,7 @@ export default function SearchPage() {
           </main>
         </div>
       </div>
-      
+
       <Footer />
     </div>
   )

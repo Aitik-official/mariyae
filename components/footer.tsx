@@ -8,7 +8,7 @@ import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, Clock, Shie
 export default function Footer() {
 
   return (
-    <footer className="text-white" style={{background: 'linear-gradient(90deg, #670099, #510c74, #240334)'}}>
+    <footer className="text-[#510c74] border-t border-[#510c74]/10" style={{ backgroundColor: '#fff4df' }}>
 
 
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-16">
@@ -16,7 +16,7 @@ export default function Footer() {
           {/* Company Info */}
           <div className="space-y-6">
             <div className="flex items-center">
-                <Image
+              <Image
                 src="/MARIYAE_TETX_BG.png"
                 alt="Mariyae Logo"
                 width={350}
@@ -24,32 +24,32 @@ export default function Footer() {
                 className="h-28 md:h-32 lg:h-36 w-auto object-contain"
               />
             </div>
-            <p className="text-white leading-relaxed opacity-90">
+            <p className="text-[#510c74] leading-relaxed opacity-90">
               Crafting timeless jewelry pieces that celebrate life's most precious moments. Quality, elegance, and
               craftsmanship in every design at Mariyae.
             </p>
             <div className="flex space-x-4">
               <a
                 href="#"
-                className="w-10 h-10 bg-white/20 border border-white/30 rounded-full flex items-center justify-center hover:bg-[#d1b2e0] hover:border-[#d1b2e0] transition-colors text-white hover:text-[#240334]"
+                className="w-10 h-10 bg-[#510c74]/10 border border-[#510c74]/30 rounded-full flex items-center justify-center hover:bg-[#510c74] hover:border-[#510c74] transition-colors text-[#510c74] hover:text-white"
               >
                 <Facebook className="w-5 h-5" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 bg-white/20 border border-white/30 rounded-full flex items-center justify-center hover:bg-[#d1b2e0] hover:border-[#d1b2e0] transition-colors text-white hover:text-[#240334]"
+                className="w-10 h-10 bg-[#510c74]/10 border border-[#510c74]/30 rounded-full flex items-center justify-center hover:bg-[#510c74] hover:border-[#510c74] transition-colors text-[#510c74] hover:text-white"
               >
                 <Instagram className="w-5 h-5" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 bg-white/20 border border-white/30 rounded-full flex items-center justify-center hover:bg-[#d1b2e0] hover:border-[#d1b2e0] transition-colors text-white hover:text-[#240334]"
+                className="w-10 h-10 bg-[#510c74]/10 border border-[#510c74]/30 rounded-full flex items-center justify-center hover:bg-[#510c74] hover:border-[#510c74] transition-colors text-[#510c74] hover:text-white"
               >
                 <Twitter className="w-5 h-5" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 bg-white/20 border border-white/30 rounded-full flex items-center justify-center hover:bg-[#d1b2e0] hover:border-[#d1b2e0] transition-colors text-white hover:text-[#240334]"
+                className="w-10 h-10 bg-[#510c74]/10 border border-[#510c74]/30 rounded-full flex items-center justify-center hover:bg-[#510c74] hover:border-[#510c74] transition-colors text-[#510c74] hover:text-white"
               >
                 <Youtube className="w-5 h-5" />
               </a>
@@ -58,30 +58,30 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-6 text-white">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-6 text-[#510c74]">Quick Links</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/about" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 transition-colors">
+                <Link href="/about" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/products" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/products" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   Our Products
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-[#F3EDE4] opacity-80 hover:text-[#C9A34E] hover:opacity-100 transition-colors">
+                <Link href="/blog" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   Blog
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 transition-colors">
+                <Link href="/contact" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 transition-colors">
+                <Link href="/faq" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   FAQ
                 </Link>
               </li>
@@ -92,61 +92,61 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-6 text-white">Get in Touch</h3>
+            <h3 className="text-lg font-semibold mb-6 text-[#510c74]">Get in Touch</h3>
             <div className="space-y-4">
               <div className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-[#d1b2e0] mt-1" />
-                <div className="text-white opacity-90">
+                <MapPin className="w-5 h-5 text-[#510c74] mt-1" />
+                <div className="text-[#510c74] opacity-90">
                   <p>123 Jewelry Street</p>
                   <p>Diamond District, NY 10001</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-[#d1b2e0]" />
-                <span className="text-white opacity-90">+1 (555) 123-4567</span>
+                <Phone className="w-5 h-5 text-[#510c74]" />
+                <span className="text-[#510c74] opacity-90">+1 (555) 123-4567</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-[#d1b2e0]" />
-                <span className="text-white opacity-90">info@mariyae.com</span>
+                <Mail className="w-5 h-5 text-[#510c74]" />
+                <span className="text-[#510c74] opacity-90">info@mariyae.com</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Clock className="w-5 h-5 text-[#d1b2e0]" />
-                <span className="text-white opacity-90">Mon-Sat: 9AM-8PM</span>
+                <Clock className="w-5 h-5 text-[#510c74]" />
+                <span className="text-[#510c74] opacity-90">Mon-Sat: 9AM-8PM</span>
               </div>
             </div>
           </div>
 
           {/* Categories */}
           <div>
-            <h3 className="text-lg font-semibold mb-6 text-white">Categories</h3>
+            <h3 className="text-lg font-semibold mb-6 text-[#510c74]">Categories</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/necklaces" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 transition-colors">
+                <Link href="/necklaces" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   Necklaces
                 </Link>
               </li>
               <li>
-                <Link href="/pendants" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/pendants" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   Pendants
                 </Link>
               </li>
               <li>
-                <Link href="/rings" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 transition-colors">
+                <Link href="/rings" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   Rings
                 </Link>
               </li>
               <li>
-                <Link href="/earrings" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 transition-colors">
+                <Link href="/earrings" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   Earrings
                 </Link>
               </li>
               <li>
-                <Link href="/bracelets" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 transition-colors">
+                <Link href="/bracelets" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   Bracelets
                 </Link>
               </li>
               <li>
-                <Link href="/wedding" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 transition-colors">
+                <Link href="/wedding" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   Wedding Collection
                 </Link>
               </li>
@@ -155,35 +155,35 @@ export default function Footer() {
 
           {/* Special Offers */}
           <div>
-            <h3 className="text-lg font-semibold mb-6 text-white">Special Offers</h3>
+            <h3 className="text-lg font-semibold mb-6 text-[#510c74]">Special Offers</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/new-arrivals" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 transition-colors">
+                <Link href="/new-arrivals" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   New Arrivals
                 </Link>
               </li>
               <li>
-                <Link href="/sale" className="text-gray-400 hover:text-white transition-colors">
+                <Link href="/sale" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   Sale Items
                 </Link>
               </li>
               <li>
-                <Link href="/limited-edition" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 transition-colors">
+                <Link href="/limited-edition" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   Limited Edition
                 </Link>
               </li>
               <li>
-                <Link href="/personalized" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 transition-colors">
+                <Link href="/personalized" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   Personalized Jewelry
                 </Link>
               </li>
               <li>
-                <Link href="/luxury-collection" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 transition-colors">
+                <Link href="/luxury-collection" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   Luxury Collection
                 </Link>
               </li>
               <li>
-                <Link href="/bridal-sets" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 transition-colors">
+                <Link href="/bridal-sets" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 transition-colors">
                   Bridal Sets
                 </Link>
               </li>
@@ -194,25 +194,25 @@ export default function Footer() {
 
 
         {/* Bottom bar */}
-        <div className="border-t border-white/20 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <div className="border-t border-[#510c74]/20 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center space-x-4 mb-4 md:mb-0">
-            <p className="text-white opacity-90 text-sm">© 2024 Mariyae. All rights reserved.</p>
+            <p className="text-[#510c74] opacity-90 text-sm">© 2024 Mariyae. All rights reserved.</p>
             <div className="flex items-center space-x-2">
-              <Star className="w-4 h-4 text-[#d1b2e0]" />
-              <span className="text-white opacity-90 text-sm">Premium Quality Since 1998</span>
+              <Star className="w-4 h-4 text-[#510c74]" />
+              <span className="text-[#510c74] opacity-90 text-sm">Premium Quality Since 1998</span>
             </div>
           </div>
           <div className="flex space-x-6">
-            <Link href="/privacy" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 text-sm transition-colors">
+            <Link href="/privacy" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 text-sm transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 text-sm transition-colors">
+            <Link href="/terms" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 text-sm transition-colors">
               Terms of Service
             </Link>
-            <Link href="/cookies" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 text-sm transition-colors">
+            <Link href="/cookies" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 text-sm transition-colors">
               Cookie Policy
             </Link>
-            <Link href="/sitemap" className="text-white opacity-90 hover:text-[#d1b2e0] hover:opacity-100 text-sm transition-colors">
+            <Link href="/sitemap" className="text-[#510c74] opacity-90 hover:text-[#240334] hover:opacity-100 text-sm transition-colors">
               Sitemap
             </Link>
           </div>

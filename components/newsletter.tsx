@@ -20,7 +20,7 @@ export default function Newsletter() {
   }
 
   return (
-    <section className="py-16 bg-[#C4A484]">
+    <section className="py-16 bg-[#510c74]">
       <div className="max-w-4xl mx-auto px-4 lg:px-8 text-center">
         <div className="mb-8">
           <Mail className="w-16 h-16 text-white mx-auto mb-6" />
@@ -47,7 +47,7 @@ export default function Newsletter() {
                 required
                 className="flex-1 bg-white border-0 text-gray-900 placeholder-gray-500"
               />
-              <Button type="submit" className="bg-white text-[#C4A484] hover:bg-gray-100 font-medium px-8">
+              <Button type="submit" className="bg-[#fff4df] text-[#510c74] hover:bg-[#ffedc2] font-medium px-8">
                 Subscribe
               </Button>
             </div>

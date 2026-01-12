@@ -19,7 +19,7 @@ export default function Hero() {
         {/* Dark overlay for better text readability */}
         <div className="absolute inset-0 bg-black/40"></div>
       </div>
-      
+
       <div className="max-w-7xl mx-auto px-4 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-8 items-center min-h-[calc(100vh-120px)] py-12">
           {/* Left Content */}
@@ -34,7 +34,7 @@ export default function Hero() {
             <Button
               variant="outline"
               size="lg"
-              className="bg-white/10 backdrop-blur-sm border-2 border-white text-white hover:bg-white hover:text-[#C4A484] px-8 py-3 font-medium transition-all duration-300 hover:scale-105 drop-shadow-lg"
+              className="bg-white/10 backdrop-blur-sm border-2 border-white text-white hover:bg-white hover:text-[#510c74] px-8 py-3 font-medium transition-all duration-300 hover:scale-105 drop-shadow-lg"
             >
               Discover Now
             </Button>
@@ -89,10 +89,10 @@ export default function Hero() {
 
         {/* Navigation Arrows */}
         <div className="absolute bottom-8 right-8 flex space-x-3">
-          <button className="w-12 h-12 border-2 border-white rounded-full flex items-center justify-center text-white hover:bg-white hover:text-[#C4A484] transition-all duration-300 hover:scale-110 hover:shadow-lg">
+          <button className="w-12 h-12 border-2 border-white rounded-full flex items-center justify-center text-white hover:bg-white hover:text-[#510c74] transition-all duration-300 hover:scale-110 hover:shadow-lg">
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <button className="w-12 h-12 border-2 border-white rounded-full flex items-center justify-center text-white hover:bg-white hover:text-[#C4A484] transition-all duration-300 hover:scale-110 hover:shadow-lg">
+          <button className="w-12 h-12 border-2 border-white rounded-full flex items-center justify-center text-white hover:bg-white hover:text-[#510c74] transition-all duration-300 hover:scale-110 hover:shadow-lg">
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>

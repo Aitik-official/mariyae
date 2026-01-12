@@ -11,7 +11,7 @@ export default function AboutSection() {
   ]
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left content */}
@@ -28,7 +28,7 @@ export default function AboutSection() {
                 the test of time. Every piece is carefully designed and meticulously crafted using only the finest
                 materials, ensuring that your jewelry remains as beautiful as the day you first wore it.
               </p>
-              <Button size="lg" className="bg-[#C4A484] hover:bg-[#B8956F] text-white">
+              <Button size="lg" className="bg-[#510c74] hover:bg-[#240334] text-white">
                 Learn More About Us
               </Button>
             </div>
@@ -45,7 +45,7 @@ export default function AboutSection() {
             />
             <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-lg shadow-lg">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-[#C4A484] rounded-full flex items-center justify-center">
+                <div className="w-12 h-12 bg-[#510c74] rounded-full flex items-center justify-center">
                   <Gem className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -61,7 +61,7 @@ export default function AboutSection() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mt-16">
           {stats.map((stat, index) => (
             <div key={index} className="text-center">
-              <div className="w-16 h-16 bg-[#C4A484] rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[#510c74] rounded-full flex items-center justify-center mx-auto mb-4">
                 <stat.icon className="w-8 h-8 text-white" />
               </div>
               <div className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</div>

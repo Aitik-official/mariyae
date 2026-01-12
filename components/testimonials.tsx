@@ -53,7 +53,7 @@ export default function Testimonials() {
         </div>
 
         <div className="relative">
-          <div className="bg-gray-50 rounded-lg p-8 lg:p-12">
+          <div className="bg-[#fff4df] rounded-lg p-8 lg:p-12">
             <div className="text-center">
               {/* Stars */}
               <div className="flex justify-center mb-6">
@@ -87,13 +87,13 @@ export default function Testimonials() {
           {/* Navigation buttons */}
           <button
             onClick={prevTestimonial}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#C4A484] hover:text-white transition-colors"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#510c74] hover:text-white transition-colors"
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
           <button
             onClick={nextTestimonial}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#C4A484] hover:text-white transition-colors"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#510c74] hover:text-white transition-colors"
           >
             <ChevronRight className="w-6 h-6" />
           </button>
@@ -104,9 +104,8 @@ export default function Testimonials() {
               <button
                 key={index}
                 onClick={() => setCurrentTestimonial(index)}
-                className={`w-3 h-3 rounded-full transition-colors ${
-                  index === currentTestimonial ? "bg-[#C4A484]" : "bg-gray-300"
-                }`}
+                className={`w-3 h-3 rounded-full transition-colors ${index === currentTestimonial ? "bg-[#510c74]" : "bg-gray-300"
+                  }`}
               />
             ))}
           </div>

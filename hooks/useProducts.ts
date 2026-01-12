@@ -55,10 +55,10 @@ export const useProducts = () => {
     try {
       setLoading(true)
       setError(null)
-      
+
       const response = await fetch('/api/products')
       const data = await response.json()
-      
+
       if (data.success) {
         setProducts(data.data)
       } else {
@@ -77,40 +77,50 @@ export const useProducts = () => {
     try {
       setLoading(true)
       setError(null)
-      
-      const formData = new FormData()
-      
-      // Add text fields
-      formData.append('name', productData.name)
-      formData.append('description', productData.description)
-      formData.append('keyFeatures', productData.keyFeatures.join(','))
-      formData.append('price', productData.price.toString())
-      if (productData.originalPrice) {
-        formData.append('originalPrice', productData.originalPrice.toString())
+
+      // 1. Upload images and videos client-side first
+      let uploadedImages: Array<{ url: string, publicId: string }> = []
+      let uploadedVideos: Array<{ url: string, publicId: string }> = []
+
+      if (productData.images && productData.images.length > 0) {
+        // Dynamic import to avoid SSR issues if any, though this is a hook
+        const { uploadMultipleFilesClient } = await import('@/lib/client-upload')
+        uploadedImages = await uploadMultipleFilesClient(productData.images, 'image')
       }
-      if (productData.sizeConstraints) {
-        formData.append('sizeConstraints', productData.sizeConstraints)
+
+      if (productData.videos && productData.videos.length > 0) {
+        const { uploadMultipleFilesClient } = await import('@/lib/client-upload')
+        uploadedVideos = await uploadMultipleFilesClient(productData.videos, 'video')
       }
-      formData.append('quantity', productData.quantity.toString())
-      formData.append('category', productData.category)
-      
-      // Add image files
-      productData.images.forEach((image, index) => {
-        formData.append('images', image)
-      })
-      
-      // Add video files
-      productData.videos.forEach((video, index) => {
-        formData.append('videos', video)
-      })
-      
+
+      // 2. Prepare JSON payload
+      const payload = {
+        name: productData.name,
+        description: productData.description,
+        keyFeatures: productData.keyFeatures,
+        price: productData.price,
+        originalPrice: productData.originalPrice,
+        sizeConstraints: productData.sizeConstraints,
+        quantity: productData.quantity,
+        category: productData.category,
+        mainCategory: productData.mainCategory,
+        subCategory: productData.subCategory,
+        // Send the uploaded result (URLs/IDs) instead of Files
+        images: uploadedImages,
+        videos: uploadedVideos,
+        imageUrls: productData.imageUrls
+      }
+
       const response = await fetch('/api/products', {
         method: 'POST',
-        body: formData
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
       })
-      
+
       const data = await response.json()
-      
+
       if (data.success) {
         const newProduct = data.data
         setProducts(prev => [newProduct, ...prev])
@@ -133,53 +143,51 @@ export const useProducts = () => {
     try {
       setLoading(true)
       setError(null)
-      
-      const formData = new FormData()
-      
-      // Add text fields
-      if (productData.name) formData.append('name', productData.name)
-      if (productData.description) formData.append('description', productData.description)
-      if (productData.keyFeatures) formData.append('keyFeatures', productData.keyFeatures.join(','))
-      if (productData.price) formData.append('price', productData.price.toString())
-      if (productData.originalPrice) formData.append('originalPrice', productData.originalPrice.toString())
-      if (productData.sizeConstraints) formData.append('sizeConstraints', productData.sizeConstraints)
-      if (productData.quantity) formData.append('quantity', productData.quantity.toString())
-      if (productData.category) formData.append('category', productData.category)
-      if (productData.mainCategory) formData.append('mainCategory', productData.mainCategory)
-      if (productData.subCategory) formData.append('subCategory', productData.subCategory)
-      if (productData.imageUrls && productData.imageUrls.length > 0) {
-        formData.append('imageUrls', JSON.stringify(productData.imageUrls))
+
+      // 1. Upload NEW images and videos client-side
+      let newUploadedImages: Array<{ url: string, publicId: string }> = []
+      let newUploadedVideos: Array<{ url: string, publicId: string }> = []
+
+      if (productData.images && productData.images.length > 0) {
+        const { uploadMultipleFilesClient } = await import('@/lib/client-upload')
+        newUploadedImages = await uploadMultipleFilesClient(productData.images, 'image')
       }
-      
-      // Add new image files
-      if (productData.images) {
-        productData.images.forEach((image) => {
-          formData.append('newImages', image)
-        })
+
+      if (productData.videos && productData.videos.length > 0) {
+        const { uploadMultipleFilesClient } = await import('@/lib/client-upload')
+        newUploadedVideos = await uploadMultipleFilesClient(productData.videos, 'video')
       }
-      
-      // Add new video files
-      if (productData.videos) {
-        productData.videos.forEach((video) => {
-          formData.append('newVideos', video)
-        })
+
+      // 2. Prepare JSON payload
+      const payload = {
+        name: productData.name,
+        description: productData.description,
+        keyFeatures: productData.keyFeatures,
+        price: productData.price,
+        originalPrice: productData.originalPrice,
+        sizeConstraints: productData.sizeConstraints,
+        quantity: productData.quantity,
+        category: productData.category,
+        mainCategory: productData.mainCategory,
+        subCategory: productData.subCategory,
+        imageUrls: productData.imageUrls,
+        // Send the uploaded result (URLs/IDs)
+        newImages: newUploadedImages,
+        newVideos: newUploadedVideos,
+        imagesToDelete: productData.imagesToDelete,
+        videosToDelete: productData.videosToDelete
       }
-      
-      // Add deletion lists
-      if (productData.imagesToDelete) {
-        formData.append('imagesToDelete', JSON.stringify(productData.imagesToDelete))
-      }
-      if (productData.videosToDelete) {
-        formData.append('videosToDelete', JSON.stringify(productData.videosToDelete))
-      }
-      
+
       const response = await fetch(`/api/products/${id}`, {
         method: 'PUT',
-        body: formData
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
       })
-      
+
       const data = await response.json()
-      
+
       if (data.success) {
         const updatedProduct = data.data
         setProducts(prev => prev.map(p => p._id === id ? updatedProduct : p))
@@ -202,13 +210,13 @@ export const useProducts = () => {
     try {
       setLoading(true)
       setError(null)
-      
+
       const response = await fetch(`/api/products/${id}`, {
         method: 'DELETE'
       })
-      
+
       const data = await response.json()
-      
+
       if (data.success) {
         setProducts(prev => prev.filter(p => p._id !== id))
         return true
@@ -230,10 +238,10 @@ export const useProducts = () => {
     try {
       setLoading(true)
       setError(null)
-      
+
       const response = await fetch(`/api/products/${id}`)
       const data = await response.json()
-      
+
       if (data.success) {
         return data.data
       } else {
