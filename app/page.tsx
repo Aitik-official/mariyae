@@ -27,6 +27,10 @@ import {
 
 // Helper function to render a banner slide
 const renderBannerSlide = (banner: any, index: number): JSX.Element => {
+  const hasContent = !!(banner.headline || banner.description || banner.eyebrowText)
+  const isSimple = !hasContent
+
+  // Layout variables for structured banners
   const isReversed = banner.layoutType === 'reversed'
   const gridCols = isReversed ? 'lg:grid-cols-[0.95fr_1.05fr]' : 'lg:grid-cols-[1.05fr_0.95fr]'
   const textOrder = isReversed ? 'order-1 lg:order-2' : ''
@@ -36,6 +40,35 @@ const renderBannerSlide = (banner: any, index: number): JSX.Element => {
   const decorativePosition = isReversed ? 'left-8 lg:left-16' : 'right-8 lg:right-16'
   const gradientPosition = isReversed ? 'right-0 lg:right-[-80px]' : 'left-0 lg:left-[-80px]'
   const gradientCalc = isReversed ? 'lg:w-[calc(100%+80px)]' : 'lg:w-[calc(100%+80px)]'
+
+  if (isSimple) {
+    return (
+      <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] group cursor-pointer bg-white flex items-center justify-center">
+        <Link href={banner.button1Link || "/products"} className="absolute inset-0 z-20" aria-label={banner.headline || "Promotion"} />
+        <div className="relative w-full h-full overflow-hidden">
+          {banner.backgroundImage ? (
+            <Image
+              src={banner.backgroundImage}
+              alt={banner.headline || 'Banner'}
+              fill
+              className="h-full w-full object-contain transition-transform duration-700 group-hover:scale-105"
+              priority={index === 0}
+              sizes="100vw"
+            />
+          ) : (
+            <Image
+              src="/2.jpg"
+              alt={banner.headline || 'Banner'}
+              fill
+              className="h-full w-full object-contain"
+              priority={index === 0}
+              sizes="100vw"
+            />
+          )}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="relative min-h-[500px] sm:min-h-[550px] md:min-h-[620px] w-full">
@@ -131,25 +164,17 @@ const renderBannerSlide = (banner: any, index: number): JSX.Element => {
               <div className={`absolute ${gradientPosition} top-0 h-full w-full ${gradientCalc}`} style={{ background: `linear-gradient(${gradientDirection}, transparent, rgba(201, 163, 78, 0.15), transparent)` }} />
 
               {/* Image Container */}
-              <div className="relative h-[85%] w-[85%] max-h-[350px] max-w-[450px] overflow-hidden rounded-lg lg:rounded-none mx-auto">
-                {banner.decorativeImage ? (
+              {banner.decorativeImage && (
+                <div className="relative h-[85%] w-[85%] max-h-[350px] max-w-[450px] overflow-hidden rounded-lg lg:rounded-none mx-auto scale-110 hover:scale-115 transition-transform duration-700">
                   <Image
                     src={banner.decorativeImage}
                     alt={banner.headline || 'Banner'}
                     fill
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-contain"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
                   />
-                ) : (
-                  <Image
-                    src="/2.jpg"
-                    alt={banner.headline || 'Banner'}
-                    fill
-                    className="h-full w-full object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                  />
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -500,7 +525,7 @@ export default function Home() {
       </section>
 
       {/* Hero Section */}
-      <section className="relative w-full min-h-[500px] sm:min-h-[550px] md:min-h-[620px] overflow-hidden bg-white" style={{ zIndex: 1 }}>
+      <section className="relative w-full min-h-[400px] sm:min-h-[500px] md:min-h-[600px] overflow-hidden bg-white" style={{ zIndex: 1 }}>
         <Carousel
           setApi={setApi}
           opts={{
@@ -516,11 +541,24 @@ export default function Home() {
         >
           <CarouselContent>
             {/* Dynamic Banners from Database */}
-            {banners.map((banner, index) => (
-              <CarouselItem key={banner._id}>
-                {renderBannerSlide(banner, index)}
+            {banners.length > 0 ? (
+              banners.map((banner, index) => (
+                <CarouselItem key={banner._id}>
+                  {renderBannerSlide(banner, index)}
+                </CarouselItem>
+              ))
+            ) : (
+              <CarouselItem>
+                {renderBannerSlide({
+                  headline: "Exquisite Imitation Jewelry",
+                  description: "Discover our curated collection of premium jewelry pieces for every occasion.",
+                  backgroundImage: "/2.jpg",
+                  button1Text: "Shop Collection",
+                  button1Link: "/products",
+                  layoutType: "normal"
+                }, 0)}
               </CarouselItem>
-            ))}
+            )}
           </CarouselContent>
 
           {/* Navigation Arrows */}

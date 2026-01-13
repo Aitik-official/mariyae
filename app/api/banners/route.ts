@@ -1,24 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import connectDB from '@/lib/mongodb'
-import { COLLECTIONS } from '@/lib/collections'
+import Banner from '@/lib/models/Banner'
 import { uploadToCloudinary, getCloudinaryFolder, uploadImageFromUrl } from '@/lib/cloudinary'
-import { ObjectId } from 'mongodb'
 
 // GET all banners
 export async function GET(request: NextRequest) {
   try {
     await connectDB()
-    const db = (await import('mongoose')).connection.db
-    const collection = db.collection(COLLECTIONS.BANNERS)
-    
-    const banners = await collection.find({}).sort({ order: 1 }).toArray()
-    
+    const banners = await Banner.find({}).sort({ order: 1 })
+
     return NextResponse.json({
       success: true,
-      banners: banners.map(banner => ({
-        _id: banner._id.toString(),
-        ...banner
-      }))
+      banners
     })
   } catch (error) {
     console.error('Error fetching banners:', error)
@@ -33,11 +26,9 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     await connectDB()
-    const db = (await import('mongoose')).connection.db
-    const collection = db.collection(COLLECTIONS.BANNERS)
-    
+
     const formData = await request.formData()
-    
+
     const order = parseInt(formData.get('order') as string) || 0
     const eyebrowText = formData.get('eyebrowText') as string || ''
     const headline = formData.get('headline') as string || ''
@@ -46,13 +37,13 @@ export async function POST(request: NextRequest) {
     const button1Link = formData.get('button1Link') as string || ''
     const button2Text = formData.get('button2Text') as string || ''
     const button2Link = formData.get('button2Link') as string || ''
-    const layoutType = formData.get('layoutType') as string || 'normal' // 'normal' or 'reversed'
-    
+    const layoutType = formData.get('layoutType') as string || 'normal'
+
     // Handle background image
     const backgroundImageFile = formData.get('backgroundImage') as File | null
     const backgroundImageUrl = formData.get('backgroundImageUrl') as string | null
     let backgroundImage = ''
-    
+
     if (backgroundImageFile && backgroundImageFile.size > 0) {
       const bytes = await backgroundImageFile.arrayBuffer()
       const buffer = Buffer.from(bytes)
@@ -69,12 +60,19 @@ export async function POST(request: NextRequest) {
         backgroundImage = backgroundImageUrl.trim()
       }
     }
-    
+
+    if (!backgroundImage) {
+      return NextResponse.json(
+        { success: false, error: 'Background image is required' },
+        { status: 400 }
+      )
+    }
+
     // Handle decorative image
     const decorativeImageFile = formData.get('decorativeImage') as File | null
     const decorativeImageUrl = formData.get('decorativeImageUrl') as string | null
     let decorativeImage = ''
-    
+
     if (decorativeImageFile && decorativeImageFile.size > 0) {
       const bytes = await decorativeImageFile.arrayBuffer()
       const buffer = Buffer.from(bytes)
@@ -91,41 +89,42 @@ export async function POST(request: NextRequest) {
         decorativeImage = decorativeImageUrl.trim()
       }
     }
-    
-    const newBanner = {
+
+    const newBanner = new Banner({
       order,
-      eyebrowText,
-      headline,
-      description,
-      button1Text,
-      button1Link,
-      button2Text,
-      button2Link,
+      eyebrowText: eyebrowText || '',
+      headline: headline || '',
+      description: description || '',
+      button1Text: button1Text || '',
+      button1Link: button1Link || '',
+      button2Text: button2Text || '',
+      button2Link: button2Link || '',
       layoutType,
       backgroundImage,
-      decorativeImage,
-      isActive: true,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }
-    
-    const result = await collection.insertOne(newBanner)
-    
+      decorativeImage: decorativeImage || '',
+      isActive: true
+    })
+
+    console.log('Attempting to save banner:', JSON.stringify(newBanner, null, 2))
+    await newBanner.save()
+    console.log('Banner saved successfully')
+
     return NextResponse.json({
       success: true,
-      banner: {
-        _id: result.insertedId.toString(),
-        ...newBanner
-      }
+      banner: newBanner
     })
-  } catch (error) {
-    console.error('Error creating banner:', error)
+  } catch (error: any) {
+    console.error('CRITICAL ERROR in POST /api/banners:', error)
     return NextResponse.json(
-      { success: false, error: 'Failed to create banner' },
+      {
+        success: false,
+        error: error.message || 'Failed to create banner',
+        details: error.errors ? Object.keys(error.errors).map(key => ({
+          field: key,
+          message: error.errors[key].message
+        })) : null
+      },
       { status: 500 }
     )
   }
 }
-
-
-

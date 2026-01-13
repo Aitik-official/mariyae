@@ -14,17 +14,17 @@ export const uploadToCloudinary = async (file: Buffer, folder: string, resourceT
     console.log('Starting Cloudinary upload...')
     console.log('Cloud name:', cloudinary.config().cloud_name)
     console.log('API key:', cloudinary.config().api_key ? 'Present' : 'Missing')
-    
+
     const result = await new Promise((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         {
           folder: `mariyae-com/${folder}`,
           resource_type: resourceType,
-          allowed_formats: resourceType === 'image' 
-            ? ['jpg', 'jpeg', 'png', 'webp'] 
+          allowed_formats: resourceType === 'image'
+            ? ['jpg', 'jpeg', 'png', 'webp']
             : ['mp4', 'mov', 'avi', 'mkv'],
           transformation: resourceType === 'image' ? [
-            { width: 800, height: 800, crop: 'limit' },
+            { width: 1920, height: 1080, crop: 'limit' },
             { quality: 'auto' },
             { fetch_format: 'auto' }
           ] : undefined,
@@ -67,7 +67,7 @@ export const deleteFromCloudinary = async (publicId: string, resourceType: 'imag
 }
 
 // Helper function to get organized folder structure
-export const getCloudinaryFolder = (type: 'products' | 'banners' | 'thumbnails' | 'categories', category?: string) => {
+export const getCloudinaryFolder = (type: 'products' | 'banners' | 'thumbnails' | 'categories' | 'handpicked', category?: string) => {
   if (type === 'categories' && category) {
     return `mariyae-com/categories/${category.toLowerCase()}`
   }
@@ -76,32 +76,32 @@ export const getCloudinaryFolder = (type: 'products' | 'banners' | 'thumbnails' 
 
 // Enhanced upload function with better error handling and progress tracking
 export const uploadMultipleFiles = async (
-  files: File[], 
-  folder: string, 
+  files: File[],
+  folder: string,
   resourceType: 'image' | 'video' = 'image'
 ) => {
   const uploadPromises = files.map(async (file) => {
     if (file.size === 0) return null
-    
+
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
-    
+
     return await uploadToCloudinary(buffer, folder, resourceType)
   })
-  
+
   const results = await Promise.all(uploadPromises)
   return results.filter(result => result !== null)
 }
 
 // Delete multiple files from Cloudinary
 export const deleteMultipleFiles = async (
-  publicIds: string[], 
+  publicIds: string[],
   resourceType: 'image' | 'video' = 'image'
 ) => {
-  const deletePromises = publicIds.map(publicId => 
+  const deletePromises = publicIds.map(publicId =>
     deleteFromCloudinary(publicId, resourceType)
   )
-  
+
   await Promise.all(deletePromises)
 }
 
@@ -109,13 +109,13 @@ export const deleteMultipleFiles = async (
 export const uploadImageFromUrl = async (imageUrl: string, folder: string) => {
   try {
     console.log('Uploading image from URL:', imageUrl)
-    
+
     const result = await cloudinary.uploader.upload(imageUrl, {
       folder: `mariyae-com/${folder}`,
       resource_type: 'image',
       allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
       transformation: [
-        { width: 800, height: 800, crop: 'limit' },
+        { width: 1920, height: 1080, crop: 'limit' },
         { quality: 'auto' },
         { fetch_format: 'auto' }
       ],

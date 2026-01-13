@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import connectDB from '@/lib/mongodb'
-import { COLLECTIONS } from '@/lib/collections'
+import Banner from '@/lib/models/Banner'
 import { uploadToCloudinary, getCloudinaryFolder, uploadImageFromUrl } from '@/lib/cloudinary'
-import { ObjectId } from 'mongodb'
 
 // PUT update banner
 export async function PUT(
@@ -11,37 +10,35 @@ export async function PUT(
 ) {
   try {
     await connectDB()
-    const db = (await import('mongoose')).connection.db
-    const collection = db.collection(COLLECTIONS.BANNERS)
-    
     const { id } = await params
-    
+
     const formData = await request.formData()
-    
-    const order = parseInt(formData.get('order') as string) || 0
-    const eyebrowText = formData.get('eyebrowText') as string || ''
-    const headline = formData.get('headline') as string || ''
-    const description = formData.get('description') as string || ''
-    const button1Text = formData.get('button1Text') as string || ''
-    const button1Link = formData.get('button1Link') as string || ''
-    const button2Text = formData.get('button2Text') as string || ''
-    const button2Link = formData.get('button2Link') as string || ''
-    const layoutType = formData.get('layoutType') as string || 'normal'
-    
+
+    const order = parseInt(formData.get('order') as string)
+    const eyebrowText = formData.get('eyebrowText') as string
+    const headline = formData.get('headline') as string
+    const description = formData.get('description') as string
+    const button1Text = formData.get('button1Text') as string
+    const button1Link = formData.get('button1Link') as string
+    const button2Text = formData.get('button2Text') as string
+    const button2Link = formData.get('button2Link') as string
+    const layoutType = formData.get('layoutType') as string
+    const isActive = formData.get('isActive') === 'true'
+
     // Get existing banner
-    const existingBanner = await collection.findOne({ _id: new ObjectId(id) })
+    const existingBanner = await Banner.findById(id)
     if (!existingBanner) {
       return NextResponse.json(
         { success: false, error: 'Banner not found' },
         { status: 404 }
       )
     }
-    
+
     // Handle background image
     const backgroundImageFile = formData.get('backgroundImage') as File | null
     const backgroundImageUrl = formData.get('backgroundImageUrl') as string | null
-    let backgroundImage = existingBanner.backgroundImage || ''
-    
+    let backgroundImage = existingBanner.backgroundImage
+
     if (backgroundImageFile && backgroundImageFile.size > 0) {
       const bytes = await backgroundImageFile.arrayBuffer()
       const buffer = Buffer.from(bytes)
@@ -49,7 +46,6 @@ export async function PUT(
       const result = await uploadToCloudinary(buffer, folder, 'image')
       backgroundImage = result.url
     } else if (backgroundImageUrl && backgroundImageUrl.trim() !== '') {
-      // Only update if URL is different
       if (backgroundImageUrl.trim() !== existingBanner.backgroundImage) {
         try {
           const folder = getCloudinaryFolder('banners')
@@ -61,12 +57,12 @@ export async function PUT(
         }
       }
     }
-    
+
     // Handle decorative image
     const decorativeImageFile = formData.get('decorativeImage') as File | null
     const decorativeImageUrl = formData.get('decorativeImageUrl') as string | null
-    let decorativeImage = existingBanner.decorativeImage || ''
-    
+    let decorativeImage = existingBanner.decorativeImage
+
     if (decorativeImageFile && decorativeImageFile.size > 0) {
       const bytes = await decorativeImageFile.arrayBuffer()
       const buffer = Buffer.from(bytes)
@@ -74,7 +70,6 @@ export async function PUT(
       const result = await uploadToCloudinary(buffer, folder, 'image')
       decorativeImage = result.url
     } else if (decorativeImageUrl && decorativeImageUrl.trim() !== '') {
-      // Only update if URL is different
       if (decorativeImageUrl.trim() !== existingBanner.decorativeImage) {
         try {
           const folder = getCloudinaryFolder('banners')
@@ -86,39 +81,37 @@ export async function PUT(
         }
       }
     }
-    
-    const updateData = {
-      order,
-      eyebrowText,
-      headline,
-      description,
-      button1Text,
-      button1Link,
-      button2Text,
-      button2Link,
-      layoutType,
+
+    const updateData: any = {
       backgroundImage,
       decorativeImage,
-      updatedAt: new Date()
+      isActive
     }
-    
-    const result = await collection.updateOne(
-      { _id: new ObjectId(id) },
-      { $set: updateData }
-    )
-    
-    if (result.matchedCount === 0) {
-      return NextResponse.json(
-        { success: false, error: 'Banner not found' },
-        { status: 404 }
-      )
-    }
-    
+
+    if (order !== undefined && !isNaN(order)) updateData.order = order
+    if (eyebrowText !== undefined) updateData.eyebrowText = eyebrowText
+    if (headline !== undefined) updateData.headline = headline
+    if (description !== undefined) updateData.description = description
+    if (button1Text !== undefined) updateData.button1Text = button1Text
+    if (button1Link !== undefined) updateData.button1Link = button1Link
+    if (button2Text !== undefined) updateData.button2Text = button2Text
+    if (button2Link !== undefined) updateData.button2Link = button2Link
+    if (layoutType !== undefined) updateData.layoutType = layoutType
+
+    await Banner.findByIdAndUpdate(id, { $set: updateData })
+
     return NextResponse.json({ success: true })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error updating banner:', error)
     return NextResponse.json(
-      { success: false, error: 'Failed to update banner' },
+      {
+        success: false,
+        error: error.message || 'Failed to update banner',
+        details: error.errors ? Object.keys(error.errors).map(key => ({
+          field: key,
+          message: error.errors[key].message
+        })) : null
+      },
       { status: 500 }
     )
   }
@@ -131,20 +124,17 @@ export async function DELETE(
 ) {
   try {
     await connectDB()
-    const db = (await import('mongoose')).connection.db
-    const collection = db.collection(COLLECTIONS.BANNERS)
-    
     const { id } = await params
-    
-    const result = await collection.deleteOne({ _id: new ObjectId(id) })
-    
-    if (result.deletedCount === 0) {
+
+    const result = await Banner.findByIdAndDelete(id)
+
+    if (!result) {
       return NextResponse.json(
         { success: false, error: 'Banner not found' },
         { status: 404 }
       )
     }
-    
+
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Error deleting banner:', error)
@@ -154,6 +144,3 @@ export async function DELETE(
     )
   }
 }
-
-
-

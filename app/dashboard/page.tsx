@@ -12,12 +12,13 @@ import ProductForm from "@/components/ProductForm"
 import OrderDetailModal from "@/components/OrderDetailModal"
 import CategoryManagement from "@/components/category-management"
 import BannerManagement from "@/components/banner-management"
+import HandpickedManagement from "@/components/handpicked-management"
 import ExcelUpload from "@/components/excel-upload"
 
 export default function DashboardPage() {
   const { products, loading, error, createProduct, updateProduct, deleteProduct } = useProducts()
   const { orders, loading: ordersLoading, error: ordersError, fetchOrders, updateOrder } = useOrders()
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'orders' | 'categories' | 'banners'>('dashboard')
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'orders' | 'categories' | 'banners' | 'signature'>('dashboard')
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingProduct, setEditingProduct] = useState<any>(null)
   const [orderFilters, setOrderFilters] = useState({
@@ -237,6 +238,15 @@ export default function DashboardPage() {
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold gradient-text">Dashboard</h1>
         <div className="flex space-x-3">
+          <Button
+            onClick={() => setActiveTab('banners')}
+            variant="outline"
+            className="rounded-lg"
+            style={{ borderColor: '#C9A34E', color: '#240334' }}
+          >
+            <ImageIcon className="w-5 h-5 mr-2" />
+            Manage Banners
+          </Button>
           <Button
             onClick={() => setShowBulkUpload(true)}
             variant="outline"
@@ -779,6 +789,18 @@ export default function DashboardPage() {
                 <ImageIcon className="w-5 h-5 mr-3" />
                 Banners
               </button>
+
+              <button
+                onClick={() => setActiveTab('signature')}
+                className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${activeTab === 'signature'
+                  ? 'text-white shadow-md'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
+                  }`}
+                style={activeTab === 'signature' ? { background: 'rgba(209, 178, 224, 0.2)', borderLeft: '3px solid #C9A34E' } : {}}
+              >
+                <Plus className="w-5 h-5 mr-3" />
+                Signature Collection
+              </button>
             </nav>
           </div>
         </div>
@@ -788,7 +810,8 @@ export default function DashboardPage() {
           {activeTab === 'dashboard' ? <DashboardContent /> :
             activeTab === 'orders' ? <OrdersInventoryContent /> :
               activeTab === 'categories' ? <CategoryManagement /> :
-                <BannerManagement />}
+                activeTab === 'banners' ? <BannerManagement /> :
+                  <HandpickedManagement />}
         </div>
       </div>
 
