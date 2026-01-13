@@ -3,6 +3,8 @@ import connectDB from '@/lib/mongodb'
 import Handpicked from '@/lib/models/Handpicked'
 import { uploadToCloudinary, getCloudinaryFolder, uploadImageFromUrl } from '@/lib/cloudinary'
 
+export const dynamic = 'force-dynamic'
+
 // GET all handpicked items
 export async function GET(request: NextRequest) {
     try {

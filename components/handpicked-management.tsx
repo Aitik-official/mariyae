@@ -80,11 +80,20 @@ const SlotCard = ({
                             </div>
                         )}
                         {isEditing && (
-                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                                <label className="cursor-pointer text-white text-xs font-bold uppercase">
+                            <div className="absolute inset-0 bg-black/50 flex items-center justify-center transition-opacity">
+                                <label
+                                    htmlFor={`file-upload-${slot}`}
+                                    className="cursor-pointer bg-white/20 hover:bg-white/30 backdrop-blur-sm px-4 py-2 rounded-full text-white text-[10px] font-bold uppercase tracking-wider border border-white/40 transition-colors"
+                                >
                                     Change Image
-                                    <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
                                 </label>
+                                <input
+                                    id={`file-upload-${slot}`}
+                                    type="file"
+                                    className="hidden"
+                                    accept="image/*"
+                                    onChange={handleFileChange}
+                                />
                             </div>
                         )}
                     </div>
@@ -145,7 +154,7 @@ export default function HandpickedManagement() {
     const fetchItems = async () => {
         try {
             setLoading(true)
-            const response = await fetch('/api/handpicked')
+            const response = await fetch(`/api/handpicked?t=${Date.now()}`)
             const data = await response.json()
             if (data.success) {
                 setItems(data.items)

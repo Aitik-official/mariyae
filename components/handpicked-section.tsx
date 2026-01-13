@@ -11,7 +11,7 @@ export default function HandpickedSection() {
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const response = await fetch('/api/handpicked')
+                const response = await fetch(`/api/handpicked?t=${Date.now()}`)
                 const data = await response.json()
                 if (data.success) {
                     setItems(data.items)
