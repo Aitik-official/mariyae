@@ -7,6 +7,7 @@ import NecklaceSection from "@/components/necklace-section"
 import PendantSection from "@/components/pendant-section"
 import InstagramCarousel from "@/components/instagram-carousel"
 import JewelryLayout from "@/components/jewelry-layout"
+import HandpickedSection from "@/components/handpicked-section"
 
 import Image from "next/image"
 import Link from "next/link"
@@ -553,207 +554,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section */}
-      <section className="py-12 md:py-20" style={{ backgroundColor: '#ffffff' }}>
-        <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="space-y-6 md:space-y-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <div>
-                <h2 className="font-light-300 text-3xl md:text-4xl lg:text-5xl mb-4 md:mb-6 animate-fade-in-up text-center lg:text-left gradient-text" style={{ animationDelay: '0.4s' }}>About Mariyae</h2>
-                <p className="text-base md:text-lg leading-relaxed mb-4 md:mb-6 animate-fade-in-up" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.6s' }}>
-                  At Rose Jewels, we believe that jewelry is more than just an accessory—it's a reflection of your unique story,
-                  your precious moments, and your personal style. For over two decades, we've been dedicated to creating
-                  exquisite pieces that celebrate life's most beautiful moments.
-                </p>
-                <p className="text-sm md:text-base leading-relaxed mb-6 md:mb-8 animate-fade-in-up" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.8s' }}>
-                  Our master craftsmen combine traditional techniques with modern innovation to create jewelry that stands
-                  the test of time. Every piece is carefully designed and meticulously crafted using only the finest
-                  materials, ensuring that your jewelry remains as beautiful as the day you first wore it.
-                </p>
-                <div className="text-center lg:text-left">
-                  <Link href="/about">
-                    <Button size="lg" className="px-6 md:px-8 py-3 text-base md:text-lg animate-fade-in-up transition-all duration-300 hover:scale-105 shadow-lg" style={{ backgroundColor: '#fff4df', color: '#510c74', border: '1px solid #510c74', animationDelay: '1s' }}>
-                      Learn More About Us
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </div>
 
-            <div className="relative animate-fade-in-up text-center lg:text-left" style={{ animationDelay: '0.3s' }}>
-              <Image
-                src="/Gemini_Gener__copy.jpg"
-                alt="Mariyae Logo"
-                width={800}
-                height={700}
-                className="rounded-2xl shadow-lg object-contain animate-fade-in-up transition-all duration-300 hover:scale-105 w-full max-w-md mx-auto lg:max-w-full"
-                style={{ animationDelay: '0.5s' }}
-              />
-              <div className="absolute -bottom-3 -right-3 lg:-bottom-6 lg:-right-6 p-3 lg:p-6 rounded-xl lg:rounded-2xl shadow-lg animate-fade-in-up" style={{ backgroundColor: '#fff4df', border: '1px solid rgba(81, 12, 116, 0.1)', animationDelay: '0.7s' }}>
-                <div className="flex items-center space-x-2 lg:space-x-4">
-                  <div className="w-8 h-8 lg:w-12 lg:h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(90deg, #510c74, #240334)' }}>
-                    <Star className="w-4 h-4 lg:w-6 lg:h-6" style={{ color: '#fff4df' }} />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-xs lg:text-sm" style={{ color: '#240334' }}>Premium Quality</p>
-                    <p className="text-xs lg:text-sm opacity-80" style={{ color: '#240334' }}>Certified & Authentic</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* New Arrivals Section */}
-      <section className="py-12 md:py-20" style={{ backgroundColor: '#ffffff' }}>
-        <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="flex items-center justify-between mb-8 md:mb-16 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <div className="text-center flex-1">
-              <h2 className="font-light-300 text-3xl md:text-4xl lg:text-5xl mb-3 md:mb-4 animate-fade-in-up gradient-text" style={{ animationDelay: '0.4s' }}>New Arrivals</h2>
-              <p className="max-w-2xl mx-auto text-sm md:text-base lg:text-lg animate-fade-in-up px-4" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.6s' }}>
-                Discover our latest collection of exquisite jewelry pieces, crafted with precision and designed to make you shine.
-              </p>
-            </div>
-
-          </div>
-
-          {/* Products Grid */}
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {Array.from({ length: 8 }).map((_, index) => (
-                <div key={`loading-${index}`} className="bg-white rounded-lg overflow-hidden shadow-md animate-pulse">
-                  <div className="aspect-[3/4] bg-gray-200"></div>
-                  <div className="p-4 space-y-2">
-                    <div className="h-4 bg-gray-200 rounded"></div>
-                    <div className="h-6 bg-gray-200 rounded"></div>
-                    <div className="h-5 bg-gray-200 rounded"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : newArrivals.length === 0 ? (
-            <div className="text-center py-16">
-              <p style={{ color: '#240334', opacity: 0.7 }}>No products available</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {newArrivals.map((product) => {
-                const isFavorite = favorites.has(product._id)
-                const productImages = product.images && product.images.length > 0 ? product.images : []
-                const firstImage = productImages[0]?.url || "/placeholder.svg"
-                const secondImage = productImages[1]?.url || productImages[0]?.url || "/placeholder.svg"
-
-                return (
-                  <Link
-                    key={product._id}
-                    href={`/view-details?id=${product._id}`}
-                    className="group relative bg-white hover:bg-[#111111] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                  >
-                    {/* Product Image */}
-                    <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
-                      {/* First Image - Always visible */}
-                      <Image
-                        src={firstImage}
-                        alt={product.name}
-                        fill
-                        className="object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
-                        loading="lazy"
-                      />
-
-                      {/* Second Image - Fades in on hover */}
-                      <Image
-                        src={secondImage}
-                        alt={product.name}
-                        fill
-                        className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                        loading="lazy"
-                      />
-
-                      {/* Heart Icon - Top Right */}
-                      <button
-                        onClick={(e) => toggleFavorite(product._id, e)}
-                        className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white transition-colors duration-200"
-                        aria-label="Add to favorites"
-                      >
-                        <Heart
-                          className={`h-5 w-5 transition-colors duration-200 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-600'
-                            }`}
-                        />
-                      </button>
-
-                      {/* Sale Badge */}
-                      {product.isOnSale && (
-                        <div className="absolute top-3 left-3">
-                          <div className="px-3 py-1 rounded-full text-xs font-semibold text-white" style={{ backgroundColor: '#CD7F32' }}>
-                            {product.offerPercentage}% OFF
-                          </div>
-                        </div>
-                      )}
-
-                      {/* New Badge */}
-                      {product.isNew && (
-                        <div className="absolute top-3 left-3" style={{ top: product.isOnSale ? '3.5rem' : '0.75rem' }}>
-                          <div className="bg-white px-3 py-1 rounded-full text-xs font-semibold text-gray-900">
-                            New
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Product Info */}
-                    <div className="p-4 space-y-2">
-                      {/* Category/Brand */}
-                      {product.category && (
-                        <p className="text-xs font-medium text-gray-600 group-hover:text-white/70 uppercase tracking-wide transition-colors duration-300">
-                          {product.category}
-                        </p>
-                      )}
-
-                      {/* Product Name */}
-                      <h3 className="font-semibold text-gray-900 group-hover:text-white line-clamp-2 transition-colors duration-300">
-                        {product.name}
-                      </h3>
-
-                      {/* Price */}
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg font-bold text-[#510c74] group-hover:text-[#C9A34E] transition-colors duration-300">
-                          ₹{product.price.toFixed(2)}
-                        </span>
-                        {product.originalPrice && product.originalPrice > product.price && (
-                          <span className="text-sm text-gray-500 group-hover:text-white/60 line-through transition-colors duration-300">
-                            ₹{product.originalPrice.toFixed(2)}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
-          )}
-
-          {/* View All Button */}
-          <div className="text-center mt-8 md:mt-12 animate-fade-in-up" style={{ animationDelay: '1s' }}>
-            <Link href="/products">
-              <Button size="lg" className="px-6 md:px-8 py-3 text-base md:text-lg transition-all duration-300 hover:scale-105 rounded-full" style={{ backgroundColor: '#fff4df', color: '#510c74', border: '1px solid #510c74' }}>
-                View All New Arrivals
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* Latest Gems Section */}
       <section className="py-12 md:py-20" style={{ backgroundColor: '#ffffff' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="flex items-center justify-between mb-8 md:mb-16 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <div className="text-center flex-1">
-              <h2 className="font-light-300 text-3xl md:text-4xl lg:text-5xl mb-3 md:mb-4 animate-fade-in-up gradient-text" style={{ animationDelay: '0.4s' }}>Latest Gems</h2>
-              <p className="max-w-2xl mx-auto text-sm md:text-base lg:text-lg animate-fade-in-up px-4" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.6s' }}>
-                Discover our most precious and exclusive gemstone jewelry collection, featuring rare stones and premium craftsmanship.
-              </p>
-            </div>
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-[#240334] mb-4">
+              Latest Gems
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">
+              Discover our most precious and exclusive gemstone jewelry collection, featuring rare stones and premium craftsmanship.
+            </p>
           </div>
 
           {/* Products Grid */}
@@ -882,12 +694,19 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Handpicked Section */}
+      <HandpickedSection />
+
+
+
       {/* Categories Section with subcategory flow */}
       <section className="py-20" style={{ backgroundColor: '#eae0cc', borderTop: 'none' }}>
         <div className="w-full mx-auto px-4 lg:px-8">
-          <div className="text-center mb-16 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <h2 className="font-light-300 text-5xl mb-4 animate-fade-in-up gradient-text" style={{ animationDelay: '0.4s' }}>Shop by Category</h2>
-            <p className="max-w-2xl mx-auto text-lg animate-fade-in-up" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.6s' }}>
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-[#240334] mb-4">
+              Shop by Category
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">
               Explore our diverse collection of jewelry categories, each carefully curated to suit every style and occasion.
             </p>
           </div>
@@ -1157,9 +976,11 @@ export default function Home() {
       {/* Featured Products */}
       <section className="py-20" style={{ backgroundColor: '#ffffff' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="text-center mb-16 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <h2 className="font-light-300 text-5xl mb-4 animate-fade-in-up gradient-text" style={{ animationDelay: '0.4s' }}>Featured Products</h2>
-            <p className="max-w-2xl mx-auto text-lg animate-fade-in-up" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.6s' }}>
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-[#240334] mb-4">
+              Featured Products
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">
               Discover our handpicked selection of the finest jewelry pieces, crafted with precision and designed to make you shine.
             </p>
           </div>
@@ -1289,13 +1110,11 @@ export default function Home() {
           <div className="text-center mt-12 animate-fade-in-up" style={{ animationDelay: '1s' }}>
             <Link href="/products">
               <Button
-                variant="outline"
                 size="lg"
                 className="px-8 py-3 text-lg transition-all duration-300 hover:scale-105 rounded-full"
-                style={{ background: 'linear-gradient(90deg, #670099, #510c74)', color: '#C9A34E', border: '1px solid rgba(103, 0, 153, 0.3)' }}
+                style={{ backgroundColor: '#fff4df', color: '#510c74', border: '1px solid #510c74' }}
               >
                 Explore All Products
-                <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
           </div>
@@ -1305,6 +1124,67 @@ export default function Home() {
 
 
 
+
+      {/* About Section */}
+      <section className="py-12 md:py-20" style={{ backgroundColor: '#ffffff' }}>
+        <div className="max-w-7xl mx-auto px-4 lg:px-8">
+
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-[#240334] mb-4">
+              About Mariyae
+            </h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">
+              Crafting timeless jewelry pieces that celebrate life's most beautiful moments with elegance and grace.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="space-y-6 md:space-y-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <div>
+                <p className="text-base md:text-lg leading-relaxed mb-4 md:mb-6 animate-fade-in-up text-center lg:text-left" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.6s' }}>
+                  At Rose Jewels, we believe that jewelry is more than just an accessory—it's a reflection of your unique story,
+                  your precious moments, and your personal style. For over two decades, we've been dedicated to creating
+                  exquisite pieces that celebrate life's most beautiful moments.
+                </p>
+                <p className="text-sm md:text-base leading-relaxed mb-6 md:mb-8 animate-fade-in-up text-center lg:text-left" style={{ color: '#240334', opacity: 0.8, animationDelay: '0.8s' }}>
+                  Our master craftsmen combine traditional techniques with modern innovation to create jewelry that stands
+                  the test of time. Every piece is carefully designed and meticulously crafted using only the finest
+                  materials, ensuring that your jewelry remains as beautiful as the day you first wore it.
+                </p>
+                <div className="text-center lg:text-left">
+                  <Link href="/about">
+                    <Button size="lg" className="px-6 md:px-8 py-3 text-base md:text-lg animate-fade-in-up transition-all duration-300 hover:scale-105 shadow-lg" style={{ backgroundColor: '#fff4df', color: '#510c74', border: '1px solid #510c74', animationDelay: '1s' }}>
+                      Learn More About Us
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative animate-fade-in-up text-center lg:text-left" style={{ animationDelay: '0.3s' }}>
+              <Image
+                src="/Gemini_Gener__copy.jpg"
+                alt="Mariyae Logo"
+                width={800}
+                height={700}
+                className="rounded-2xl shadow-lg object-contain animate-fade-in-up transition-all duration-300 hover:scale-105 w-full max-w-md mx-auto lg:max-w-full"
+                style={{ animationDelay: '0.5s' }}
+              />
+              <div className="absolute -bottom-3 -right-3 lg:-bottom-6 lg:-right-6 p-3 lg:p-6 rounded-xl lg:rounded-2xl shadow-lg animate-fade-in-up" style={{ backgroundColor: '#fff4df', border: '1px solid rgba(81, 12, 116, 0.1)', animationDelay: '0.7s' }}>
+                <div className="flex items-center space-x-2 lg:space-x-4">
+                  <div className="w-8 h-8 lg:w-12 lg:h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(90deg, #510c74, #240334)' }}>
+                    <Star className="w-4 h-4 lg:w-6 lg:h-6" style={{ color: '#fff4df' }} />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-xs lg:text-sm" style={{ color: '#240334' }}>Premium Quality</p>
+                    <p className="text-xs lg:text-sm opacity-80" style={{ color: '#240334' }}>Certified & Authentic</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </div>

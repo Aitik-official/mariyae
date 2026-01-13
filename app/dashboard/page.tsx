@@ -12,6 +12,7 @@ import ProductForm from "@/components/ProductForm"
 import OrderDetailModal from "@/components/OrderDetailModal"
 import CategoryManagement from "@/components/category-management"
 import BannerManagement from "@/components/banner-management"
+import ExcelUpload from "@/components/excel-upload"
 
 export default function DashboardPage() {
   const { products, loading, error, createProduct, updateProduct, deleteProduct } = useProducts()
@@ -25,6 +26,7 @@ export default function DashboardPage() {
   })
   const [selectedOrder, setSelectedOrder] = useState<any>(null)
   const [showOrderModal, setShowOrderModal] = useState(false)
+  const [showBulkUpload, setShowBulkUpload] = useState(false)
 
   // Authentication state
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -234,14 +236,25 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold gradient-text">Dashboard</h1>
-        <Button
-          onClick={() => setShowAddForm(true)}
-          className="text-white rounded-lg"
-          style={{ background: 'linear-gradient(90deg, #510c74, #240334)', color: '#fff4df' }}
-        >
-          <Plus className="w-5 h-5 mr-2" />
-          Add Product
-        </Button>
+        <div className="flex space-x-3">
+          <Button
+            onClick={() => setShowBulkUpload(true)}
+            variant="outline"
+            className="rounded-lg"
+            style={{ borderColor: '#510c74', color: '#510c74' }}
+          >
+            <Package className="w-5 h-5 mr-2" />
+            Bulk Upload
+          </Button>
+          <Button
+            onClick={() => setShowAddForm(true)}
+            className="text-white rounded-lg"
+            style={{ background: 'linear-gradient(90deg, #510c74, #240334)', color: '#fff4df' }}
+          >
+            <Plus className="w-5 h-5 mr-2" />
+            Add Product
+          </Button>
+        </div>
       </div>
 
       {/* Stats Cards */}
@@ -722,8 +735,8 @@ export default function DashboardPage() {
               <button
                 onClick={() => setActiveTab('dashboard')}
                 className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${activeTab === 'dashboard'
-                    ? 'text-white shadow-md'
-                    : 'text-white/70 hover:text-white hover:bg-white/10'
+                  ? 'text-white shadow-md'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
                   }`}
                 style={activeTab === 'dashboard' ? { background: 'rgba(209, 178, 224, 0.2)', borderLeft: '3px solid #C9A34E' } : {}}
               >
@@ -734,8 +747,8 @@ export default function DashboardPage() {
               <button
                 onClick={() => setActiveTab('orders')}
                 className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${activeTab === 'orders'
-                    ? 'text-white shadow-md'
-                    : 'text-white/70 hover:text-white hover:bg-white/10'
+                  ? 'text-white shadow-md'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
                   }`}
                 style={activeTab === 'orders' ? { background: 'rgba(209, 178, 224, 0.2)', borderLeft: '3px solid #C9A34E' } : {}}
               >
@@ -746,8 +759,8 @@ export default function DashboardPage() {
               <button
                 onClick={() => setActiveTab('categories')}
                 className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${activeTab === 'categories'
-                    ? 'text-white shadow-md'
-                    : 'text-white/70 hover:text-white hover:bg-white/10'
+                  ? 'text-white shadow-md'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
                   }`}
                 style={activeTab === 'categories' ? { background: 'rgba(209, 178, 224, 0.2)', borderLeft: '3px solid #C9A34E' } : {}}
               >
@@ -758,8 +771,8 @@ export default function DashboardPage() {
               <button
                 onClick={() => setActiveTab('banners')}
                 className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${activeTab === 'banners'
-                    ? 'text-white shadow-md'
-                    : 'text-white/70 hover:text-white hover:bg-white/10'
+                  ? 'text-white shadow-md'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
                   }`}
                 style={activeTab === 'banners' ? { background: 'rgba(209, 178, 224, 0.2)', borderLeft: '3px solid #C9A34E' } : {}}
               >
@@ -824,6 +837,37 @@ export default function DashboardPage() {
         }}
         onUpdate={handleOrderUpdate}
       />
+
+      {/* Bulk Upload Modal */}
+      {showBulkUpload && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+              <h2 className="text-2xl font-bold gradient-text">
+                Bulk Upload Products
+              </h2>
+              <Button
+                variant="outline"
+                onClick={() => setShowBulkUpload(false)}
+                className="rounded-lg"
+                style={{ borderColor: '#d1b2e0', color: '#240334' }}
+              >
+                ✕
+              </Button>
+            </div>
+
+            <div className="p-6">
+              <ExcelUpload
+                onUploadComplete={() => {
+                  setShowBulkUpload(false)
+                  // Refresh products list
+                  window.location.reload()
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
