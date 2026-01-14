@@ -144,39 +144,50 @@ export default function BannerManagement() {
 
     try {
       setLoading(true)
-      const submitFormData = new FormData()
 
-      submitFormData.append('order', formData.order.toString())
-      submitFormData.append('isActive', 'true')
+      // 1. Upload images client-side first
+      const { uploadToCloudinaryClient } = await import('@/lib/client-upload')
 
-      if (bannerMode === 'structured') {
-        submitFormData.append('eyebrowText', formData.eyebrowText)
-        submitFormData.append('headline', formData.headline)
-        submitFormData.append('description', formData.description)
-        submitFormData.append('button1Text', formData.button1Text)
-        submitFormData.append('button1Link', formData.button1Link)
-        submitFormData.append('button2Text', formData.button2Text)
-        submitFormData.append('button2Link', formData.button2Link)
-        submitFormData.append('layoutType', formData.layoutType)
-      } else {
-        // Simple mode: Clear text fields if they were there
-        submitFormData.append('eyebrowText', '')
-        submitFormData.append('headline', '')
-        submitFormData.append('description', '')
-        // Use button1Link for the entire image click
-        submitFormData.append('button1Link', formData.button1Link)
-      }
+      let backgroundImage = formData.backgroundImage
+      let decorativeImage = formData.decorativeImage
 
       if (backgroundImageFile) {
-        submitFormData.append('backgroundImage', backgroundImageFile)
+        const result = await uploadToCloudinaryClient(backgroundImageFile, 'image', 'mariyae-com/banners')
+        backgroundImage = result.url
       } else if (formData.backgroundImageUrl) {
-        submitFormData.append('backgroundImageUrl', formData.backgroundImageUrl)
+        // Fallback for URL if still using it, but we favor direct upload
+        backgroundImage = formData.backgroundImageUrl
       }
 
       if (decorativeImageFile) {
-        submitFormData.append('decorativeImage', decorativeImageFile)
+        const result = await uploadToCloudinaryClient(decorativeImageFile, 'image', 'mariyae-com/banners')
+        decorativeImage = result.url
       } else if (formData.decorativeImageUrl) {
-        submitFormData.append('decorativeImageUrl', formData.decorativeImageUrl)
+        decorativeImage = formData.decorativeImageUrl
+      }
+
+      // 2. Prepare JSON payload
+      const payload: any = {
+        order: formData.order,
+        isActive: true,
+        backgroundImage,
+        decorativeImage: decorativeImage || '',
+        layoutType: formData.layoutType
+      }
+
+      if (bannerMode === 'structured') {
+        payload.eyebrowText = formData.eyebrowText
+        payload.headline = formData.headline
+        payload.description = formData.description
+        payload.button1Text = formData.button1Text
+        payload.button1Link = formData.button1Link
+        payload.button2Text = formData.button2Text
+        payload.button2Link = formData.button2Link
+      } else {
+        payload.eyebrowText = ''
+        payload.headline = ''
+        payload.description = ''
+        payload.button1Link = formData.button1Link
       }
 
       const url = editingBanner ? `/api/banners/${editingBanner._id}` : '/api/banners'
@@ -184,7 +195,10 @@ export default function BannerManagement() {
 
       const response = await fetch(url, {
         method,
-        body: submitFormData
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
       })
 
       const data = await response.json()
@@ -234,12 +248,15 @@ export default function BannerManagement() {
   const toggleBannerStatus = async (banner: Banner) => {
     try {
       setLoading(true)
-      const submitFormData = new FormData()
-      submitFormData.append('isActive', (!banner.isActive).toString())
 
       const response = await fetch(`/api/banners/${banner._id}`, {
         method: 'PUT',
-        body: submitFormData
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          isActive: !banner.isActive
+        })
       })
 
       const data = await response.json()

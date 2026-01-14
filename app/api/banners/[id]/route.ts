@@ -12,18 +12,40 @@ export async function PUT(
     await connectDB()
     const { id } = await params
 
-    const formData = await request.formData()
+    const contentType = request.headers.get('content-type') || ''
+    let order, eyebrowText, headline, description, button1Text, button1Link, button2Text, button2Link, layoutType, isActive
+    let backgroundImage: string = ''
+    let decorativeImage: string = ''
+    let isJson = false
 
-    const order = parseInt(formData.get('order') as string)
-    const eyebrowText = formData.get('eyebrowText') as string
-    const headline = formData.get('headline') as string
-    const description = formData.get('description') as string
-    const button1Text = formData.get('button1Text') as string
-    const button1Link = formData.get('button1Link') as string
-    const button2Text = formData.get('button2Text') as string
-    const button2Link = formData.get('button2Link') as string
-    const layoutType = formData.get('layoutType') as string
-    const isActive = formData.get('isActive') === 'true'
+    if (contentType.includes('application/json')) {
+      const body = await request.json()
+      order = body.order
+      eyebrowText = body.eyebrowText
+      headline = body.headline
+      description = body.description
+      button1Text = body.button1Text
+      button1Link = body.button1Link
+      button2Text = body.button2Text
+      button2Link = body.button2Link
+      layoutType = body.layoutType
+      isActive = body.isActive
+      backgroundImage = body.backgroundImage || ''
+      decorativeImage = body.decorativeImage || ''
+      isJson = true
+    } else {
+      const formData = await request.formData()
+      order = parseInt(formData.get('order') as string)
+      eyebrowText = formData.get('eyebrowText') as string
+      headline = formData.get('headline') as string
+      description = formData.get('description') as string
+      button1Text = formData.get('button1Text') as string
+      button1Link = formData.get('button1Link') as string
+      button2Text = formData.get('button2Text') as string
+      button2Link = formData.get('button2Link') as string
+      layoutType = formData.get('layoutType') as string
+      isActive = formData.get('isActive') === 'true'
+    }
 
     // Get existing banner
     const existingBanner = await Banner.findById(id)
@@ -34,60 +56,62 @@ export async function PUT(
       )
     }
 
-    // Handle background image
-    const backgroundImageFile = formData.get('backgroundImage') as File | null
-    const backgroundImageUrl = formData.get('backgroundImageUrl') as string | null
-    let backgroundImage = existingBanner.backgroundImage
+    if (!isJson) {
+      // Handle legacy FormData upload
+      const formData = await request.formData() // Re-fetching is fine if needed or use previous
+      const backgroundImageFile = formData.get('backgroundImage') as File | null
+      const backgroundImageUrl = formData.get('backgroundImageUrl') as string | null
+      backgroundImage = existingBanner.backgroundImage
 
-    if (backgroundImageFile && backgroundImageFile.size > 0) {
-      const bytes = await backgroundImageFile.arrayBuffer()
-      const buffer = Buffer.from(bytes)
-      const folder = getCloudinaryFolder('banners')
-      const result = await uploadToCloudinary(buffer, folder, 'image')
-      backgroundImage = result.url
-    } else if (backgroundImageUrl && backgroundImageUrl.trim() !== '') {
-      if (backgroundImageUrl.trim() !== existingBanner.backgroundImage) {
-        try {
-          const folder = getCloudinaryFolder('banners')
-          const result = await uploadImageFromUrl(backgroundImageUrl.trim(), folder)
-          backgroundImage = result.url
-        } catch (error) {
-          console.error('Failed to upload background image from URL:', error)
-          backgroundImage = backgroundImageUrl.trim()
+      if (backgroundImageFile && backgroundImageFile.size > 0) {
+        const bytes = await backgroundImageFile.arrayBuffer()
+        const buffer = Buffer.from(bytes)
+        const folder = getCloudinaryFolder('banners')
+        const result = await uploadToCloudinary(buffer, folder, 'image')
+        backgroundImage = result.url
+      } else if (backgroundImageUrl && backgroundImageUrl.trim() !== '') {
+        if (backgroundImageUrl.trim() !== existingBanner.backgroundImage) {
+          try {
+            const folder = getCloudinaryFolder('banners')
+            const result = await uploadImageFromUrl(backgroundImageUrl.trim(), folder)
+            backgroundImage = result.url
+          } catch (error) {
+            console.error('Failed to upload background image from URL:', error)
+            backgroundImage = backgroundImageUrl.trim()
+          }
         }
       }
-    }
 
-    // Handle decorative image
-    const decorativeImageFile = formData.get('decorativeImage') as File | null
-    const decorativeImageUrl = formData.get('decorativeImageUrl') as string | null
-    let decorativeImage = existingBanner.decorativeImage
+      const decorativeImageFile = formData.get('decorativeImage') as File | null
+      const decorativeImageUrl = formData.get('decorativeImageUrl') as string | null
+      decorativeImage = existingBanner.decorativeImage || ''
 
-    if (decorativeImageFile && decorativeImageFile.size > 0) {
-      const bytes = await decorativeImageFile.arrayBuffer()
-      const buffer = Buffer.from(bytes)
-      const folder = getCloudinaryFolder('banners')
-      const result = await uploadToCloudinary(buffer, folder, 'image')
-      decorativeImage = result.url
-    } else if (decorativeImageUrl && decorativeImageUrl.trim() !== '') {
-      if (decorativeImageUrl.trim() !== existingBanner.decorativeImage) {
-        try {
-          const folder = getCloudinaryFolder('banners')
-          const result = await uploadImageFromUrl(decorativeImageUrl.trim(), folder)
-          decorativeImage = result.url
-        } catch (error) {
-          console.error('Failed to upload decorative image from URL:', error)
-          decorativeImage = decorativeImageUrl.trim()
+      if (decorativeImageFile && decorativeImageFile.size > 0) {
+        const bytes = await decorativeImageFile.arrayBuffer()
+        const buffer = Buffer.from(bytes)
+        const folder = getCloudinaryFolder('banners')
+        const result = await uploadToCloudinary(buffer, folder, 'image')
+        decorativeImage = result.url
+      } else if (decorativeImageUrl && decorativeImageUrl.trim() !== '') {
+        if (decorativeImageUrl.trim() !== existingBanner.decorativeImage) {
+          try {
+            const folder = getCloudinaryFolder('banners')
+            const result = await uploadImageFromUrl(decorativeImageUrl.trim(), folder)
+            decorativeImage = result.url
+          } catch (error) {
+            console.error('Failed to upload decorative image from URL:', error)
+            decorativeImage = decorativeImageUrl.trim()
+          }
         }
       }
     }
 
     const updateData: any = {
-      backgroundImage,
-      decorativeImage,
       isActive
     }
 
+    if (backgroundImage) updateData.backgroundImage = backgroundImage
+    if (decorativeImage !== undefined) updateData.decorativeImage = decorativeImage
     if (order !== undefined && !isNaN(order)) updateData.order = order
     if (eyebrowText !== undefined) updateData.eyebrowText = eyebrowText
     if (headline !== undefined) updateData.headline = headline
