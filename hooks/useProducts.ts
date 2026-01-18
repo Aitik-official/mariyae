@@ -45,18 +45,39 @@ export interface UpdateProductData extends Partial<CreateProductData> {
   videosToDelete?: string[]
 }
 
-export const useProducts = () => {
+export interface ProductFilters {
+  limit?: number
+  category?: string
+  subCategory?: string
+  isNew?: boolean
+  isOnSale?: boolean
+  minPrice?: number
+  maxPrice?: number
+  sortBy?: string
+}
+
+export const useProducts = (initialFilters?: ProductFilters) => {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Fetch all products
-  const fetchProducts = async () => {
+  // Fetch products with filters
+  const fetchProducts = async (filters: ProductFilters = {}) => {
     try {
       setLoading(true)
       setError(null)
 
-      const response = await fetch('/api/products')
+      const params = new URLSearchParams()
+      if (filters.limit) params.append('limit', filters.limit.toString())
+      if (filters.category) params.append('category', filters.category)
+      if (filters.subCategory) params.append('subCategory', filters.subCategory)
+      if (filters.isNew) params.append('isNew', 'true')
+      if (filters.isOnSale) params.append('isOnSale', 'true')
+      if (filters.minPrice) params.append('minPrice', filters.minPrice.toString())
+      if (filters.maxPrice) params.append('maxPrice', filters.maxPrice.toString())
+      if (filters.sortBy) params.append('sortBy', filters.sortBy)
+
+      const response = await fetch(`/api/products?${params.toString()}`)
       const data = await response.json()
 
       if (data.success) {
@@ -71,6 +92,10 @@ export const useProducts = () => {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    fetchProducts(initialFilters)
+  }, [])
 
   // Create new product
   const createProduct = async (productData: CreateProductData): Promise<Product | null> => {
@@ -256,10 +281,6 @@ export const useProducts = () => {
       setLoading(false)
     }
   }
-
-  useEffect(() => {
-    fetchProducts()
-  }, [])
 
   return {
     products,

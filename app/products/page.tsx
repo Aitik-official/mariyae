@@ -5,12 +5,13 @@ import { useProducts } from "@/hooks/useProducts"
 import { useSearchParams } from "next/navigation"
 import { useCart } from "@/contexts/cart-context"
 import Navbar from "@/components/navbar"
-import ProductGrid from "@/components/product-grid"
 import ProductFilters from "@/components/product-filters"
 import Footer from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Filter, X } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
+import { getOptimizedUrl } from "@/lib/cloudinary-client"
 
 interface FilterState {
   categories: string[]
@@ -23,13 +24,20 @@ interface FilterState {
 }
 
 export default function ProductsPage() {
-  const { products, loading } = useProducts()
-  const { addItem } = useCart()
   const searchParams = useSearchParams()
+  const initialCategory = searchParams.get('category') || undefined
+  const initialSubCategory = searchParams.get('subCategory') || undefined
+
+  const { products, loading, fetchProducts } = useProducts({
+    category: initialCategory,
+    subCategory: initialSubCategory
+  })
+
+  const { addItem } = useCart()
   const [showFilters, setShowFilters] = useState(false)
-  const [sortBy, setSortBy] = useState('featured')
+  const [sortBy, setSortBy] = useState('newest')
   const [filters, setFilters] = useState<FilterState>({
-    categories: [],
+    categories: initialCategory ? [initialCategory] : [],
     priceRange: [0, 50000],
     materials: [],
     colors: [],
@@ -38,82 +46,28 @@ export default function ProductsPage() {
     isOnSale: false,
   })
 
-  // Read category from URL and apply it to filters on page load
   useEffect(() => {
     const categoryFromUrl = searchParams.get('category')
     if (categoryFromUrl && !filters.categories.includes(categoryFromUrl)) {
-      setFilters(prev => ({
-        ...prev,
-        categories: [categoryFromUrl]
-      }))
+      setFilters(prev => ({ ...prev, categories: [categoryFromUrl] }))
     }
-  }, [searchParams, filters.categories])
+  }, [searchParams])
 
-  // Apply filters to products
-  const filteredProducts = products.filter(product => {
-    // Category filter
-    if (filters.categories.length > 0 && !filters.categories.includes(product.category)) {
-      return false
-    }
+  useEffect(() => {
+    fetchProducts({
+      category: filters.categories.length > 0 ? filters.categories[0] : undefined,
+      isNew: filters.isNew,
+      isOnSale: filters.isOnSale,
+      minPrice: filters.priceRange[0],
+      maxPrice: filters.priceRange[1],
+      sortBy: sortBy
+    })
+  }, [filters.categories, filters.isNew, filters.isOnSale, filters.priceRange, sortBy])
 
-    // Price filter
-    if (product.price < filters.priceRange[0] || product.price > filters.priceRange[1]) {
-      return false
-    }
-
-    // New filter
-    if (filters.isNew && !product.isNew) {
-      return false
-    }
-
-    // Sale filter
-    if (filters.isOnSale && !product.isOnSale) {
-      return false
-    }
-
-    // Material filter (using category for now)
-    if (filters.materials.length > 0 && !filters.materials.includes(product.category)) {
-      return false
-    }
-
-    // Size filter (check if product has size constraints)
-    if (filters.sizes.length > 0 && product.sizeConstraints) {
-      const productSizes = product.sizeConstraints.split(',').map(s => s.trim())
-      const hasMatchingSize = filters.sizes.some(size => productSizes.includes(size))
-      if (!hasMatchingSize) {
-        return false
-      }
-    }
-
-    return true
-  })
-
-  // Sort products
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    switch (sortBy) {
-      case 'price-low':
-        return a.price - b.price
-      case 'price-high':
-        return b.price - a.price
-      case 'newest':
-        return new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime()
-      case 'rating':
-        return b.rating - a.rating
-      case 'reviews':
-        return b.reviews - a.reviews
-      default:
-        return 0
-    }
-  })
-
-  // Get active filters count
   const getActiveFiltersCount = () => {
     let count = 0
     if (filters.categories.length > 0) count++
     if (filters.priceRange[0] > 0 || filters.priceRange[1] < 50000) count++
-    if (filters.materials.length > 0) count++
-    if (filters.colors.length > 0) count++
-    if (filters.sizes.length > 0) count++
     if (filters.isNew) count++
     if (filters.isOnSale) count++
     return count
@@ -121,7 +75,6 @@ export default function ProductsPage() {
 
   const activeFiltersCount = getActiveFiltersCount()
 
-  // Clear all filters
   const clearAllFilters = () => {
     setFilters({
       categories: [],
@@ -135,208 +88,126 @@ export default function ProductsPage() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       <Navbar />
-      {/* Top spacing to prevent navbar overlap */}
       <div className="h-20"></div>
-      <div className="bg-white py-6 md:py-8">
+      <div className="py-8">
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          {/* Breadcrumb Navigation */}
-          {filters.categories.length > 0 && (
-            <div className="mb-4 md:mb-6">
-              <nav className="flex items-center space-x-2 text-xs md:text-sm text-gray-600">
-                <a href="/products" className="hover:text-[#510c74] transition-colors">
-                  All Products
-                </a>
-                <span>/</span>
-                <span className="text-gray-900 font-medium">{filters.categories[0]}</span>
-              </nav>
-            </div>
-          )}
-
-          <div className="text-center mb-6 md:mb-8">
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-light text-gray-900 mb-3 md:mb-4">
-              {filters.categories.length > 0
-                ? `${filters.categories[0]} Collection`
-                : 'All Products'
-              }
+          <div className="text-center mb-10">
+            <h1 className="text-3xl md:text-5xl font-serif text-[#240334] mb-4">
+              {filters.categories[0] || 'Our Collection'}
             </h1>
-            <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-base px-4">
-              {filters.categories.length > 0
-                ? `Discover our exclusive collection of ${filters.categories[0].toLowerCase()} pieces, each designed to make you shine bright.`
-                : 'Discover our complete collection of handcrafted jewelry pieces, each designed to make you shine bright.'
-              }
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Exquisite jewelry pieces crafted for the elegant you.
             </p>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-4 md:gap-6 lg:gap-8">
-            {/* Filters Sidebar - Desktop */}
+          <div className="flex flex-col lg:flex-row gap-8">
             <aside className="hidden lg:block lg:w-1/4">
-              <ProductFilters
-                filters={filters}
-                onFiltersChange={setFilters}
-              />
+              <ProductFilters filters={filters} onFiltersChange={setFilters} />
             </aside>
 
-            {/* Mobile Filters Modal */}
-            {showFilters && (
-              <div className="lg:hidden fixed inset-0 z-50 bg-black bg-opacity-50">
-                <div className="absolute right-0 top-0 h-full w-80 bg-white shadow-xl overflow-y-auto">
-                  <div className="p-4">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-semibold">Filters</h3>
-                      <button
-                        onClick={() => setShowFilters(false)}
-                        className="text-gray-500 hover:text-gray-700"
-                      >
-                        <X className="w-6 h-6" />
-                      </button>
-                    </div>
-                    <ProductFilters
-                      filters={filters}
-                      onFiltersChange={setFilters}
-                    />
-                  </div>
+            {/* Mobile Filters */}
+            <div className="lg:hidden mb-6">
+              <Button
+                onClick={() => setShowFilters(!showFilters)}
+                variant="outline"
+                className="w-full flex justify-between px-6"
+              >
+                <span className="flex items-center gap-2"><Filter className="w-4 h-4" /> Filters</span>
+                {activeFiltersCount > 0 && <span className="bg-[#510c74] text-white text-xs px-2 py-1 rounded-full">{activeFiltersCount}</span>}
+              </Button>
+              {showFilters && (
+                <div className="mt-4 p-4 bg-gray-50 rounded-2xl">
+                  <ProductFilters filters={filters} onFiltersChange={setFilters} />
                 </div>
-              </div>
-            )}
+              )}
+            </div>
 
-            {/* Main Content */}
             <main className="lg:w-3/4">
-              {/* Mobile Filter Toggle */}
-              <div className="lg:hidden mb-4 md:mb-6">
-                <Button
-                  onClick={() => setShowFilters(!showFilters)}
-                  variant="outline"
-                  className="w-full flex items-center justify-center gap-2 text-sm md:text-base py-2 md:py-3"
-                >
-                  <Filter className="w-4 h-4" />
-                  {showFilters ? 'Hide Filters' : 'Show Filters'}
+              <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8 p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                <div className="flex items-center gap-4">
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="bg-white border-none rounded-lg px-4 py-2 text-sm shadow-sm ring-1 ring-gray-200 focus:ring-2 focus:ring-[#510c74]"
+                  >
+                    <option value="newest">Newest First</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Highest Rated</option>
+                  </select>
                   {activeFiltersCount > 0 && (
-                    <span className="bg-[#510c74] text-white text-xs px-2 py-1 rounded-full">
-                      {activeFiltersCount}
-                    </span>
+                    <Button onClick={clearAllFilters} variant="ghost" size="sm" className="text-gray-500 hover:text-red-500">
+                      <X className="w-4 h-4 mr-1" /> Clear
+                    </Button>
                   )}
-                </Button>
-              </div>
-              {/* Results Header */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 md:p-4 mb-4 md:mb-6">
-                <div className="flex flex-col gap-3 md:gap-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 md:gap-4">
-                    <select
-                      value={sortBy}
-                      onChange={(e) => setSortBy(e.target.value)}
-                      className="border border-gray-300 rounded-lg px-3 py-2 bg-white text-sm md:text-base flex-1 sm:flex-none"
-                    >
-                      <option value="featured">Sort by: Featured</option>
-                      <option value="price-low">Price: Low to High</option>
-                      <option value="price-high">Price: High to Low</option>
-                      <option value="newest">Newest First</option>
-                      <option value="rating">Highest Rated</option>
-                      <option value="reviews">Most Reviewed</option>
-                    </select>
-
-                    {activeFiltersCount > 0 && (
-                      <Button
-                        onClick={clearAllFilters}
-                        variant="outline"
-                        size="sm"
-                        className="flex items-center gap-2 text-xs md:text-sm"
-                      >
-                        <X className="w-3 h-3 md:w-4 md:h-4" />
-                        Clear Filters
-                      </Button>
-                    )}
-                  </div>
-
-                  <div className="flex items-center">
-                    <p className="text-xs md:text-sm text-gray-600">
-                      {loading ? "Loading products..." : `Showing ${sortedProducts.length} of ${products.length} products`}
-                    </p>
-                  </div>
                 </div>
+                <p className="text-sm text-gray-500 font-medium">
+                  {loading ? "Updating..." : `${products.length} Items Found`}
+                </p>
               </div>
 
-              {/* Products Grid */}
               {loading ? (
-                <div className="text-center py-12 md:py-16">
-                  <div className="animate-spin rounded-full h-16 w-16 md:h-32 md:w-32 border-b-2 border-[#510c74] mx-auto"></div>
-                  <p className="mt-4 text-gray-600 text-sm md:text-base">Loading products...</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <div key={i} className="animate-pulse bg-gray-100 rounded-3xl h-[450px]" />
+                  ))}
                 </div>
-              ) : sortedProducts.length === 0 ? (
-                <div className="text-center py-12 md:py-16 px-4">
-                  <Filter className="w-12 h-12 md:w-16 md:h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg md:text-xl font-medium text-gray-900 mb-2">No products found</h3>
-                  <p className="text-gray-600 mb-6 text-sm md:text-base">
-                    Try adjusting your filters or clearing all filters to see more products.
-                  </p>
-                  <Button onClick={clearAllFilters} className="bg-[#510c74] hover:bg-[#240334] text-sm md:text-base text-white">
-                    Clear All Filters
-                  </Button>
+              ) : products.length === 0 ? (
+                <div className="text-center py-20 border-2 border-dashed border-gray-100 rounded-3xl">
+                  <Filter className="w-16 h-16 text-gray-200 mx-auto mb-4" />
+                  <h3 className="text-xl font-medium text-gray-900 mb-2">No items found</h3>
+                  <p className="text-gray-500 mb-6">Try adjusting your filters to find what you're looking for.</p>
+                  <Button onClick={clearAllFilters} className="bg-[#510c74] text-white rounded-full px-8 hover:scale-105 transition">Clear All Filters</Button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-                  {sortedProducts.map((product) => (
-                    <div key={product._id} className="group">
-                      <Link href={`/products/${product._id}`}>
-                        <div className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
-                          <img
-                            src={product.images && product.images.length > 0 ? product.images[0].url : "/placeholder.svg"}
-                            alt={product.name}
-                            className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
-                          />
-                          <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-30 transition-all duration-300"></div>
-                          {product.isNew && (
-                            <div className="absolute top-4 right-4">
-                              <div className="bg-white px-3 py-1 rounded-full text-sm font-semibold text-gray-900">
-                                New
-                              </div>
-                            </div>
-                          )}
-                          {product.isOnSale && (
-                            <div className="absolute top-4 left-4">
-                              <div className="bg-red-500 px-3 py-1 rounded-full text-sm font-semibold text-white">
-                                {product.offerPercentage}% OFF
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </Link>
-                      <div className="mt-4 p-4">
-                        <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-[#510c74] transition-colors">
-                          {product.name}
-                        </h3>
-                        <p className="text-gray-600 text-sm mb-3">JEWELS BY LAHARI</p>
-                        <div className="mb-4">
-                          <span className="text-2xl font-bold text-[#510c74]">₹{product.price.toFixed(2)}</span>
-                          {product.originalPrice && product.originalPrice > product.price && (
-                            <span className="text-sm text-gray-500 line-through ml-2">₹{product.originalPrice.toFixed(2)}</span>
-                          )}
-                        </div>
-                        {/* Action Buttons - Horizontal Layout Below Price */}
-                        <div className="flex space-x-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {products.map((product) => (
+                    <Link key={product._id} href={`/view-details?id=${product._id}`} className="group block">
+                      <div className="relative aspect-[3/4] rounded-3xl overflow-hidden bg-gray-100 shadow-sm transition-all duration-500 group-hover:shadow-xl group-hover:-translate-y-1">
+                        <Image
+                          src={getOptimizedUrl(product.images[0]?.url || "/placeholder.svg", { width: 500 })}
+                          alt={product.name}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                        {product.isOnSale && (
+                          <div className="absolute top-4 left-4 bg-rose-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                            {product.offerPercentage}% OFF
+                          </div>
+                        )}
+                        <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/60 via-black/20 to-transparent flex flex-col justify-end translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                           <Button
-                            className="flex-1 bg-[#510c74] hover:bg-[#240334] text-white"
-                            onClick={() => addItem({
-                              id: product._id,
-                              name: product.name,
-                              price: product.price,
-                              originalPrice: product.originalPrice,
-                              image: product.images && product.images.length > 0 ? product.images[0].url : "/placeholder.svg",
-                              category: product.category,
-                              brand: "JEWELS BY LAHARI"
-                            })}
+                            className="bg-white text-gray-900 hover:bg-[#fff4df] rounded-full"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              addItem({
+                                id: product._id,
+                                name: product.name,
+                                price: product.price,
+                                originalPrice: product.originalPrice,
+                                image: product.images[0]?.url || "/placeholder.svg",
+                                category: product.category,
+                                brand: "LAHARIKA"
+                              });
+                            }}
                           >
                             Add to Cart
                           </Button>
-                          <Link href={`/checkout?product=${product._id}&quantity=1`}>
-                            <Button className="flex-1 bg-[#fff4df] hover:bg-[#ffedc2] text-[#510c74] border border-[#510c74]/20">
-                              Buy Now
-                            </Button>
-                          </Link>
                         </div>
                       </div>
-                    </div>
+                      <div className="mt-6 space-y-2">
+                        <p className="text-xs uppercase tracking-widest text-[#C9A34E] font-bold">{product.category}</p>
+                        <h3 className="text-lg font-medium text-gray-900 group-hover:text-[#510c74] transition-colors line-clamp-1">{product.name}</h3>
+                        <div className="flex items-center gap-3">
+                          <span className="text-xl font-bold text-[#510c74]">₹{product.price}</span>
+                          {product.originalPrice && product.originalPrice > product.price && (
+                            <span className="text-sm text-gray-400 line-through">₹{product.originalPrice}</span>
+                          )}
+                        </div>
+                      </div>
+                    </Link>
                   ))}
                 </div>
               )}

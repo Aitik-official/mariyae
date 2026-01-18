@@ -100,8 +100,14 @@ const ProductSchema = new mongoose.Schema({
   suppressReservedKeysWarning: true
 })
 
+// Performance Indexes
+ProductSchema.index({ isActive: 1, createdAt: -1 })
+ProductSchema.index({ category: 1 })
+ProductSchema.index({ subCategory: 1 })
+ProductSchema.index({ mainCategory: 1 })
+
 // Calculate offer percentage if original price is provided
-ProductSchema.pre('save', function(next) {
+ProductSchema.pre('save', function (next) {
   if (this.originalPrice && this.originalPrice > this.price) {
     this.offerPercentage = Math.round(((this.originalPrice - this.price) / this.originalPrice) * 100)
     this.isOnSale = true

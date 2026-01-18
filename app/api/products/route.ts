@@ -3,13 +3,44 @@ import connectDB from '@/lib/mongodb'
 import Product from '@/lib/models/Product'
 import { uploadToCloudinary, getCloudinaryFolder, uploadImageFromUrl } from '@/lib/cloudinary'
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     await connectDB()
 
-    const products = await Product.find({ isActive: { $ne: false } })
+    const { searchParams } = new URL(request.url)
+    const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : 0
+    const category = searchParams.get('category')
+    const subCategory = searchParams.get('subCategory')
+    const isNew = searchParams.get('isNew') === 'true'
+    const isOnSale = searchParams.get('isOnSale') === 'true'
+    const minPrice = searchParams.get('minPrice') ? parseFloat(searchParams.get('minPrice')!) : 0
+    const maxPrice = searchParams.get('maxPrice') ? parseFloat(searchParams.get('maxPrice')!) : 1000000
+    const sortBy = searchParams.get('sortBy') || 'newest'
+
+    const filter: any = { isActive: { $ne: false } }
+
+    if (category) filter.category = category
+    if (subCategory) filter.subCategory = subCategory
+    if (isNew) filter.isNew = true
+    if (isOnSale) filter.isOnSale = true
+    if (minPrice > 0 || maxPrice < 1000000) {
+      filter.price = { $gte: minPrice, $lte: maxPrice }
+    }
+
+    let sortOption: any = { createdAt: -1 }
+    if (sortBy === 'price-low') sortOption = { price: 1 }
+    else if (sortBy === 'price-high') sortOption = { price: -1 }
+    else if (sortBy === 'rating') sortOption = { rating: -1 }
+
+    const query = Product.find(filter)
       .select('name price originalPrice offerPercentage isOnSale images category subCategory isNew rating reviews')
-      .sort({ createdAt: -1 })
+      .sort(sortOption)
+
+    if (limit > 0) {
+      query.limit(limit)
+    }
+
+    const products = await query
 
     return NextResponse.json({
       success: true,
