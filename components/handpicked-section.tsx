@@ -29,9 +29,9 @@ export default function HandpickedSection() {
         const item = items.find(i => i.slot === slot)
         if (!item) {
             // Fallbacks
-            if (slot === 'left') return { image: '/placeholder.svg?height=800&width=600&text=Necklace+Set', subtitle: 'Statement', title: 'NECKLACE SETS', link: '/products?category=Necklaces' }
-            if (slot === 'top-right') return { image: '/placeholder.svg?height=400&width=600&text=Lightweight+Jewellery', subtitle: 'Lightweight', title: 'JEWELLERY', link: '/products?collection=lightweight' }
-            return { image: '/placeholder.svg?height=400&width=600&text=Stylist+Earrings', subtitle: 'Stylist', title: 'EARRINGS', link: '/products?category=Earrings' }
+            if (slot === 'left') return { image: '/placeholder.svg', subtitle: 'Statement', title: 'NECKLACE SETS', link: '/products?category=Necklaces' }
+            if (slot === 'top-right') return { image: '/placeholder.svg', subtitle: 'Lightweight', title: 'JEWELLERY', link: '/products?collection=lightweight' }
+            return { image: '/placeholder.svg', subtitle: 'Stylist', title: 'EARRINGS', link: '/products?category=Earrings' }
         }
         return item
     }

@@ -18,7 +18,7 @@ export const uploadToCloudinary = async (file: Buffer, folder: string, resourceT
     const result = await new Promise((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         {
-          folder: `mariyae-com/${folder}`,
+          folder: folder,
           resource_type: resourceType,
           allowed_formats: resourceType === 'image'
             ? ['jpg', 'jpeg', 'png', 'webp']

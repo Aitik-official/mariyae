@@ -8,6 +8,7 @@ import PendantSection from "@/components/pendant-section"
 import InstagramCarousel from "@/components/instagram-carousel"
 import JewelryLayout from "@/components/jewelry-layout"
 import HandpickedSection from "@/components/handpicked-section"
+import { getOptimizedUrl } from "@/lib/cloudinary-client"
 
 import Image from "next/image"
 import Link from "next/link"
@@ -48,7 +49,7 @@ const renderBannerSlide = (banner: any, index: number): JSX.Element => {
         <div className="relative w-full h-full overflow-hidden">
           {banner.backgroundImage ? (
             <Image
-              src={banner.backgroundImage}
+              src={getOptimizedUrl(banner.backgroundImage, { quality: 'auto' })}
               alt={banner.headline || 'Banner'}
               fill
               className="h-full w-full object-contain transition-transform duration-700 group-hover:scale-105"
@@ -57,7 +58,7 @@ const renderBannerSlide = (banner: any, index: number): JSX.Element => {
             />
           ) : (
             <Image
-              src="/2.jpg"
+              src="/placeholder.svg"
               alt={banner.headline || 'Banner'}
               fill
               className="h-full w-full object-contain"
@@ -76,7 +77,7 @@ const renderBannerSlide = (banner: any, index: number): JSX.Element => {
       <div className="absolute inset-0">
         {banner.backgroundImage ? (
           <Image
-            src={banner.backgroundImage}
+            src={getOptimizedUrl(banner.backgroundImage, { quality: 'auto' })}
             alt={banner.headline || 'Banner'}
             fill
             className="h-full w-full object-cover"
@@ -85,7 +86,7 @@ const renderBannerSlide = (banner: any, index: number): JSX.Element => {
           />
         ) : (
           <Image
-            src="/2.jpg"
+            src="/placeholder.svg"
             alt={banner.headline || 'Banner'}
             fill
             className="h-full w-full object-cover"
@@ -167,7 +168,7 @@ const renderBannerSlide = (banner: any, index: number): JSX.Element => {
               {banner.decorativeImage && (
                 <div className="relative h-[85%] w-[85%] max-h-[350px] max-w-[450px] overflow-hidden rounded-lg lg:rounded-none mx-auto scale-110 hover:scale-115 transition-transform duration-700">
                   <Image
-                    src={banner.decorativeImage}
+                    src={getOptimizedUrl(banner.decorativeImage, { width: 800, quality: 'auto' })}
                     alt={banner.headline || 'Banner'}
                     fill
                     className="h-full w-full object-contain"
@@ -642,7 +643,7 @@ export default function Home() {
                     <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
                       {/* First Image - Always visible */}
                       <Image
-                        src={firstImage}
+                        src={getOptimizedUrl(firstImage, { width: 400, quality: 'auto' })}
                         alt={product.name}
                         fill
                         className="object-cover opacity-100 group-hover:opacity-0 transition-opacity duration-500"
@@ -651,7 +652,7 @@ export default function Home() {
 
                       {/* Second Image - Fades in on hover */}
                       <Image
-                        src={secondImage}
+                        src={getOptimizedUrl(secondImage, { width: 400, quality: 'auto' })}
                         alt={product.name}
                         fill
                         className="object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -768,7 +769,7 @@ export default function Home() {
                     {/* Image Container - Fills entire card */}
                     <div className="relative h-full w-full">
                       <Image
-                        src={category.image || "/placeholder.svg"}
+                        src={getOptimizedUrl(category.image || "/placeholder.svg", { width: 600, quality: 'auto' })}
                         alt={category.name}
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-110"

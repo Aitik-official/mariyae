@@ -7,7 +7,9 @@ export async function GET() {
   try {
     await connectDB()
 
-    const products = await Product.find({}).sort({ createdAt: -1 })
+    const products = await Product.find({ isActive: { $ne: false } })
+      .select('name price originalPrice offerPercentage isOnSale images category subCategory isNew rating reviews')
+      .sort({ createdAt: -1 })
 
     return NextResponse.json({
       success: true,
